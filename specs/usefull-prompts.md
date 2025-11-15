@@ -62,7 +62,8 @@ Use when errors occur deep in execution and you need to trace back to find the o
 
 ## dispatching-parallel-agents
 
-[link](https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md)
+[x][link](https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md)
+[x][link](https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md)
 
 Use when facing 3+ independent failures that can be investigated without shared state or dependencies - dispatches multiple Claude agents to investigate and fix independent problems concurrently
 
