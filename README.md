@@ -69,7 +69,8 @@ To view all available plugins:
 - [Kaizen](#kaizen) - Inspired by Japanese continuous improvement philosophy, Agile and Lead development practices. Introduces commands for analytisis of root cause of issues and problems, including 5 Whys, Cause and Effect Analysis, and other techniques.
 - [Customaize Agent](#customaize-agent) - Commands and skills for writing and refining commands, hooks, skills for Claude Code, includes Anthropic Best Practices and [Agent Persuasion Principles](https://arxiv.org/abs/2508.00614) that can be usefull for sub-agent workflows.
 - [Docs](#docs) - Commands for analaysing project, writing and refining documentation.
-- [Language and Frameworks Best Practices](#language-and-frameworks-best-practices) - Commands for setup or update of CLAUDE.md file with best practices for specific language and frameworks.
+- [Tech Stack](#tech-stack) - Commands for setup or update of CLAUDE.md file with best practices for specific language or framework.
+- [MCP](#mcp) - Commands for setup MCP server if needed and update CLAUDE.md file with requirement to use this MCP server for current project.
 
 ### Reflexion
 

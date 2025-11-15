@@ -56,7 +56,7 @@ Use when creating or editing skills, before deployment, to verify they work unde
 
 ## root-cause-tracing
 
-[link](https://github.com/obra/superpowers/blob/main/skills/root-cause-tracing/SKILL.md)
+[x][link](https://github.com/obra/superpowers/blob/main/skills/root-cause-tracing/SKILL.md)
 
 Use when errors occur deep in execution and you need to trace back to find the original trigger - systematically traces bugs backward through call stack, adding instrumentation when needed, to identify source of invalid data or incorrect behavior=
 
@@ -69,8 +69,8 @@ Use when facing 3+ independent failures that can be investigated without shared 
 
 ## commit-commands
 
-- [commit](https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit.md) - Creates a git commit with an automatically generated commit message based on staged and unstaged changes.
-- [commit-push-pr](https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit-push-pr.md) - Complete workflow command that commits, pushes, and creates a pull request in one step.
+[x][commit](https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit.md) - Creates a git commit with an automatically generated commit message based on staged and unstaged changes.
+[x][commit-push-pr](https://github.com/anthropics/claude-code/blob/main/plugins/commit-commands/commands/commit-push-pr.md) - Complete workflow command that commits, pushes, and creates a pull request in one step.
 
 ## code-review
 
@@ -93,7 +93,7 @@ A comprehensive collection of specialized agents for thorough pull request revie
 
 ## mcp-builder
 
-[link](https://github.com/anthropics/skills/blob/main/mcp-builder/SKILL.md)
+[x][link](https://github.com/anthropics/skills/blob/main/mcp-builder/SKILL.md)
 
 Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
 
