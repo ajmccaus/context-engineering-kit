@@ -9,329 +9,67 @@ argument-hint: "[review-aspects]"
 
 You are an expert code reviewer conducting a thorough evaluation of this pull request. Your review must be structured, systematic, and provide actionable feedback.
 
+**Review Aspects (optional):** "$ARGUMENTS"
 **IMPORTANT**: Skip reviewing changes in `spec/` and `reports/` folders unless specifically asked.
 
-## Steps
+## Review Workflow
 
-To do this, follow these steps precisely:
+Run a comprehensive pull request review using multiple specialized agents, each focusing on a different aspect of code quality. Follow these steps precisely:
 
 ### Phase 1: Preparation
 
 1. Use a Haiku agent to check if the pull request (a) is closed, (b) is a draft, (c) does not need a code review (eg. because it is an automated pull request, or is very simple and obviously ok), or (d) already has a code review from you from earlier. If so, do not proceed.
-2. Use Haiku agent to give you a list of file paths to (but not the contents of) any relevant CLAUDE.md files from the codebase: the root CLAUDE.md file (if one exists), as well as any CLAUDE.md files in the directories whose files the pull request modified
-3. Use a Haiku agent to view the pull request, and ask the agent to return a summary of the change
-4. If PR missing description, ask Haiku agent to add a description to the PR with summary of changes in short and concise format.
+2. **Determine Review Scope**
+   - Check git status to identify changed files
+   - Parse arguments to see if user requested specific review aspects
+3. Use Haiku agent to give you a list of file paths to (but not the contents of) any relevant agent instruction files, if they exist: CLAUDE.md, AGENTS.md, **/consitution.md, the root README.md file, as well as any README.md files in the directories whose files the pull request modified
+4. Use a Haiku agent to view the pull request, ask him following:
+
+   ```markdown
+   **Identify Changed Files**
+      - Run `git diff --name-only` to see modified files
+      - Check if PR already exists: `gh pr view`
+      - Identify file types
+
+   Please return a detailed summary of the change in the pull request, including full list of changed files and their types.
+   ```
+
+5. Ask Haiku agent to:
+
+   ```markdown
+   If PR missing description, add a description to the PR with summary of changes in short and concise format.
+   ```
 
 ### Phase 2: Searching for Issues
 
-Launch 5 parallel Sonnet agents to independently code review the change. The agents should do the following, then return a list of issues and the reason each issue was flagged (eg. CLAUDE.md adherence, bug, historical git context, etc.):
+Determine Applicable Reviews, then launch up to 6 parallel Sonnet agents to independently code review all changes in the pull request. The agents should do the following, then return a list of issues and the reason each issue was flagged (eg. CLAUDE.md or consitution.md adherence, bug, historical git context, etc.).
 
-#### Agent #1: Security Auditor
+**Available Review Agents**:
 
-Pass the following prompt to the agent, prefilling `modified_files_list` variable based on phase 1:
+- **security-auditor** - Analyze code for security vulnerabilities
+- **bug-hunter** - Scan for bugs and issues, including silent failures
+- **code-quality-reviewer** - General code review for project guidelines, maintainability and quality. Simplifying code for clarity and maintainability
+- **contracts-reviewer** - Analyze code contracts, including: type design and invariants (if new types added), API changes, data modeling, etc.
+- **test-coverage-reviewer** - Review test coverage quality and completeness
+- **historical-context-reviewer** - Review historical context of the code, including git blame and history of the code modified, and previous pull requests that touched these files.
 
-```markdown
-Read the file changes in the pull request, then audit changes to make sure they not have any security vulnerabilities.
+Note: Default option is to run **all** applicable review agents.
 
-List of modified files:
-{modified_files_list}
+#### Determine Applicable Reviews
 
+Based on changes summary from phase 1, determine which review agents are applicable:
 
-Report back in the following format:
+- **Always applicable**: bug-hunter, code-quality-reviewer (general quality), security-auditor, historical-context-reviewer
+- **If test files changed**: test-coverage-reviewer
+- **If types, API, data modeling changed**: contracts-reviewer
 
-## 🔒 Security Analysis
+#### Launch Review Agents
 
-### Security Checklist
-- [ ] **SQL Injection**: All database queries use parameterized statements or ORMs, zero string concatenation
-- [ ] **XSS Prevention**: All user input is HTML-escaped before rendering, zero innerHTML with user data
-- [ ] **CSRF Protection**: All state-changing requests require CSRF token validation
-- [ ] **Authentication Required**: All protected endpoints check authentication before processing
-- [ ] **Authorization Enforced**: All resource access checks user permissions, not just authentication
-- [ ] **No Hardcoded Secrets**: Zero passwords, API keys, tokens, or credentials in code
-- [ ] **Input Validation**: All inputs validated for type, length, format before processing
-- [ ] **Output Encoding**: All data encoded appropriately for context (HTML, URL, JS, SQL)
-- [ ] **No Vulnerable Dependencies**: Zero dependencies with known CVEs (check package versions)
-- [ ] **HTTPS Only**: All sensitive data transmission requires HTTPS, no HTTP fallback
-- [ ] **Session Invalidation**: All logout operations invalidate server-side sessions
-- [ ] **Rate Limiting Applied**: All authentication endpoints have rate limiting
-- [ ] **File Upload Validation**: All file uploads check type, size, and scan content
-- [ ] **No Stack Traces**: Error responses contain zero technical details/stack traces
-- [ ] **No Sensitive Logs**: Zero passwords, tokens, SSNs, or credit cards in log files
-- [ ] **Path Traversal Prevention**: All file operations validate paths, no "../" acceptance
-- [ ] **Command Injection Prevention**: Zero shell command execution with user input
-- [ ] **XXE Prevention**: XML parsing has external entity processing disabled
-- [ ] **Insecure Deserialization**: Zero untrusted data deserialization without validation
-- [ ] **Security Headers**: All responses include security headers (CSP, X-Frame-Options, etc.)
+**Parallel approach**:
 
-### Security Vulnerabilities Found
-
-| Severity | File | Line | Vulnerability Type | Specific Risk | Required Fix |
-|----------|------|------|-------------------|---------------|--------------|
-| Critical | | | | | |
-| High | | | | | |
-| Medium | | | | | |
-| Low | | | | | |
-
-**Severity Classification**:
-   - **Critical**: Can be misused by bad actors to gain unauthorized access to the system or fully shutdown the system
-   - **High**: Can be misused to perform some actions without proper authorization or get access to some sensitive data
-   - **Medium**: May cause issues in edge cases or degrade performance
-   - **Low**: Not have real impact on the system, but violates security practices
-
-
-**Security Score: X/Y** *(Passed security checks / Total applicable checks)*
-
-```
-
-#### Agent #2: Bug Hunter
-
-Pass the following prompt to the agent, prefilling `modified_files_list` variable based on phase 1:
-
-```markdown
-Read the file changes in the pull request, then do a shallow scan for obvious bugs. Avoid reading extra context beyond the changes, focusing just on the changes themselves. Focus on large bugs, and avoid small issues and nitpicks. Ignore likely false positives.
-
-List of modified files:
-{modified_files_list}
-
-Report back in the following format:
-
-## 🐛 Potential Issues & Bugs
-
-| File | Line | Issue | Evidence | Impact | Fix Required |
-|------|------|-------|----------|--------|--------------|
-| | | | | | |
-
-Impact types:
-- Critical: Will cause runtime errors, data loss, or system crash
-- High: Will break core features or corrupt data under normal usage
-- Medium: Will cause errors under edge cases or degrade performance
-- Low: Will cause code smells that don't affect functionality but hurt maintainability
-
-## Evaluation Instructions
-
-1. **Evidence Required**: For every failed item, provide:
-   - Exact file path
-   - Line number(s)
-   - Specific code snippet showing the violation
-   - Concrete fix required
-
-2. **No Assumptions**: Only mark items based on code present in the PR. Don't assume about code outside the diff.
-
-```
-
-#### Agent #3: Code Quality Reviewer
-
-Pass the following prompt to the agent, prefilling `modified_files_list` variable based on phase 1:
-
-```markdown
-Read the file changes in the pull request, then review the code quality. Focus on large issues, and avoid small issues and nitpicks. Ignore likely false positives.
-
-List of modified files:
-{modified_files_list}
-
-Report back in the following format:
-
-## 📋 Code Quality Checklist
-
-For each failed check provide explanation and path to the file and line number of the issue.
-
-### Clean Code Principles
-- [ ] **DRY (Don't Repeat Yourself)**: Zero duplicated logic - any logic appearing 2+ times is extracted into a reusable function/module
-- [ ] **KISS (Keep It Simple)**: All solutions use the simplest possible approach - no over-engineering or unnecessary complexity exists
-- [ ] **YAGNI (You Aren't Gonna Need It)**: Zero code written for future/hypothetical requirements - all code serves current needs only
-- [ ] **Early Returns**: All functions/methods use early return pattern instead of nested if-else when possible
-- [ ] **Function Length**: All functions are 80 lines or less (including comments and blank lines)
-- [ ] **File Size**: All files contain 200 lines or less (including comments and blank lines)
-- [ ] **Method Arguments**: All functions/methods have 3 or fewer parameters, and use objects when need more than 3
-- [ ] **Cognitive Complexity**: All functions have cyclomatic complexity ≤ 10
-- [ ] **No Magic Numbers**: Zero hardcoded numbers in logic - all numbers are named constants
-- [ ] **No Dead Code**: Zero commented-out code, unused variables, or unreachable code blocks
-
-### SOLID Principles
-- [ ] **Single Responsibility (Classes)**: Every class has exactly one responsibility - no class handles multiple unrelated concerns
-- [ ] **Single Responsibility (Functions)**: Every function/method performs exactly one task - no function does multiple unrelated operations
-- [ ] **Open/Closed**: All classes can be extended without modifying existing code
-- [ ] **Liskov Substitution**: All derived classes can replace base classes without breaking functionality
-- [ ] **Interface Segregation**: All interfaces contain only methods used by all implementers
-- [ ] **Dependency Inversion**: All high-level modules depend on abstractions, not concrete implementations
-
-### Naming Conventions
-- [ ] **Variable Names**: All variables use full words, no single letters except loop counters (i,j,k)
-- [ ] **Function Names**: All functions start with a verb and describe what they do (e.g., `calculateTotal`, not `total`)
-- [ ] **Class Names**: All classes are nouns/noun phrases in PascalCase (e.g., `UserAccount`)
-- [ ] **Boolean Names**: All boolean variables/functions start with is/has/can/should/will
-- [ ] **Constants**: All constants use UPPER_SNAKE_CASE 
-- [ ] **No Abbreviations**: Zero unclear abbreviations - `userAccount` not `usrAcct`
-- [ ] **Collection Names**: All arrays/lists use plural names (e.g., `users` not `userList`)
-- [ ] **Consistency**: All naming follows the same convention throughout (no mixing camelCase/snake_case)
-
-### Architecture Patterns
-- [ ] **Layer Boundaries**: Zero direct database calls from presentation layer, zero UI logic in data layer
-- [ ] **Dependency Direction**: All dependencies point inward (UI→Domain→Data) with zero reverse dependencies
-- [ ] **No Circular Dependencies**: Zero bidirectional imports between any modules/packages
-- [ ] **Proper Abstractions**: All external dependencies are accessed through interfaces/abstractions
-- [ ] **Pattern Consistency**: Same pattern used throughout (all MVC or all MVVM, not mixed)
-- [ ] **Domain Isolation**: Business logic contains zero framework-specific code
-
-### Error Handling
-- [ ] **No Empty Catch**: Zero empty catch blocks - all errors are logged/handled/re-thrown
-- [ ] **Specific Catches**: All catch blocks handle specific exception types, no generic catch-all
-- [ ] **Error Recovery**: All errors have explicit recovery strategy or propagate to caller
-- [ ] **User Messages**: All user-facing errors provide actionable messages, not technical stack traces
-- [ ] **Consistent Strategy**: Same error handling pattern used throughout (all try-catch)
-- [ ] **No String Errors**: All errors are typed objects/classes, not plain strings
-
-### Performance & Resource Management
-- [ ] **No N+1 Queries**: All database operations use batch loading/joins where multiple records needed
-- [ ] **Resource Cleanup**: All opened resources (files/connections/streams) have explicit cleanup/close
-- [ ] **No Memory Leaks**: All event listeners are removed, all intervals/timeouts are cleared
-- [ ] **Efficient Loops**: All loops that can be O(n) are O(n), not O(n²) or worse
-- [ ] **Lazy Loading**: All expensive operations are deferred until actually needed
-- [ ] **No Blocking Operations**: All I/O operations are async/non-blocking in event-loop environments
-
-### Frontend Specific (if applicable)
-- [ ] **No Inline Styles**: Zero style attributes in HTML/JSX - all styles in SCSS/styled-components
-- [ ] **No Prop Drilling**: Props pass through maximum 2 levels - deeper uses context/state management
-- [ ] **Memoization**: All expensive computations (loops, filters, sorts) are memoized/cached
-- [ ] **Key Props**: All list items have unique, stable key props (not array indices)
-- [ ] **Event Handler Naming**: All event handlers named `handle[Event]` or `on[Event]` consistently
-- [ ] **Component File Size**: All components files are under 200 lines (excluding imports/exports)
-- [ ] **No Direct DOM**: Zero direct DOM manipulation (getElementById, querySelector) in React/Vue/Angular
-- [ ] **No render functions**: Zero render functions defined inside of component functions, create separate component and use composition instead
-- [ ] **No nested compomponent definitions**: Zero component functions defined inside of other component functions, create component on first level of component file
-- [ ] **No unreactive variables definitions inside of compomnent**: Unreactive variables, constants and functions allways defined outside of component functions on first level of component file
-- [ ] **Input Validation**: All inputs are validated using class-validator or similar library, not in component functions
-
-### Backend Specific (if applicable)  
-- [ ] **Only GraphQL or gRPC**: Zero REST endpoints, only GraphQL or gRPC endpoints are allowed, except for health check and readiness check endpoints
-- [ ] **RESTful practices**: If REST is used, follow RESTful practices (GET for read, POST for create, etc.)
-- [ ] **Status Codes**: All responses use correct HTTP status codes (200 for success, 404 for not found, etc.)
-- [ ] **Idempotency**: All PUT/DELETE operations produce same result when called multiple times 
-- [ ] **Request Validation**: All requests are validated using graphql validation rules or grpc validation rules, not in controllers
-- [ ] **No Business Logic in Controllers**: Controllers only handle HTTP, all logic in services/domain
-- [ ] **Transaction Boundaries**: All multi-step database operations wrapped in transactions, sagas or workflows
-- [ ] **API Versioning**: All breaking changes handled through version prefix (/v1, /v2) or headers
-
-### Database & Data Access (if applicable)
-- [ ] **Declarative Datbase Definitions**: Allways used prisma.schema or similar library for database definitions, not in SQL files
-- [ ] **No SQL queries**: All database queries are done through prisma.schema or similar library, not through the SQL
-- [ ] **Parameterized Queries**: All SQL/prisma queries use parameters, zero string concatenation for queries
-- [ ] **Index Usage**: All WHERE/JOIN columns have indexes defined
-- [ ] **Batch Operations**: All bulk operations use batch insert/update, not individual queries in loops
-- [ ] **Pagination**: All queries use cursor pagination, not offset/limit
-- [ ] **Sorting**: All queries use sorting, not hardcoded order by
-- [ ] **Filtering**: All queries use filtering, not hardcoded where clauses
-- [ ] **Joins**: All queries use joins, not hardcoded joins
-- [ ] **Connection Pooling**: Database connections are pooled, not created per request
-- [ ] **Migration Safety**: All schema changes are backwards compatible or versioned
-
-**Quality Score: X/Y** *(Count of checked (correct) items / Total applicable items)*
-
-## Evaluation Instructions
-
-1. **Binary Evaluation**: Each checklist item must be marked as either passed (✓) or failed (✗). No partial credit.
-
-2. **Evidence Required**: For every failed item, provide:
-   - Exact file path
-   - Line number(s)
-   - Specific code snippet showing the violation
-   - Concrete fix required
-
-3. **No Assumptions**: Only mark items based on code present in the PR. Don't assume about code outside the diff.
-
-4. **Language-Specific Application**: Apply only relevant checks for the language/framework:
-   - Skip frontend checks for backend PRs
-   - Skip database checks for static sites
-   - Skip class-based checks for functional programming
-
-5. **Context Awareness**: Check repository's existing patterns before flagging inconsistencies
-
-
-
-
-
-```
-
-### Agent #4: Test Coverage Reviewer
-
-Pass the following prompt to the agent, prefilling `modified_files_list` variable based on phase 1:
-
-```markdown
-Read the file changes in the pull request, then review the test coverage. Focus on large issues, and avoid small issues and nitpicks. Ignore likely false positives.
-
-List of modified files:
-{modified_files_list}
-
-Report back in the following format:
-
-## 🧪 Test Coverage Analysis
-
-### Test Coverage Checklist
-- [ ] **All Public Methods Tested**: Every public method/function has at least one test
-- [ ] **Happy Path Coverage**: All success scenarios have explicit tests
-- [ ] **Error Path Coverage**: All error conditions have explicit tests  
-- [ ] **Boundary Testing**: All numeric/collection inputs tested with min/max/empty values
-- [ ] **Null/Undefined Testing**: All optional parameters tested with null/undefined
-- [ ] **Integration Tests**: All external service calls have integration tests
-- [ ] **No Test Interdependence**: All tests can run in isolation, any order
-- [ ] **Meaningful Assertions**: All tests verify specific values, not just "not null"
-- [ ] **Test Naming Convention**: All test names describe scenario and expected outcome
-- [ ] **No Hardcoded Test Data**: All test data uses factories/builders, not magic values
-- [ ] **Mocking Boundaries**: External dependencies mocked, internal logic not mocked
-
-### Missing Critical Test Coverage
-
-| Component/Function | Test Type Missing | Business Risk | Importance |
-|-------------------|------------------|---------------|------------|
-| | | | High/Medium/Low |
-
-### Test Quality Issues Found
-
-| File | Issue | Impact |
-|------|-------|--------|
-| | | |
-
-**Test Coverage Score: X/Y** *(Covered scenarios / Total critical scenarios)*
-
-## Evaluation Instructions
-
-1. **Binary Evaluation**: Each checklist item must be marked as either passed (✓) or failed (✗). No partial credit.
-
-2. **Evidence Required**: For every failed item, provide:
-   - Exact file path
-   - Line number(s)
-   - Specific code snippet showing the violation
-   - Concrete fix required
-
-3. **No Assumptions**: Only mark items based on code present in the PR. Don't assume about code outside the diff.
-
-4. **Language-Specific Application**: Apply only relevant checks for the language/framework:
-   - Skip frontend checks for backend PRs
-   - Skip database checks for static sites
-   - Skip class-based checks for functional programming
-
-5. **Testing Focus**: Only flag missing tests for:
-   - New functionality added
-   - Bug fixes (regression tests)
-   - Modified business logic
-
-6. **Context Awareness**: Check repository's existing patterns before flagging inconsistencies
-
-```
-
-#### Agent #5: Historical Context Reviewer
-
-Pass the following prompt to the agent, prefilling `modified_files_list` variable based on phase 1:
-
-```markdown
-1. Read the git blame and history of the code modified, to identify any bugs in light of that historical context.
-2. Read previous pull requests that touched these files, and check for any comments on those pull requests that may also apply to the current pull request.
-3. Provide a summary of the historical context and any issues that were found.
-
-List of modified files:
-{modified_files_list}
-
-```
+- Launch all agents simultaneously
+- Provide to them full list of modified files and summary of the PR as a context, explicitly highlight which PR they are reviewing, also provide list of files with project guidelines and standards, including README.md, CLAUDE.md and consitution.md if they exist.
+- Results should come back together
 
 ### Phase 3: Confidence Scoring
 
@@ -345,7 +83,7 @@ List of modified files:
 3. Use a Haiku agent to repeat the eligibility check from Phase 1, to make sure that the pull request is still eligible for code review. (In case if there was updates since review started)
 4. Finally, use the gh bash command to comment back on the pull request with the result. When writing your comment, keep in mind to:
    a. Keep your output brief
-   b. Avoid emojis
+   b. Use emojis
    c. Link and cite relevant code, files, and URLs
 
 #### Examples of false positives, for Phase 3
@@ -366,7 +104,7 @@ Notes:
 - Make a todo list first
 - You must cite and link each bug (eg. if referring to a CLAUDE.md, you must link it)
 
-### Report review to pull request
+### Template for reporting comment to pull request
 
 #### If you found issues
 
@@ -451,7 +189,9 @@ Note:
   - Requires full git sha
   - You must provide the full sha. Commands like `https://github.com/owner/repo/blob/$(git rev-parse HEAD)/foo/bar` will not work, since your comment will be directly rendered in Markdown.
   - Repo name must match the repo you're code reviewing
+
   - # sign after the file name
+
   - Line range format is L[start]-L[end]
   - Provide at least 1 line of context before and after, centered on the line you are commenting about (eg. if you are commenting about lines 5-6, you should link to `L4-7`)
 
