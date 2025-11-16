@@ -1,40 +1,42 @@
 ---
-description: Create detailed implementation tasks from feature plans with complexity analysis
+description: Generate an actionable, dependency-ordered tasks.md for the feature based on available design artifacts, with complexity analysis
 argument-hint: Optional task creation guidance or specific areas to focus on
 ---
 
-# Create Tasks
+## User Input
 
-Based on current git branch if it written in format `feature/<number-padded-to-3-digits>-<kebab-case-title>`, read feature specification from `specs/<number-padded-to-3-digits>-<kebab-case-title>/**.md` files. It was written during previus phases of SDD workflow (Discovery, Research, Planining, etc.).
+```text
+$ARGUMENTS
+```
 
-## Phase 6: Create Tasks
+You **MUST** consider the user input before proceeding (if not empty).
 
-**Goal**: Create tasks for the implementation.
+## Outline
 
-**CRITICAL**:
+1. **Setup**: Get the current git branch, if it written in format `feature/<number-padded-to-3-digits>-<kebab-case-title>`, part after `feature/` is defined as FEATURE_NAME. Consuquently, FEATURE_DIR is defined as `specs/FEATURE_NAME`.
 
-- Use Test-Driven Development approach for tasks that have clear interface and output.
-- Use top-to-bottom approach for implementation order of functionality it it have clear high level architecture and flow of control.
-- Use bottom-to-top approach for implementation order of functionality if it have clear low level implementation, but unclear high level architecture and flow of control.
-- Use Agile practice to split tasks on sprints that can deliver meagfull chunks of functionality or can be split to separate commits. Try to firstly write base and then grow functionality gradually.
-- Each task should include tests writing at the begiining or at the end of implementation.
+2. **Load context**: Read `specs/constitution.md`, also read files from FEATURE_DIR:
+   - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
+   - **Optional**: data-model.md (entities), contracts.md (API endpoints), research.md (decisions),
+   - Note: These files were written during previus stages of SDD workflow (Discovery, Research, Planining, etc.). Not all projects have all documents. Generate tasks based on what's available.
+3. Copy `specs/templates/tasks-template.md` to `FEATURE_DIR/tasks.md` using `cp` command, in future refered as `TASKS_FILE`.
+4. Continue with stage 6
 
-**Actions**:
+## Stage 6: Create Tasks
 
-1. Create tasks for the implementation.
-2. Write tasks in `specs/<number-padded-to-3-digits>-<kebab-case-title>/tasks.md` file.
-3. Present tasks summary to the user.
-4. Analyse each task uncertainty and complexity and write to each of them.
-5. Ask user clarification question about uncertant tasks.
-6. Update tasks based on user answers.
+1. Launch `tech-lead` agent to create tasks, using provided prompt exactly, while prefiling required variables:
 
----
+    ```markdown
+    **Goal**: Create tasks for the implementation.
 
-## Phase 7: Decompasition
+    User Input: {provide user input here if it exists}
 
-**Goal**: Decompose tasks into smaller tasks.
+    FEATURE_NAME: {FEATURE_NAME}
+    FEATURE_DIR: {FEATURE_DIR}
+    TASKS_FILE: {TASKS_FILE}
 
-**Actions**:
+    Please, fill/improve tasks.md file based on the task generation workflow.
 
-1. Decompose tasks with too high complexity into smaller tasks by updating `specs/<number-padded-to-3-digits>-<kebab-case-title>/tasks.md` file.
-2. Present tasks summary to the user.
+    ```
+
+2. Provide user with agent output and ask to answer on questions if any require clarification and repeat step 1, while adding questions and answers list as user input. Repeat until all questions are answered, no more than 2 times.

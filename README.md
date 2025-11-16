@@ -2,13 +2,13 @@
 
 Hand-crafted collection of advanced context engineering techniques and patterns with minimal token footprint focused on improving agent result quality.
 
-Claude Code plugin marketplace is based on prompts that used by our company developers daily for long time, while adding plugins from benchmarked papers and high quality projects.
+Claude Code plugin marketplace is based on prompts used daily by our company developers for a long time, while adding plugins from benchmarked papers and high-quality projects.
 
 ## Key Features
 
-- **Simple to Use** - Easy to install and use without any dependencies. Contain automatically used skills and self-explanatory commands.
-- **Token-Efficient** - Carefully crafted prompts and architecture, prefering commands over skills, to minimize populating context with unnecessary information.
-- **Quality-Focused** - Each plugin focused on meaningfully improving agent result over specific area.
+- **Simple to Use** - Easy to install and use without any dependencies. Contains automatically used skills and self-explanatory commands.
+- **Token-Efficient** - Carefully crafted prompts and architecture, preferring commands over skills, to minimize populating context with unnecessary information.
+- **Quality-Focused** - Each plugin is focused on meaningfully improving agent results in a specific area.
 - **Granular** - Install only the plugins you need. Each plugin loads only its specific agents, commands, and skills. Each without overlap and redundant skills.
 - **Scientifically proven** - Plugins are based on proven techniques and patterns that were tested by well-trusted benchmarks and studies.
 
@@ -46,10 +46,10 @@ Each installed plugin loads only its specific agents, commands, and skills into 
 # start claude code
 > claude "suggest how to improve codebase"
 
-# Reflect on previus response and improve it if needed
+# Reflect on previous response and improve it if needed
 > /reflexion:reflect
 
-# Identify issues and stretegies to solve them, and update CLAUDE.md with this knowledge
+# Identify issues and strategies to solve them, and update CLAUDE.md with this knowledge
 > /reflexion:memorize
 ```
 
@@ -61,18 +61,18 @@ To view all available plugins:
 /plugin
 ```
 
-- [Reflexion](#reflexion) - Introduce feedback and refinement loops to improve output quality.
-- [Code Review](#code-review) - Introduce codebase and PR review commands and skills using multiple specialized agents.
+- [Reflexion](#reflexion) - Introduces feedback and refinement loops to improve output quality.
+- [Code Review](#code-review) - Introduces codebase and PR review commands and skills using multiple specialized agents.
 - [Git](#git) - Introduces commands for commit and PRs creation.
 - [Test-Driven Development](#test-driven-development) - Introduces commands for test-driven development, common anti-patterns and skills for testing using subagents.
 - [Subagent-Driven Development](#subagent-driven-development) - Introduces skills for subagent-driven development, dispatches fresh subagent for each task with code review between tasks, enabling fast iteration with quality gates.
-- [Domain-Driven Development](#domain-driven-development) - Introduces command to update CLAUDE.md with best practices for domain-driven development, focused on quality of code, includes Clean Architecture, SOLID principles, and other design patterns.
+- [Domain-Driven Development](#domain-driven-development) - Introduces commands to update CLAUDE.md with best practices for domain-driven development, focused on code quality, and includes Clean Architecture, SOLID principles, and other design patterns.
 - [Spec-Driven Development](#spec-driven-development) - Introduces commands for specification-driven development, based on Github Spec Kit and OpenSpec. Uses specialized agents for effective context management and quality review.
-- [Kaizen](#kaizen) - Inspired by Japanese continuous improvement philosophy, Agile and Lead development practices. Introduces commands for analytisis of root cause of issues and problems, including 5 Whys, Cause and Effect Analysis, and other techniques.
-- [Customaize Agent](#customaize-agent) - Commands and skills for writing and refining commands, hooks, skills for Claude Code, includes Anthropic Best Practices and [Agent Persuasion Principles](https://arxiv.org/abs/2508.00614) that can be usefull for sub-agent workflows.
-- [Docs](#docs) - Commands for analaysing project, writing and refining documentation.
-- [Tech Stack](#tech-stack) - Commands for setup or update of CLAUDE.md file with best practices for specific language or framework.
-- [MCP](#mcp) - Commands for setup well known MCP server integration if needed and update CLAUDE.md file with requirement to use this MCP server for current project.
+- [Kaizen](#kaizen) - Inspired by Japanese continuous improvement philosophy, Agile and Lean development practices. Introduces commands for analysis of root causes of issues and problems, including 5 Whys, Cause and Effect Analysis, and other techniques.
+- [Customaize Agent](#customaize-agent) - Commands and skills for writing and refining commands, hooks, and skills for Claude Code, includes Anthropic Best Practices and [Agent Persuasion Principles](https://arxiv.org/abs/2508.00614) that can be useful for sub-agent workflows.
+- [Docs](#docs) - Commands for analyzing projects, writing and refining documentation.
+- [Tech Stack](#tech-stack) - Commands for setting up or updating CLAUDE.md file with best practices for specific languages or frameworks.
+- [MCP](#mcp) - Commands for setting up well-known MCP server integration if needed and updating CLAUDE.md file with requirements to use this MCP server for the current project.
 
 ### Reflexion
 
@@ -92,9 +92,9 @@ Collection of commands that force LLM to reflect on previous response and output
 
 #### Based on papers
 
-Based on papers like [Self-Refine](https://arxiv.org/abs/2305.12966) and [Reflexion](https://arxiv.org/abs/2303.11366). This techniques improve the output of large language models by introducing feedback and refinement loops.
+Based on papers like [Self-Refine](https://arxiv.org/abs/2305.12966) and [Reflexion](https://arxiv.org/abs/2303.11366). These techniques improve the output of large language models by introducing feedback and refinement loops.
 
-They proven to **increase output quality to 8–21%** based on both automatic metrics and human preferences across seven diverse tasks, including dialogue generation, coding and mathematical reasoning, when compared to standard one-step model outputs.
+They are proven to **increase output quality by 8–21%** based on both automatic metrics and human preferences across seven diverse tasks, including dialogue generation, coding, and mathematical reasoning, when compared to standard one-step model outputs.
 
 Full list of included patterns and techniques:
 
@@ -105,13 +105,13 @@ Full list of included patterns and techniques:
 - [Debate / Multi-Agent Debate](https://arxiv.org/abs/2305.14325) - Multiple models propose and critique solutions
 - [Generate-Verify-Refine (GVR)](https://arxiv.org/abs/2305.02424) - Three-stage process: generate → verify → refine based on verification
 
-On top of that plugin based on [Agentic Context Engineering](https://arxiv.org/abs/2510.04618) paper that uses memory updates after reflection, that **consistently outperform strong baselines by 10.6%** on agents.
+On top of that, the plugin is based on the [Agentic Context Engineering](https://arxiv.org/abs/2510.04618) paper that uses memory updates after reflection, and **consistently outperforms strong baselines by 10.6%** on agents.
 
-Also includes following techniques:
+Also includes the following techniques:
 
-- [Chain-of-Verification (CoVe)](https://arxiv.org/abs/2305.13888) - model generates answer, then verification questions, then revises
-- [Tree of Thoughts (ToT)](https://arxiv.org/abs/2305.10601) - explores multiple reasoning paths with evaluation
-- [Process Reward Models (PRM)](https://arxiv.org/abs/2211.07633) - evaluate reasoning steps rather than just final answers
+- [Chain-of-Verification (CoVe)](https://arxiv.org/abs/2305.13888) - Model generates answer, then verification questions, then revises
+- [Tree of Thoughts (ToT)](https://arxiv.org/abs/2305.10601) - Explores multiple reasoning paths with evaluation
+- [Process Reward Models (PRM)](https://arxiv.org/abs/2211.07633) - Evaluates reasoning steps rather than just final answers
 
 ### Code Review
 
@@ -332,7 +332,7 @@ List of main sources:
 - [Awesome Claude Skills](https://github.com/ComposioHQ/awesome-claude-skills)
 - [Beads](https://github.com/steveyegge/beads)
 
-## Recomendend MCP Servers
+## Recommended MCP Servers
 
 Servers recommended for use with this marketplace:
 
@@ -340,9 +340,9 @@ Servers recommended for use with this marketplace:
 - [Serena](https://github.com/oraios/serena)
 - [Perplexity Model Context Protocol](https://github.com/perplexityai/modelcontextprotocol)
 
-## Recomended Specification Driven Development Projects
+## Recommended Specification Driven Development Projects
 
-This marketplace incapsualte best from this project, but you may want to use full power of this techniques from following projects:
+This marketplace encapsulates the best from these projects, but you may want to use the full power of these techniques from the following projects:
 
 - [Github Spec Kit](https://github.com/github/spec-kit)
 - [OpenSpec](https://github.com/Fission-AI/OpenSpec)

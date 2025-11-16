@@ -9,8 +9,6 @@ Guided feature development with codebase understanding and architecture focus.
 
 You are helping a developer implement a new feature based on SDD: Specification Driven Development. Follow a systematic approach: understand the codebase deeply, identify and ask about all underspecified details, design elegant architectures.
 
-Based on current git branch if it written in format `feature/<number-padded-to-3-digits>-<kebab-case-title>`, read feature specification from `specs/<number-padded-to-3-digits>-<kebab-case-title>/spec.md` file. It was written during 1 phase of SDD workflow (Discovery/Specification Design).
-
 ## User Input
 
 ```text
@@ -19,26 +17,31 @@ $ARGUMENTS
 
 You **MUST** consider the user input before proceeding (if not empty).
 
+## Core Principles
+
+- **Ask clarifying questions**: Identify all ambiguities, edge cases, and underspecified behaviors. Ask specific, concrete questions rather than making assumptions. Wait for user answers before proceeding with implementation. Ask questions early (after understanding the codebase, before designing architecture).
+- **Understand before acting**: Read and comprehend existing code patterns first
+- **Read files identified by agents**: When launching agents, ask them to return lists of the most important files to read. After agents complete, read those files to build detailed context before proceeding.
+- **Simple and elegant**: Prioritize readable, maintainable, architecturally sound code
+- **Use TodoWrite**: Track all progress throughout
+
 ## Outline
 
-1. **Setup**: Get the current git branch, if it written in format `feature/<number-padded-to-3-digits>-<kebab-case-title>`, part after `feature/` is defined as FEATURE_NAME. Consuquently, FEATURE_DIR is defined as `specs/FEATURE_NAME`, FEATURE_SPEC is defined as `specs/FEATURE_NAME/spec.md`, IMPL_PLAN is defined as `specs/FEATURE_NAME/plan.md`, SPECS_DIR is defined as `specs/`. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **Setup**: Get the current git branch, if it written in format `feature/<number-padded-to-3-digits>-<kebab-case-title>`, part after `feature/` is defined as FEATURE_NAME. Consuquently, FEATURE_DIR is defined as `specs/FEATURE_NAME`, FEATURE_SPEC is defined as `specs/FEATURE_NAME/spec.md`, IMPL_PLAN is defined as `specs/FEATURE_NAME/plan.md`, SPECS_DIR is defined as `specs/`. 
 
-2. **Load context**: Read FEATURE_SPEC and `specs/constitution.md`. Copy `specs/templates/plan-template.md` to IMPL_PLAN using `cp` command.
+2. **Load context**: Read FEATURE_SPEC and `specs/constitution.md`.
+3. Copy `specs/templates/plan-template.md` to `FEATURE_DIR/plan.md` using `cp` command, in future refered as `PLAN_FILE`.
+4. Continue with stage 2
 
-3. **Execute plan workflow**: Follow the structure in IMPL_PLAN template to:
-   - Fill Technical Context (mark unknowns as "NEEDS CLARIFICATION")
-   - Fill Constitution Check section from constitution
-   - Evaluate gates (ERROR if violations unjustified)
-   - Phase 2-3: Generate research.md (resolve all NEEDS CLARIFICATION)
-   - Phase 4: Design architecture
-   - Phase 5: Generate data-model.md, contract.md, plan.md
-   - Re-evaluate Constitution Check post-design
-
-4. **Stop and report**: Command ends after Phase 5 planning. Report branch, IMPL_PLAN path, and generated artifacts.
-
-## Phase 2: Research & Codebase Exploration
+## Stage 2: Research & Codebase Exploration
 
 **Goal**: Understand relevant existing code and patterns at both high and low levels. Research unknown areas, libraries, frameworks, and missing dependencies.
+
+Follow the structure in {PLAN_FILE} template to:
+
+- Fill Technical Context (mark unknowns as "NEEDS CLARIFICATION")
+- Fill Constitution Check section from constitution
+- Evaluate gates (ERROR if violations unjustified)
 
 ### Actions
 
@@ -48,8 +51,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - For each NEEDS CLARIFICATION → research task
    - For each dependency → best practices task
    - For each integration → patterns task
-2. **Generate and dispatch research agents**:
-   In case if you have access to context7 MCP, ask them to use it, in order to investigate libraries and frameworks documentation, instead of using web search.
+2. **Launch `researcher` agent to perform created tasks**:
 
    ```text
    For each unknown in Technical Context:
@@ -65,11 +67,10 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 **Codebase Exploration**:
 
-1. For code explaration launch 2-3 code-explorer agents in parallel. Each agent should:
+1. For code explaration launch 2-3 `code-explorer` agents in parallel. Each agent should:
    - Trace through the code comprehensively and focus on getting a comprehensive understanding of abstractions, architecture and flow of control
    - Target a different aspect of the codebase (eg. similar features, high level understanding, architectural understanding, user experience, etc)
    - Include a list of 5-10 key files to read
-   - If you have access to serena MCP, ask them to use it, in order to investigate codebase, instead of using read command.
 
    **Example agent prompts**:
    - "Find features similar to [feature] and trace through their implementation comprehensively"
@@ -83,11 +84,11 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ---
 
-## Phase 3: Clarifying Questions
+## Stage 3: Clarifying Questions
 
 **Goal**: Fill in gaps and resolve all ambiguities before designing
 
-**CRITICAL**: This is one of the most important phases. DO NOT SKIP.
+**CRITICAL**: This is one of the most important stages. DO NOT SKIP.
 
 **Actions**:
 
@@ -104,44 +105,92 @@ If the user says "whatever you think is best", provide your recommendation and s
 
 ---
 
-## Phase 4: Architecture Design
+## Stage 4: Architecture Design
 
 **Prerequisites:** `research.md` complete
 
-**Goal**: Design multiple implementation approaches with different trade-offs
+**Goal**: Design multiple implementation approaches with different trade-offs.
 
-**CRITICAL**: Do not write code during this phase, use only high level planing and architecture diagrams.
+### Actions
 
-**Actions**:
+1. Launch 2-3 `software-architect` agents in parallel with different focuses: minimal changes (smallest change, maximum reuse), clean architecture (maintainability, elegant abstractions), or pragmatic balance (speed + quality). Use provided prompt exactly, while prefiling required variables:
 
-1. Launch 2-3 code-architect agents in parallel with different focuses: minimal changes (smallest change, maximum reuse), clean architecture (maintainability, elegant abstractions), or pragmatic balance (speed + quality)
+   ```markdown
+   Perform software architecture plan design.
+   
+
+
+   **CRITICAL**: Do not write code during this stage, use only high level planing and architecture diagrams.
+
+   User Input: {provide user input here if it exists}
+
+   ## Steps
+
+   - **Load context**: Read `specs/constitution.md`, {FEATURE_SPEC}, {FEATURE_DIR}/research.md.
+   - Write the architecture design to {FEATURE_DIR}/design.{focus-name}.md file, while focusing on following aspect: {focus description}. 
+   ```
+
 2. Review all approaches and form your opinion on which fits best for this specific task (consider: small fix vs large feature, urgency, complexity, team context)
-3. Write architecture design doc in `FEATURE_DIR/design.md` file. Include all found approaches, trade-offs comparison, **your recommendation with reasoning** and concrete implementation differences.
-4. Present to user: brief summary of each approach, trade-offs comparison, **your recommendation with reasoning**, concrete implementation differences
-5. **Ask user which approach they prefer**
+3. Present to user: brief summary of each approach, trade-offs comparison, **your recommendation with reasoning**, concrete implementation differences.
+4. **Ask user which approach they prefer**
 
-## Phase 5: Plan
+## Stage 5: Plan
 
-**Goal**: Plan the implementation based on approach choosen by the user and clarify all unclear or uncertain areas.
+Launch new `software-architect` agent to make final design doc, based on appraoch choosen by user in previous stage. Use provided prompt exactly, while prefiling required variables:
 
-**CRITICAL**: Do not write code during this phase, use only high level planing and architecture diagrams.
+   ```markdown
+   Perform software architecture plan design.
+   
+   **Goal**: Plan the implementation based on approach choosen by the user and clarify all unclear or uncertain areas.
 
-**Actions**:
+   **CRITICAL**: Do not write code during this stage, use only high level planing and architecture diagrams.
 
-1. Based on approach choosen by the user, plan the implementation.
-2. Write implementation plan in `FEATURE_DIR/plan.md` file.
-3. **Extract entities from feature spec** → `FEATURE_DIR/data-model.md`:
-   - Entity name, fields, relationships
-   - Validation rules from requirements
-   - State transitions if applicable
-4. **Generate API contracts** from functional requirements if it applicable:
-   - For each user action → endpoint
-   - Use standard REST/GraphQL patterns
-   - Output OpenAPI/GraphQL schema to `FEATURE_DIR/contract.md`
-5. Present implementation plan summary to the user.
-6. Review implementation plan and present unclear or unceartan areas to the user for clarification.
+   User Input: {provide user input here}
 
-**Output**: data-model.md, contract.md, plan.md
+   ## Steps
+
+   1. **Load context**: Read `specs/constitution.md`, {FEATURE_SPEC}, {FEATURE_DIR}/research.md.
+   2. Read design files: {list of design files generated by previous agents}.
+
+   3. Write the final design doc to {FEATURE_DIR}/design.md file, based on appraoch choosen by the user.
+   4. Write implementation plan by filling `FEATURE_DIR/plan.md` template.
+   5. **Extract entities from feature spec** → `FEATURE_DIR/data-model.md`:
+      - Entity name, fields, relationships
+      - Validation rules from requirements
+      - State transitions if applicable
+   6. **Generate API contracts** from functional requirements if it applicable:
+      - For each user action → endpoint
+      - Use standard REST/GraphQL patterns
+      - Output OpenAPI/GraphQL schema to `FEATURE_DIR/contract.md`
+   7. Output implementation plan summary.
+   ```
+
+## Stage 6: Review Implementation Plan
+
+### Actions
+
+1. Once Stage 5 is complete, launch new `software-architect` agent to review implementation plan. Use provided prompt exactly, while prefiling required variables:
+
+   ```markdown
+   Review implementation plan.
+   
+   **Goal**: Review implementation plan and present unclear or unceartan areas to the user for clarification.
+   
+   **CRITICAL**: Do not write code during this stage, use only high level planing and architecture diagrams.
+   
+   User Input: {provide user input here}
+
+   ## Steps
+
+   1. **Load context**: Read `specs/constitution.md`, {FEATURE_SPEC}, {FEATURE_DIR}/research.md.
+   2. Review implementation plan in {FEATURE_DIR}/plan.md file, identify unclear or unceartan areas.
+   3. Resolve high confidence issues by yourself.
+   4. Output areas that still not resolved or unclear to the user for clarification.
+   ```
+
+2. If agent returns areas that still not resolved or unclear, present them to the user for clarification, then repeat step 1.
+
+3. Once all areas are resolved or unclear, report branch and generated artifacts, including: data-model.md, contract.md, plan.md, etc.
 
 ## Key rules
 
