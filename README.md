@@ -105,7 +105,7 @@ Collection of commands that force LLM to reflect on previous response and output
 
 #### Based on papers
 
-Based on papers like [Self-Refine](https://arxiv.org/abs/2305.12966) and [Reflexion](https://arxiv.org/abs/2303.11366). These techniques improve the output of large language models by introducing feedback and refinement loops.
+Based on papers like [Self-Refine](https://arxiv.org/abs/2303.17651) and [Reflexion](https://arxiv.org/abs/2303.11366). These techniques improve the output of large language models by introducing feedback and refinement loops.
 
 They are proven to **increase output quality by 8–21%** based on both automatic metrics and human preferences across seven diverse tasks, including dialogue generation, coding, and mathematical reasoning, when compared to standard one-step model outputs.
 
@@ -113,18 +113,18 @@ Full list of included patterns and techniques:
 
 - [Self-Refinement / Iterative Refinement](https://arxiv.org/abs/2303.17651) - One model generates, then reviews and improves its own output
 - [Constitutional AI (CAI) / RLAIF](https://arxiv.org/abs/2212.08073) - One model generates responses, another critiques them based on principles
-- [Critic-Generator or Verifier-Generator Architecture](https://arxiv.org/abs/2305.12966) - Generator model creates outputs, Critic/verifier model evaluates and provides feedback
+- [Critic-Generator or Verifier-Generator Architecture](https://arxiv.org/abs/2510.14660v1) - Generator model creates outputs, Critic/verifier model evaluates and provides feedback
 - [LLM-as-a-Judge](https://arxiv.org/abs/2306.05685) - One LLM evaluates/scores outputs from another LLM
 - [Debate / Multi-Agent Debate](https://arxiv.org/abs/2305.14325) - Multiple models propose and critique solutions
-- [Generate-Verify-Refine (GVR)](https://arxiv.org/abs/2305.02424) - Three-stage process: generate → verify → refine based on verification
+- [Generate-Verify-Refine (GVR)](https://arxiv.org/abs/2204.05511) - Three-stage process: generate → verify → refine based on verification
 
 On top of that, the plugin is based on the [Agentic Context Engineering](https://arxiv.org/abs/2510.04618) paper that uses memory updates after reflection, and **consistently outperforms strong baselines by 10.6%** on agents.
 
 Also includes the following techniques:
 
-- [Chain-of-Verification (CoVe)](https://arxiv.org/abs/2305.13888) - Model generates answer, then verification questions, then revises
+- [Chain-of-Verification (CoVe)](https://arxiv.org/abs/2309.11495) - Model generates answer, then verification questions, then revises
 - [Tree of Thoughts (ToT)](https://arxiv.org/abs/2305.10601) - Explores multiple reasoning paths with evaluation
-- [Process Reward Models (PRM)](https://arxiv.org/abs/2211.07633) - Evaluates reasoning steps rather than just final answers
+- [Process Reward Models (PRM)](https://arxiv.org/abs/2305.20050) - Evaluates reasoning steps rather than just final answers
 
 ### Code Review
 
@@ -229,7 +229,7 @@ Comprehensive specification-driven development workflow using specialized agents
 
 ```bash
 # start claude code
-claude 
+claude
 # setup project constitution
 /sdd:00-setup Use NestJS as backend framework, strictly follod SOLID principles and Clean Architecture.
 
@@ -237,13 +237,13 @@ claude
 /sdd:01-specify Add user authentication with OAuth
 
 # Plan feature development
-/sdd:02-plan 
+/sdd:02-plan
 
 # Create detailed implementation tasks
-/sdd:03-tasks 
+/sdd:03-tasks
 
 # Execute feature implementation
-/sdd:04-implement 
+/sdd:04-implement
 
 # Document completed feature implementation
 /sdd:05-document Focus on API documentation

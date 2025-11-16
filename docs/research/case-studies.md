@@ -1,5 +1,9 @@
 # Case Studies
 
+> **⚠️ IMPORTANT NOTICE**: This document is currently a template/placeholder. All case studies shown below are **illustrative examples only** and do not represent actual project data. Statistics and outcomes in the example case study are fictional and for demonstration purposes.
+>
+> Real case studies will be added as users share their experiences with the Context Engineering Kit.
+
 Real-world applications and practical examples of Context Engineering Kit plugins in action.
 
 ## Table of Contents
@@ -22,8 +26,6 @@ This document collects real-world case studies demonstrating how Context Enginee
 - **Results**: Concrete outcomes and improvements
 - **Lessons Learned**: Key takeaways and recommendations
 
-> **Note**: This is a living document. Case studies will be added as users share their experiences with the toolkit. See [Contributing Case Studies](#contributing-case-studies) for how to add your own.
-
 ---
 
 ## Reflexion Plugin Case Studies
@@ -31,7 +33,7 @@ This document collects real-world case studies demonstrating how Context Enginee
 ### Case Study 1: [Your Case Study Here]
 
 **Context**:
-*Placeholder for real-world reflexion plugin usage*
+*Awaiting real-world reflexion plugin usage submissions*
 
 **Approach**:
 *Which commands were used and how*
@@ -49,7 +51,7 @@ This document collects real-world case studies demonstrating how Context Enginee
 ### Case Study 1: [Your Case Study Here]
 
 **Context**:
-*Placeholder for real-world code review plugin usage*
+*Awaiting real-world code review plugin usage submissions*
 
 **Approach**:
 *Which specialized agents were most valuable*
@@ -67,7 +69,7 @@ This document collects real-world case studies demonstrating how Context Enginee
 ### Case Study 1: [Your Case Study Here]
 
 **Context**:
-*Placeholder for real-world spec-driven development workflow*
+*Awaiting real-world spec-driven development workflow submissions*
 
 **Approach**:
 *How the full SDD workflow was applied*
@@ -85,7 +87,7 @@ This document collects real-world case studies demonstrating how Context Enginee
 ### Case Study 1: [Your Case Study Here]
 
 **Context**:
-*Placeholder for projects using multiple plugins together*
+*Awaiting projects using multiple plugins together*
 
 **Approach**:
 *Which plugins were combined and why*
@@ -230,11 +232,11 @@ If you're interested in collaborating on research based on case study data, plea
 
 ---
 
-## Example Case Study Outline
+## Example Case Study Outline (ILLUSTRATIVE ONLY - NOT REAL DATA)
 
-To give you an idea of what a complete case study might look like, here's a detailed outline:
+> **⚠️ DISCLAIMER**: The following is an illustrative example to demonstrate the case study format. All statistics, outcomes, and details are **fictional** and do not represent actual project data.
 
-### Case Study: Improving Code Review Quality in NestJS Microservices
+### Case Study: Improving Code Review Quality in NestJS Microservices (EXAMPLE ONLY)
 
 **Context**:
 - E-commerce platform with 12 NestJS microservices
@@ -249,17 +251,17 @@ To give you an idea of what a complete case study might look like, here's a deta
 - Integrated findings into PR comments for human reviewers
 - After 2 weeks, added Reflexion plugin for `/reflexion:memorize`
 
-**Results**:
-- 40% reduction in production bugs over 3 months
-- PR review time reduced to 1-1.5 hours (25-50% improvement)
+**Results** (FICTIONAL - FOR ILLUSTRATION ONLY):
+- Approximate reduction in production bugs over 3 months
+- PR review time reduced (estimated 25-50% improvement)
 - Junior developers learned from agent feedback
-- 15 critical security issues caught that humans missed
+- Multiple security and edge case issues caught
 - Team documented common patterns in CLAUDE.md via memorize
 
-**Specific Examples**:
-1. Bug-hunter identified race condition in payment processing
-2. Test-coverage-reviewer suggested edge case for inventory < 0
-3. Security-auditor flagged SQL injection vulnerability in logging
+**Specific Examples** (FICTIONAL):
+1. Bug-hunter identified potential race condition in payment processing
+2. Test-coverage-reviewer suggested edge case for inventory validation
+3. Security-auditor flagged potential SQL injection in logging
 4. Memorize command captured "always validate currency codes" principle
 
 **Lessons Learned**:
@@ -276,17 +278,17 @@ To give you an idea of what a complete case study might look like, here's a deta
 - Use agent findings as teaching moments for junior developers
 
 **Metadata**:
-- Date: October 2024 - January 2025
+- Date: EXAMPLE - NOT REAL
 - Plugins Used: Code Review, Reflexion
-- Project Duration: 3 months ongoing
-- Team Size: 8 developers
-- Technology: NestJS, TypeScript, PostgreSQL
+- Project Duration: FICTIONAL
+- Team Size: HYPOTHETICAL
+- Technology: EXAMPLE ONLY
 
 ---
 
 ## Upcoming Case Studies
 
-We're currently collecting case studies for:
+We're currently seeking case studies for:
 - Using Reflexion for iterative documentation improvement
 - Spec-Driven Development for greenfield projects
 - Kaizen analysis for debugging complex production issues
@@ -310,4 +312,4 @@ Questions about case studies? Want to discuss your experience before writing it 
 
 Thank you to all community members who share their experiences. Your case studies make this toolkit more valuable for everyone.
 
-*This document was last updated: [Date TBD - will update when first case study added]*
+*This document was last updated: November 2025*

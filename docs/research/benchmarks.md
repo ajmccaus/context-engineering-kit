@@ -213,7 +213,7 @@ Active memory curation by agents shows significant improvements on long-horizon 
 
 ## Verification and Evaluation Benchmarks
 
-### Chain-of-Verification (arXiv:2305.13888)
+### Chain-of-Verification (arXiv:2309.11495)
 
 CoVe reduces hallucinations by generating and checking verification questions.
 
@@ -416,8 +416,8 @@ Systematic exploration of reasoning paths dramatically improves search-based pro
 **Efficiency Ratio** = (Quality Gain %) / (Token Cost Multiplier)
 
 **Most Efficient**:
-1. Agentic Context Engineering (8.8)
-2. Chain-of-Verification (8.9)
+1. Chain-of-Verification (8.9)
+2. Agentic Context Engineering (8.8)
 3. Self-Refine (6.0)
 
 ### When to Use Each Technique
@@ -520,6 +520,6 @@ All benchmark data sourced from papers documented in [papers.md](./papers.md). R
 - LLM-as-a-Judge: arXiv:2306.05685
 - Multi-Agent Debate: arXiv:2305.14325
 - Agentic Context Engineering: arXiv:2510.04618
-- Chain-of-Verification: arXiv:2305.13888
+- Chain-of-Verification: arXiv:2309.11495
 - Tree of Thoughts: arXiv:2305.10601
-- Process Reward Models: arXiv:2211.07633
+- Process Reward Models: arXiv:2305.20050
