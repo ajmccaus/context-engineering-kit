@@ -3,6 +3,8 @@
     <img src="docs/assets/CEK-header.png" alt="Context Engineering Kit - advanced context engineering techniques" />
 </picture>
 
+[![Mentioned in Awesome Claude Code](https://awesome.re/mentioned-badge.svg)](https://github.com/hesreallyhim/awesome-claude-code)
+
 # Context Engineering Kit
 
 Hand-crafted collection of advanced context engineering techniques and patterns with minimal token footprint focused on improving agent result quality.
