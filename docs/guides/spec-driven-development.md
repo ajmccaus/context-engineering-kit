@@ -83,7 +83,7 @@ Use the `/sdd:00-setup` command to create your project's governing principles an
 /sdd:00-setup Use NestJS, follow SOLID and Clean Architecture
 ```
 
-It can be used just once, in suscequente features development you can start from the next step.
+It can be used just once, in subsequent features development you can start from the next step.
 
 ### 2. Create specification
 

@@ -49,7 +49,7 @@ Rationale: Catches bugs early and ensures code quality.
 
 ### Simple Feature Implementation
 
-**Scenario**: Add a basic user profile feature to an existing application.
+**Scenario**: Adding a basic user profile feature to an existing application.
 
 ```bash
 # Step 1: Create specification
@@ -115,7 +115,7 @@ As a logged-in user, I can edit my profile information so that I can keep my det
 
 ### Complex Feature with Multiple Stakeholders
 
-**Scenario**: Implement a multi-tenant billing system with Stripe integration.
+**Scenario**: Implementing a multi-tenant billing system with Stripe integration.
 
 ```bash
 # Step 1: Brainstorm initial design

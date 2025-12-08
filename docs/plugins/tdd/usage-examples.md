@@ -52,7 +52,7 @@ describe('validateEmail', () => {
 
 ### Complex Feature with Agent Orchestration
 
-**Scenario**: You've implemented a multi-file payment processing feature that needs comprehensive test coverage.
+**Scenario**: You've implemented a multi-file payment processing feature and need comprehensive test coverage.
 
 ```bash
 # Implement payment processing

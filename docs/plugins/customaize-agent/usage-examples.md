@@ -276,7 +276,7 @@ exit 0
 
 ### Applying Anthropic Best Practices
 
-**Scenario**: You have an existing skill that's not being discovered by Claude. Time to optimize it.
+**Scenario**: You have an existing skill that is not being discovered by Claude. Time to optimize it.
 
 ```bash
 # Review and optimize the skill

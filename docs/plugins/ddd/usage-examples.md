@@ -6,7 +6,7 @@ Real-world scenarios demonstrating effective use of the Domain-Driven Developmen
 
 ### Project Initialization with DDD Standards
 
-**Scenario**: Starting a new TypeScript project and want to establish consistent code quality from day one.
+**Scenario**: You're starting a new TypeScript project and want to establish consistent code quality from day one.
 
 ```bash
 # Initialize Claude for your project

@@ -4,7 +4,7 @@ Reference of terms and concepts used throughout Context Engineering Kit document
 
 ## Commands
 
-Commands are explicit actions you invoke manually to perform specific tasks. They follow the pattern `/plugin-name:command-name`. They include prompt that will be loaded to LLM and trigger him to perform specific task.
+Commands are explicit actions you invoke manually to perform specific tasks. They follow the pattern `/plugin-name:command-name`. They include a prompt that will be loaded to the LLM and trigger it to perform a specific task.
 
 Commands are:
 
@@ -62,7 +62,7 @@ Skills are markdown documents loaded into Claude's context that provide:
 **Key difference from commands:**
 
 - **Commands** - You invoke manually with `/command-name`
-- **Skills** - Claude applies automatically when relevant, but you can explicitly ask claude to load specific skill, for example: "load TDD skill, before implementing feature"
+- **Skills** - Claude applies automatically when relevant, but you can explicitly ask Claude to load a specific skill, for example: "load TDD skill, before implementing feature"
 
 ### Skills vs Commands Trade-off
 

@@ -5,7 +5,7 @@
 
 [![Mentioned in Awesome Claude Code](https://awesome.re/mentioned-badge.svg)](https://github.com/hesreallyhim/awesome-claude-code)
 
-# Context Engineering Kit
+# [Context Engineering Kit](https://cek.neolab.finance)
 
 Hand-crafted collection of advanced context engineering techniques and patterns with minimal token footprint focused on improving agent result quality.
 
@@ -60,6 +60,10 @@ Each installed plugin loads only its specific agents, commands, and skills into 
 > /reflexion:memorize
 ```
 
+## Documentation
+
+You can find the complete Context Engineering Kit documentation [there](https://cek.neolab.finance).
+
 ## Update Marketplace
 
 To get the latest plugin listings and updates from the marketplace:
@@ -76,18 +80,18 @@ To view all available plugins:
 /plugin
 ```
 
-- [Reflexion](#reflexion) - Introduces feedback and refinement loops to improve output quality.
-- [Code Review](#code-review) - Introduces codebase and PR review commands and skills using multiple specialized agents.
-- [Git](#git) - Introduces commands for commit and PRs creation.
-- [Test-Driven Development](#test-driven-development) - Introduces commands for test-driven development, common anti-patterns and skills for testing using subagents.
-- [Subagent-Driven Development](#subagent-driven-development) - Introduces skills for subagent-driven development, dispatches fresh subagent for each task with code review between tasks, enabling fast iteration with quality gates.
-- [Domain-Driven Development](#domain-driven-development) - Introduces commands to update CLAUDE.md with best practices for domain-driven development, focused on code quality, and includes Clean Architecture, SOLID principles, and other design patterns.
-- [Spec-Driven Development](#spec-driven-development) - Introduces commands for specification-driven development, based on Github Spec Kit, OpenSpec and BMad Method. Uses specialized agents for effective context management and quality review.
-- [Kaizen](#kaizen) - Inspired by Japanese continuous improvement philosophy, Agile and Lean development practices. Introduces commands for analysis of root causes of issues and problems, including 5 Whys, Cause and Effect Analysis, and other techniques.
-- [Customaize Agent](#customaize-agent) - Commands and skills for writing and refining commands, hooks, and skills for Claude Code, includes Anthropic Best Practices and [Agent Persuasion Principles](https://arxiv.org/abs/2508.00614) that can be useful for sub-agent workflows.
-- [Docs](#docs) - Commands for analyzing projects, writing and refining documentation.
-- [Tech Stack](#tech-stack) - Commands for setting up or updating CLAUDE.md file with best practices for specific languages or frameworks.
-- [MCP](#mcp) - Commands for setting up well-known MCP server integration if needed and updating CLAUDE.md file with requirements to use this MCP server for the current project.
+- [Reflexion](https://cek.neolab.finance/plugins/reflexion) - Introduces feedback and refinement loops to improve output quality.
+- [Code Review](https://cek.neolab.finance/plugins/code-review) - Introduces codebase and PR review commands and skills using multiple specialized agents.
+- [Git](https://cek.neolab.finance/plugins/git) - Introduces commands for commit and PRs creation.
+- [Test-Driven Development](https://cek.neolab.finance/plugins/tdd) - Introduces commands for test-driven development, common anti-patterns and skills for testing using subagents.
+- [Subagent-Driven Development](https://cek.neolab.finance/plugins/sadd) - Introduces skills for subagent-driven development, dispatches fresh subagent for each task with code review between tasks, enabling fast iteration with quality gates.
+- [Domain-Driven Development](https://cek.neolab.finance/plugins/ddd) - Introduces commands to update CLAUDE.md with best practices for domain-driven development, focused on code quality, and includes Clean Architecture, SOLID principles, and other design patterns.
+- [Spec-Driven Development](https://cek.neolab.finance/plugins/sdd) - Introduces commands for specification-driven development, based on Github Spec Kit, OpenSpec and BMad Method. Uses specialized agents for effective context management and quality review.
+- [Kaizen](https://cek.neolab.finance/plugins/kaizen) - Inspired by Japanese continuous improvement philosophy, Agile and Lean development practices. Introduces commands for analysis of root causes of issues and problems, including 5 Whys, Cause and Effect Analysis, and other techniques.
+- [Customaize Agent](https://cek.neolab.finance/plugins/customaize-agent) - Commands and skills for writing and refining commands, hooks, and skills for Claude Code, includes Anthropic Best Practices and [Agent Persuasion Principles](https://arxiv.org/abs/2508.00614) that can be useful for sub-agent workflows.
+- [Docs](https://cek.neolab.finance/plugins/docs) - Commands for analyzing projects, writing and refining documentation.
+- [Tech Stack](https://cek.neolab.finance/plugins/tech-stack) - Commands for setting up or updating CLAUDE.md file with best practices for specific languages or frameworks.
+- [MCP](https://cek.neolab.finance/plugins/mcp) - Commands for setting up well-known MCP server integration if needed and updating CLAUDE.md file with requirements to use this MCP server for the current project.
 
 ### Reflexion
 
@@ -362,4 +366,3 @@ Commands for integrating Model Context Protocol servers with your project.
 - `/mcp:setup-context7-mcp` - Guide for setup Context7 MCP server to load documentation for specific technologies
 - `/mcp:setup-serena-mcp` - Guide for setup Serena MCP server for semantic code retrieval and editing capabilities
 - `/mcp:build-mcp` - Guide for creating high-quality MCP servers that enable LLMs to interact with external services
-

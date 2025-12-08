@@ -70,7 +70,7 @@
 
 ### Getting Help
 
-Each command have describtion of how it should be used and what it does.
+Each command has a description of how it should be used and what it does.
 
 **Command help:**
 

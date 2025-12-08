@@ -30,7 +30,7 @@ CEK's Spec-Driven Development (SDD) plugin integrates best practices from these 
 
 ## How CEK Integrates These Projects
 
-Context Engineering Kit collects these techniques and split into separate plugins, with additional features and improvements.
+Context Engineering Kit collects these techniques and splits them into separate plugins, with additional features and improvements.
 
 ### Token Optimization
 

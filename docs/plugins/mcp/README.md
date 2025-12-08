@@ -16,7 +16,7 @@ This plugin provides three key commands:
 2. **Serena MCP Setup** - Enable semantic code analysis and symbol-based operations
 3. **Build MCP** - Create custom MCP servers for any service or API
 
-Each command guide through the MCP setup processes and updates your project's CLAUDE.md file to ensure consistent MCP usage across your team.
+Each command guides you through the MCP setup processes and updates your project's CLAUDE.md file to ensure consistent MCP usage across your team.
 
 ## Quick Start
 
