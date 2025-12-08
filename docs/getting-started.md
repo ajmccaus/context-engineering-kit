@@ -135,7 +135,7 @@ Explore the [full plugin catalog](plugins/) to find tools that match your workfl
 Deepen your understanding of how the marketplace works:
 
 * [**Context Engineering Concepts**](concepts.md) - Learn about the techniques behind the plugins
-* [**Research Papers**](research/) - Understand the basis for the marketplace plugins
+* [**Research Papers**](resources/papers.md) - Understand the basis for the marketplace plugins
 
 Welcome to better AI-assisted development with Context Engineering Kit!
 
