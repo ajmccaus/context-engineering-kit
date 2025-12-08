@@ -1,9 +1,9 @@
 ---
-description: Update and maintain project documentation including docs/, READMEs, JSDoc, and API documentation using best practices and automated tools where appropriate
-argument-hint: Optional target directory or documentation type (api, guides, readme, jsdoc)
+description: Update and maintain project documentation for local code changes using multi-agent workflow with tech-writer agents. Covers docs/, READMEs, JSDoc, and API documentation.
+argument-hint: Optional target directory, documentation type (api, guides, readme, jsdoc), or specific focus area
 ---
 
-# Documentation Update Command
+# Update Documentation for Local Changes
 
 <task>
 You are a technical documentation specialist who maintains living documentation that serves real user needs. Your mission is to create clear, concise, and useful documentation while ruthlessly avoiding documentation bloat and maintenance overhead.
@@ -16,6 +16,270 @@ References:
 - Token efficiency and progressive disclosure patterns
 - Context7 MCP for accurate technical information gathering
 </context>
+
+## User Arguments
+
+User can provide specific focus areas or documentation types:
+
+```text
+$ARGUMENTS
+```
+
+If nothing is provided, focus on all documentation needs for uncommitted changes. If everything is committed, cover the latest commit.
+
+## Context
+
+After implementing new features or refactoring existing code, documentation must be updated to reflect changes. This command orchestrates automated documentation updates using specialized tech-writer agents and parallel analysis.
+
+## Goal
+
+Ensure all code changes are properly documented with clear, maintainable documentation that helps users accomplish real tasks.
+
+## Important Constraints
+
+- **Focus on user-facing impact** - not every code change needs documentation
+- **Preserve existing documentation style** - follow established patterns
+- **Analyse complexity of changes**:
+  - If there are 3+ changed files affecting documentation, or significant API changes → **Use multi-agent workflow**
+  - If there are 1-2 simple changes → **Write documentation yourself**
+- **Documentation must justify its existence** - avoid bloat and maintenance overhead
+
+## Workflow Steps
+
+### Preparation
+
+1. **Read SADD skill if available**
+   - If available, read the SADD skill to understand best practices for managing agents
+
+2. **Discover documentation infrastructure**
+   - Read @README.md and project config (package.json, pyproject.toml, etc.)
+   - Identify existing documentation structure (docs/, README files, JSDoc)
+   - Understand project conventions and documentation patterns
+   - Check for documentation generation tools (OpenAPI, JSDoc, TypeDoc)
+
+3. **Inventory existing documentation**
+
+```bash
+# Find all documentation files
+find . -name "*.md" -o -name "*.rst" | grep -E "(README|CHANGELOG|CONTRIBUTING|docs/)"
+
+# Check for generated docs
+find . -name "openapi.*" -o -name "*.graphql" -o -name "swagger.*"
+```
+
+### Analysis
+
+Do steps 4-5 in parallel using haiku agents:
+
+4. **Analyze documentation structure**
+   - Launch haiku agent to map existing documentation:
+     - Identify docs/ folder structure and organization
+     - Find all README.md files and their purposes
+     - Locate API documentation (generated or manual)
+     - Note JSDoc/TSDoc patterns in codebase
+   - Output: Documentation map with locations and types
+
+5. **Analyze local changes**
+   - Run `git status -u` to identify all changed files (including untracked)
+     - If no uncommitted changes, run `git show --name-status` for latest commit
+   - Filter to identify documentation-impacting changes:
+     - New/modified public APIs
+     - Changed module structures
+     - Updated configuration options
+     - New features or workflows
+   - Launch separate haiku agents per changed file to:
+     - Analyze the file and its documentation impact
+     - Identify what documentation needs to be created/updated
+     - Prepare short summary of documentation requirements
+   - Extract list of documentation tasks
+
+### Documentation Planning
+
+6. **Group changes by documentation area**
+   - Aggregate analysis results from haiku agents
+   - Group changes that can be covered by same documentation update:
+     - **API Documentation**: All API changes → single agent
+     - **Module READMEs**: Changes in same module → single agent
+     - **User Guides**: Related feature changes → single agent
+     - **JSDoc/Code Comments**: Complex logic changes → per-file agents
+   - Create documentation task assignments
+
+### Documentation Writing
+
+#### Simple Change Flow (1-2 files, minor updates)
+
+If changes are simple, write documentation yourself following this guideline:
+
+1. Read Tech Writer Agent guidelines from @/plugins/sdd/agents/tech-writer.md
+2. Review the changed files and understand the impact
+3. Identify which documentation needs updates
+4. Make targeted updates following project conventions
+5. Verify all links and examples work
+6. Ensure documentation serves real user needs
+
+Ensure documentation:
+
+- Follows project style and conventions
+- Includes working code examples
+- Avoids duplication with existing docs
+- Helps users accomplish tasks
+
+#### Multi-Agent Flow (3+ files or significant changes)
+
+If there are multiple changed files or significant documentation needs, use specialized agents:
+
+7. **Launch `doc-analysis` agents (parallel)** (Haiku models)
+   - Launch one analysis agent per documentation area identified
+   - Provide each agent with:
+     - **Context**: What changed in related files (git diff)
+     - **Target**: Which documentation area to analyze
+     - **Resources**: Existing documentation in that area
+     - **Goal**: Create detailed documentation requirements
+     - **Output**: Specific documentation tasks with priorities:
+       - CRITICAL: User-facing API changes, breaking changes
+       - IMPORTANT: New features, configuration options
+       - NICE_TO_HAVE: Code comments, minor clarifications
+   - Collect all documentation requirement reports
+
+8. **Launch `sdd:tech-writer` agents for documentation (parallel)** (Sonnet or Opus models)
+   - Launch one tech-writer agent per documentation area
+   - Provide each agent with:
+     - **Context**: Documentation requirements from analysis agent
+     - **Target**: Specific documentation files to create/update
+     - **Documentation tasks**: List from analysis agent
+     - **Guidance**: Read Tech Writer Agent @/plugins/sdd/agents/tech-writer.md for best practices
+     - **Resources**: Existing documentation for style reference
+     - **Goal**: Create/update comprehensive documentation
+     - **Constraints**:
+       - Follow existing documentation patterns
+       - Include working code examples
+       - Avoid documentation bloat
+       - Focus on user tasks, not implementation details
+
+9. **Launch quality review agents (parallel)** (Sonnet or Opus models)
+   - Launch `sdd:tech-writer` agents again for quality review
+   - Provide:
+     - **Context**: Original changes + new documentation created
+     - **Goal**: Verify documentation quality and completeness
+     - **Review criteria**:
+       - All user-facing changes are documented
+       - Code examples are accurate and work
+       - Links and references are valid
+       - Documentation follows project conventions
+       - No unnecessary documentation bloat
+     - **Output**: PASS confirmation or list of issues to fix
+
+10. **Iterate if needed**
+    - If any documentation areas have quality issues: Return to step 8
+    - Launch new tech-writer agents only for areas with gaps
+    - Provide specific instructions on what needs fixing
+    - Continue until all documentation passes quality review
+
+11. **Final verification**
+    - Review all documentation changes holistically
+    - Verify cross-references between documents work
+    - Ensure no conflicting information
+    - Confirm documentation structure is navigable
+
+## Success Criteria
+
+- All user-facing changes have appropriate documentation ✅
+- Code examples are accurate and tested ✅
+- Documentation follows project conventions ✅
+- No broken links or references ✅
+- Quality verified by review agents ✅
+
+## Agent Instructions Templates
+
+### Documentation Analysis Agent (Haiku)
+
+```markdown
+Analyze documentation needs for changes in {DOCUMENTATION_AREA}.
+
+Context: These files were modified in local changes:
+{CHANGED_FILES_LIST}
+
+Git diff summary:
+{GIT_DIFF_SUMMARY}
+
+Your task:
+1. Review the changes and understand their documentation impact
+2. Identify what documentation needs to be created or updated:
+   - New APIs or features to document
+   - Existing docs that need updates
+   - Code comments or JSDoc needed
+   - README updates required
+3. Check existing documentation to avoid duplication
+4. Create prioritized list of documentation tasks:
+   - CRITICAL: Breaking changes, new public APIs
+   - IMPORTANT: New features, configuration changes
+   - NICE_TO_HAVE: Code comments, minor clarifications
+
+Output format:
+- List of documentation tasks with descriptions
+- Priority level for each
+- Suggested documentation file locations
+- Existing docs to reference for style
+```
+
+### Tech Writer Agent (Documentation Creation)
+
+```markdown
+Create/update documentation for {DOCUMENTATION_AREA}.
+
+Documentation requirements identified:
+{DOCUMENTATION_TASKS_LIST}
+
+Your task:
+1. Read Tech Writer Agent guidelines @/plugins/sdd/agents/tech-writer.md
+2. Read @README.md for project context and conventions
+3. Review existing documentation for style and patterns
+4. Create/update documentation for all identified tasks:
+   - Follow project documentation conventions
+   - Include working code examples
+   - Write for the target audience
+   - Focus on helping users accomplish tasks
+5. Ensure documentation:
+   - Is clear and concise
+   - Avoids duplication with existing docs
+   - Has valid links and references
+   - Includes necessary context and examples
+
+Target files: {TARGET_DOCUMENTATION_FILES}
+```
+
+### Quality Review Agent (Verification)
+
+```markdown
+Review documentation quality for {DOCUMENTATION_AREA}.
+
+Context: Documentation was created/updated for local code changes.
+
+Files to review:
+{DOCUMENTATION_FILES}
+
+Related code changes:
+{CODE_CHANGES_SUMMARY}
+
+Your task:
+1. Read the documentation created/updated
+2. Verify documentation quality:
+   - All user-facing changes are covered
+   - Code examples are accurate and work
+   - Language is clear and helpful
+   - Follows project conventions
+   - Links and references are valid
+3. Check for documentation issues:
+   - Missing documentation for important changes
+   - Inaccurate or outdated information
+   - Broken links or references
+   - Unnecessary documentation bloat
+4. Verify no conflicts with existing documentation
+
+Output:
+- PASS: Documentation is complete and high quality ✅
+- ISSUES: List specific problems that need to be fixed
+```
 
 ## Core Documentation Philosophy
 
@@ -68,7 +332,7 @@ CRITICAL: Documentation must justify its existence
 
 ## Documentation Discovery Process
 
-### 1. Codebase Analysis
+### Codebase Analysis
 
 <mcp_usage>
 Use Context7 MCP to gather accurate information about:
@@ -92,7 +356,7 @@ find . -name "openapi.*" -o -name "*.graphql" -o -name "swagger.*"
 grep -r "@param\|@returns\|@example" --include="*.js" --include="*.ts" 
 ```
 
-### 2. User Journey Mapping
+### User Journey Mapping
 
 Identify critical user paths:
 
@@ -101,7 +365,7 @@ Identify critical user paths:
 - **Feature usage**: Problem → Solution → Implementation
 - **Troubleshooting**: Error → Diagnosis → Resolution
 
-### 3. Documentation Gap Analysis
+### Documentation Gap Analysis
 
 **High-Impact Gaps** (address first):
 
@@ -163,40 +427,19 @@ Identify critical user paths:
 - ❌ Poor for: Module architecture, integration examples  
 - **Limitation**: Easily becomes stale without enforcement
 
-## Documentation Update Workflow
+## Documentation Audit Guidelines
 
-### 1. Information Gathering
+### Quality Assessment
 
-**Project Context Discovery:**
-
-```markdown
-1. Identify project type and stack
-2. Check for existing doc generation tools
-3. Map user types (developers, API consumers, end users)
-4. Find documentation pain points in issues/discussions
-```
-
-**Use Context7 MCP to research:**
-
-- Best practices for the specific tech stack
-- Standard documentation patterns for similar projects
-- Available tooling for documentation automation
-- Common pitfalls to avoid
-
-### 2. Documentation Audit
-
-**Quality Assessment:**
-
-```markdown
 For each existing document, ask:
+
 1. When was this last updated? (>6 months = suspect)
 2. Is this information available elsewhere? (duplication check)
 3. Does this help accomplish a real task? (utility check)  
 4. Is this findable when needed? (discoverability check)
 5. Would removing this break someone's workflow? (impact check)
-```
 
-### 3. Strategic Updates
+### Strategic Updates
 
 **High-Impact, Low-Effort Updates:**
 
@@ -212,9 +455,9 @@ For each existing document, ask:
 - Add schema documentation generation
 - Create doc linting/freshness checks
 
-### 4. Content Creation Guidelines
+## Documentation Patterns Reference
 
-**README.md Best Practices:**
+### README.md Best Practices
 
 **Project Root README:**
 
@@ -249,7 +492,7 @@ Brief description (1-2 sentences max).
 See: [Main documentation](../docs/) for detailed guides.
 ```
 
-**JSDoc Best Practices:**
+### JSDoc Best Practices
 
 **Document These:**
 
@@ -278,54 +521,14 @@ async function processPayment(payment: PaymentRequest, options?: PaymentOptions)
 
 ```typescript
 // ❌ Obvious functionality
-/**
- * Gets the user name
- * @returns the name
- */  
 getName(): string
 
 // ❌ Simple CRUD
-/**
- * Saves user to database
- */
 save(user: User): Promise<void>
 
 // ❌ Self-explanatory utilities  
-/**
- * Converts string to lowercase
- */
 toLowerCase(str: string): string
 ```
-
-## Implementation Process
-
-### Phase 1: Assessment and Planning
-
-1. **Discover project structure and existing documentation**
-2. **Identify user needs and documentation gaps**  
-3. **Evaluate opportunities for automation**
-4. **Create focused update plan with priorities**
-
-### Phase 2: High-Impact Updates
-
-1. **Fix critical onboarding blockers**
-2. **Update outdated examples and links**
-3. **Add missing API examples for common use cases**
-4. **Create/update module navigation READMEs**
-
-### Phase 3: Tool Integration
-
-1. **Set up API documentation generation where beneficial**
-2. **Configure JSDoc for complex business logic**
-3. **Add documentation freshness checks**
-4. **Remove or consolidate duplicate documentation**
-
-### Phase 4: Validation
-
-1. **Test all examples and code snippets**
-2. **Verify links and references work**
-3. **Confirm documentation serves real user needs**
-4. **Establish maintenance workflow for living docs**
 
 ## Quality Gates
 
@@ -345,23 +548,7 @@ toLowerCase(str: string): string
 - [ ] Clear ownership for each major documentation area
 - [ ] Regular pruning of outdated content
 
-## Success Metrics
-
-**Good Documentation:**
-
-- Users complete common tasks without asking questions
-- Issues contain more bug reports, fewer "how do I...?" questions
-- Documentation is referenced in code reviews and discussions
-- New contributors can get started independently
-
-**Warning Signs:**
-
-- Documentation frequently mentioned as outdated in issues
-- Multiple conflicting sources of truth
-- High volume of basic usage questions
-- Documentation updates commonly forgotten in PRs
-
-**Documentation Update Summary Template:**
+## Documentation Update Summary Template
 
 ```markdown
 ## Documentation Updates Completed
@@ -372,16 +559,17 @@ toLowerCase(str: string): string
 - [ ] API documentation (generated/manual)
 - [ ] JSDoc comments for complex logic
 
-### Major Changes
-- [List significant improvements]
-- [New documentation added]  
-- [Deprecated/removed content]
+### Changes Documented
+- [List code changes that were documented]
+- [New documentation created]
+- [Existing documentation updated]
 
-### Automation Added
-- [Doc generation tools configured]
-- [Quality checks implemented]
+### Quality Review
+- [ ] All examples tested and working
+- [ ] Links verified
+- [ ] Follows project conventions
 
 ### Next Steps
-- [Maintenance tasks identified]
-- [Future automation opportunities]
+- [Any follow-up documentation tasks]
+- [Maintenance notes]
 ```

@@ -179,6 +179,11 @@ Commands and skills for test-driven development with anti-pattern detection.
 /plugin install tdd@NeoLabHQ/context-engineering-kit
 ```
 
+**Commands**
+
+- `/tdd:write-tests` - Systematically add test coverage for local code changes using specialized review and development agents
+- `/tdd:fix-tests` - Fix failing tests after business logic changes or refactoring using orchestrated agents
+
 **Skills**
 
 - **test-driven-development** - Introduces TDD methodology, best practices, and skills for testing using subagents

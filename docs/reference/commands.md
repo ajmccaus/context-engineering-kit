@@ -63,6 +63,13 @@ Commands for creating and testing custom Claude Code extensions. [More info](../
 - `/customaize-agent:test-prompt` - Test any prompt (commands, hooks, skills, subagent instructions) using RED-GREEN-REFACTOR cycle with subagents
 - `/customaize-agent:apply-anthropic-skill-best-practices` - Comprehensive guide for skill development based on Anthropic's official best practices
 
+### Test-Driven Development (TDD)
+
+Test-first development methodology with agent-orchestrated coverage. [More info](../plugins/tdd/README.md).
+
+- `/tdd:write-tests` - Systematically add test coverage for local code changes using specialized review and development agents
+- `/tdd:fix-tests` - Fix failing tests after business logic changes or refactoring using orchestrated agents
+
 ### Docs
 
 Documentation management commands. [More info](../plugins/docs/README.md).
