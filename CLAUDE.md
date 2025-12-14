@@ -113,3 +113,29 @@ codemap --diff --ref develop
 | `codemap hook pre-compact` | PreCompact | Saves hub state to .codemap/hubs.txt |
 | `codemap hook session-stop` | SessionEnd | Edit timeline with line counts and stats |
 
+## Use Paper Search MCP for Academic Research
+
+Paper Search MCP is available via Docker MCP for searching and downloading academic papers.
+
+**Available tools**:
+
+- `search_arxiv` - Search arXiv preprints (physics, math, CS, etc.)
+- `search_pubmed` - Search PubMed biomedical literature
+- `search_biorxiv` / `search_medrxiv` - Search biology/medicine preprints
+- `search_semantic` - Search Semantic Scholar with year filters
+- `search_google_scholar` - Broad academic search
+- `search_iacr` - Search cryptography papers
+- `search_crossref` - Search by DOI/citation
+
+**Download and read tools**:
+
+- `download_arxiv` / `read_arxiv_paper` - Download/read arXiv PDFs
+- `download_biorxiv` / `read_biorxiv_paper` - Download/read bioRxiv PDFs
+- `download_semantic` / `read_semantic_paper` - Download/read via Semantic Scholar
+
+**Usage notes**:
+
+- Use `mcp-exec` to call tools, e.g., `mcp-exec name: "search_arxiv" arguments: {"query": "topic", "max_results": 10}`
+- Downloaded papers are saved to `./downloads` by default
+- For Semantic Scholar, supports multiple ID formats: DOI, ARXIV, PMID, etc.
+

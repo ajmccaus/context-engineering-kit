@@ -254,6 +254,76 @@ Key usage points:
 
 ---
 
+### Setting Up Academic Paper Search via Docker MCP
+
+**Scenario**: You're conducting research and need to search and read academic papers from arXiv, Semantic Scholar, and other sources.
+
+```bash
+# Set up paper search MCP via Docker MCP
+> /mcp:setup-arxiv-mcp
+```
+
+**Expected Flow**:
+
+1. Command checks if Docker MCP is available
+2. If not, guides you through Docker Desktop installation
+3. Searches for and adds `paper-search` MCP server from Docker catalog
+4. Activates the server's tools in your session
+5. Tests the connection with a sample search
+6. Updates CLAUDE.md with usage instructions
+
+**Setup Interaction**:
+
+```
+Checking Docker MCP availability...
+
+Note: The standard arxiv-mcp-server has known initialization issues.
+Using paper-search MCP server instead, which provides access to multiple academic sources.
+
+Adding paper-search MCP server...
+mcp-find query: "paper-search"
+mcp-add name: "paper-search" activate: true
+
+Testing connection...
+search_arxiv query: "test" max_results: 2
+
+Paper Search MCP is now configured!
+```
+
+**Using Paper Search**:
+
+```bash
+# Search arXiv for machine learning papers
+> mcp-exec name: "search_arxiv" arguments: {"query": "transformer attention mechanism", "max_results": 10}
+
+# Search Semantic Scholar with year filter
+> mcp-exec name: "search_semantic" arguments: {"query": "large language models", "year": "2023-", "max_results": 5}
+
+# Search cryptography papers
+> mcp-exec name: "search_iacr" arguments: {"query": "zero knowledge proofs", "max_results": 5}
+
+# Download and read a specific paper
+> mcp-exec name: "read_arxiv_paper" arguments: {"paper_id": "2106.12345"}
+
+# Search by DOI via CrossRef
+> mcp-exec name: "get_crossref_paper_by_doi" arguments: {"doi": "10.1038/nature12373"}
+```
+
+**Available Sources**:
+
+| Tool | Source | Best For |
+|------|--------|----------|
+| `search_arxiv` | arXiv | Physics, Math, CS preprints |
+| `search_pubmed` | PubMed | Biomedical literature |
+| `search_semantic` | Semantic Scholar | AI-powered search with year filters |
+| `search_biorxiv` | bioRxiv | Biology preprints |
+| `search_medrxiv` | medRxiv | Medical preprints |
+| `search_iacr` | IACR ePrint | Cryptography research |
+| `search_crossref` | CrossRef | DOI-based citation metadata |
+| `search_google_scholar` | Google Scholar | Broad academic search |
+
+---
+
 ### Building a Custom MCP Server for Slack Integration
 
 **Scenario**: Your team uses Slack extensively and you want the LLM to interact with Slack channels and messages.

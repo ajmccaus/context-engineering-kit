@@ -380,4 +380,5 @@ Commands for integrating Model Context Protocol servers with your project.
 - `/mcp:setup-context7-mcp` - Guide for setup Context7 MCP server to load documentation for specific technologies
 - `/mcp:setup-serena-mcp` - Guide for setup Serena MCP server for semantic code retrieval and editing capabilities
 - `/mcp:setup-codemap-cli` - Guide for setup Codemap CLI for intelligent codebase visualization and navigation
+- `/mcp:setup-arxiv-mcp` - Guide for setup arXiv/Paper Search MCP server via Docker MCP for academic paper search and retrieval from multiple sources
 - `/mcp:build-mcp` - Guide for creating high-quality MCP servers that enable LLMs to interact with external services
