@@ -18,7 +18,13 @@ This plugin provides five key commands:
 4. **arXiv/Paper Search MCP Setup** - Search and download academic papers from multiple sources
 5. **Build MCP** - Create custom MCP servers for any service or API
 
-Each command guide through the MCP setup processes and updates your project's CLAUDE.md file to ensure consistent MCP usage across your team.
+Each setup command supports configuration at multiple levels:
+
+- **Project level (shared)** - Configuration tracked in git, shared with team via `./CLAUDE.md`
+- **Project level (personal)** - Local configuration in `./CLAUDE.local.md`, not tracked in git
+- **User level (global)** - Configuration in `~/.claude/CLAUDE.md`, applies to all projects
+
+The command guides through the MCP setup process and updates the appropriate CLAUDE.md file based on your choice to ensure consistent MCP usage.
 
 ## Quick Start
 

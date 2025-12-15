@@ -434,7 +434,11 @@ Commands for setting up language and framework-specific best practices.
 
 ### MCP
 
-Commands for integrating Model Context Protocol servers with your project.
+Commands for integrating Model Context Protocol servers with your project. Each setup command supports configuration at multiple levels:
+
+- **Project level (shared)** - Configuration tracked in git, shared with team via `./CLAUDE.md`
+- **Project level (personal)** - Local configuration in `./CLAUDE.local.md`, not tracked in git
+- **User level (global)** - Configuration in `~/.claude/CLAUDE.md`, applies to all projects
 
 **How to install**
 
