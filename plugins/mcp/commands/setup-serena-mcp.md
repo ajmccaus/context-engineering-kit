@@ -60,20 +60,55 @@ Based on the loaded documentation:
    2. Check if onboarding was performered, if not then run it.
    3. Then try to read any file
 
+After adding MCP server, but before testings connection write to user this message EXACTLY:
+
+```markdown
+You must restart Claude Code to load the new MCP server:
+
+  1. Exit Claude Code console (type exit or press Ctrl+C)
+  2. Run claude --continue
+  3. Type "continue" to resume setup
+
+  After restart, I will:
+  - Verify Serena tools are accessible
+  - Run initial_instructions if needed
+  - Perform onboarding for this project (if not already done)
+
+```
+
 ## 5. Update CLAUDE.md file
 
-Use the path determined in step 1. Once Serena is successfully set up, update the appropriate CLAUDE.md file with the following content:
+Use the path determined in step 1. Once Serena is successfully set up, update the appropriate CLAUDE.md file with the following content EXACTLY:
 
 ```markdown
 ### Use Serena MCP for Semantic Code Analysis instead of regular code search and editing
 
 Serena MCP is available for advanced code retrieval and editing capabilities.
 
-- Use Serena's tools for precise code manipulation in structured codebases
-- Prefer symbol-based operations over file-based grep/sed operations
+**When to use Serena:**
+- Symbol-based code navigation (find definitions, references, implementations)
+- Precise code manipulation in structured codebases
+- Prefer symbol-based operations over file-based grep/sed when available
 
-Key usage points from initial_instructions:
-- // Write here list of key usage points from initial_instructions
+**Key tools:**
+- `find_symbol` - Find symbol by name across the codebase
+- `find_referencing_symbols` - Find all symbols that reference a given symbol
+- `list_symbols` - List all symbols in a file or scope
+- `get_symbol_source` - Get the source code of a specific symbol
+
+**Usage notes:**
+- Memory files can be manually reviewed/edited in `.serena/memories/`
+
+```
+
+Add this section, if server setup at user level (global):
+
+```markdown
+
+**Project setup (per project):**
+1. Run `serena project create --index` in your project directory
+2. Serena auto-detects language; creates `.serena/project.yml`
+3. First use triggers onboarding and creates memory files in `.serena/memories/`
 ```
 
 ## 6. Project initialization (if needed)
