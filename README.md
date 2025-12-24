@@ -14,7 +14,7 @@ The Claude Code plugin marketplace is based on prompts used daily by our company
 ## Key Features
 
 - **Simple to Use** - Easy to install and use without any dependencies. Contains automatically used skills and self-explanatory commands.
-- **Token-Efficient** - Carefully crafted prompts and architecture, preferring commands over skills, to minimize populating context with unnecessary information.
+- **Token-Efficient** - Carefully crafted prompts and architecture, preferring commands with sub-agents over skills when possible, to minimize populating context with unnecessary information.
 - **Quality-Focused** - Each plugin is focused on meaningfully improving agent results in a specific area.
 - **Granular** - Install only the plugins you need. Each plugin loads only its specific agents, commands, and skills. Each without overlap and redundant skills.
 - **Scientifically proven** - Plugins are based on proven techniques and patterns that were tested by well-trusted benchmarks and studies.
@@ -50,14 +50,28 @@ Each installed plugin loads only its specific agents, commands, and skills into 
 ### Step 3: Use Plugin
 
 ```bash
-# start claude code
-> claude "suggest how to improve codebase"
+# Use it after completing any task
+> claude "implement user authentication, then reflect"
 
-# Reflect on previous response and improve it if needed
-> /reflexion:reflect
+# Claude implements user authentication, then automatically runs /reflexion:reflect
+# It analyses results and suggests improvements
+# If issues are obvious, it will fix them immediately
+# If they are minor, it will suggest improvements that you can respond to
+> fix the issues
 
-# Identify issues and strategies to solve them, and update CLAUDE.md with this knowledge
+# If you would like it to avoid issues that were found during reflection, 
+# you can save the insights to project memory
 > /reflexion:memorize
+```
+
+Alternatively, you can use the `/reflexion:reflect` command directly:
+
+```bash
+> claude "fix the bug"
+# Claude fixes the bug
+
+> /reflexion:reflect
+# It will reflect on the bug fix and try to resolve found issues.
 ```
 
 ## Documentation
@@ -95,7 +109,7 @@ To view all available plugins:
 
 ### Reflexion
 
-Collection of commands that force the LLM to reflect on previous response and output.
+Collection of commands that force the LLM to reflect on previous response and output. Includes **automatic reflection hooks** that trigger when you include "reflect" in your prompt.
 
 **How to install**
 
@@ -108,6 +122,10 @@ Collection of commands that force the LLM to reflect on previous response and ou
 - `/reflexion:reflect` - Reflect on previous response and output, based on Self-refinement framework for iterative improvement with complexity triage and verification
 - `/reflexion:memorize` - Memorize insights from reflections and update the CLAUDE.md file with this knowledge. Curates insights from reflections and critiques into CLAUDE.md using Agentic Context Engineering
 - `/reflexion:critique` - Comprehensive multi-perspective review using specialized judges with debate and consensus building
+
+**Hooks**
+
+- **Automatic Reflection Hook** - Triggers `/reflexion:reflect` automatically when "reflect" appears in your prompt
 
 #### Based on papers
 

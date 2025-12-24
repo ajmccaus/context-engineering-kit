@@ -69,22 +69,19 @@ For complex features requiring architecture planning, use [Spec-Driven Developme
 Start by implementing your feature. Describe what you want to build and let the LLM write the code.
 
 ```bash
-claude "Add email validation to user registration"
+claude "Add email validation to user registration, then reflect"
 ```
 
-After LLM completes, review the generated code to ensure it addresses your requirements before proceeding.
+After LLM completes, the `/reflexion:reflect` command will be automatically triggered to have the LLM review its own work, identify potential issues, and suggest improvements.
 
-### 2. Reflect on implementation
+After it finish reflection and fixes, review the generated code to ensure it addresses your requirements before proceeding.
 
-Use the `/reflexion:reflect` command to have the LLM review its own work, identify potential issues, and suggest improvements.
+**Note**:
 
-```bash
-/reflexion:reflect
-```
+- If you not used automatic reflection in step 1, you can write `/reflexion:reflect` command manually to trigger reflection.
+- If you want deeper analysis from multiple perspectives, use `/reflexion:critique` instead.
 
-After LLM completes, it will apply improvements automatically. If you want deeper analysis from multiple perspectives, use `/reflexion:critique` instead.
-
-### 3. Write tests
+### 2. Write tests
 
 Use the `/tdd:write-tests` command to generate tests covering the changes you made. You can optionally specify areas to focus on.
 
@@ -100,7 +97,7 @@ Or with specific focus areas:
 
 After LLM completes, verify that all tests pass. If tests fail, ask the LLM to fix the issues before continuing.
 
-### 4. Review local changes
+### 3. Review local changes
 
 Use the `/code-review:review-local-changes` command to run a comprehensive multi-agent code review on your uncommitted changes.
 
@@ -110,7 +107,7 @@ Use the `/code-review:review-local-changes` command to run a comprehensive multi
 
 After LLM completes, review the findings organized by severity (Critical, High, Medium, Low). Address Critical and High priority issues before committing. You can ask the LLM to fix specific issues.
 
-### 5. Preserve learnings
+### 4. Preserve learnings
 
 Use the `/reflexion:memorize` command to save valuable insights and patterns discovered during development to your project memory.
 
@@ -126,7 +123,7 @@ Or with specific context:
 
 After LLM completes, the insights are saved to CLAUDE.md, making them available for future development sessions.
 
-### 6. Create commit
+### 5. Create commit
 
 Use the `/git:commit` command to create a well-formatted conventional commit with appropriate emoji.
 
@@ -138,6 +135,7 @@ After LLM completes, a commit is created with a descriptive message following co
 
 ## Tips
 
+- **Use automatic reflection**: Add "reflect" to your prompt for automatic quality verification (e.g., `"implement feature, reflect"`)
 - **Skip steps when appropriate**: For trivial changes, you may skip reflection or memorization
 - **Iterate when needed**: Run reflect and review multiple times for complex changes
 - **Fix before commit**: Always address Critical and High priority review findings before committing

@@ -32,14 +32,52 @@ On top of that, the plugin is based on the [Agentic Context Engineering](https:/
 /plugin install reflexion@NeoLabHQ/context-engineering-kit
 
 # Use it after completing any task
-> claude "implement user authentication"
-> /reflexion:reflect
+> claude "implement user authentication, then reflect"
 
-# Save insights to project memory
+# Claude implements user authentication, then automatically runs /reflexion:reflect
+# It analyses results and suggests improvements
+# If issues are obvious, it will fix them immediately
+# If they are minor, it will suggest improvements that you can respond to
+> fix the issues
+
+# If you would like it to avoid issues that were found during reflection, 
+# you can save the insights to project memory
 > /reflexion:memorize
 ```
 
+Alternatively, you can use the `/reflexion:reflect` command directly:
+
+```bash
+> claude "fix the bug"
+# Claude fixes the bug
+
+> /reflexion:reflect
+# It will reflect on the bug fix and try to resolve found issues.
+```
+
 [Usage Examples](./usage-examples.md)
+
+## Automatic Reflection with Hooks
+
+The plugin includes optional hooks that automatically trigger reflection when you include the word "reflect" in your prompt. This removes the need to manually run `/reflexion:reflect` after each task.
+
+### How It Works
+
+1. Include the word "reflect" anywhere in your prompt
+2. Claude completes your task
+3. The hook automatically triggers `/reflexion:reflect`
+4. Claude reviews and improves its work
+
+```bash
+# Automatic reflection triggered by "reflect" keyword
+> Fix the bug in auth.ts then reflect
+# Claude fixes the bug, then automatically reflects on the work
+
+> Implement the feature, reflect on your work
+# Same behavior - "reflect" triggers automatic reflection
+```
+
+**Important**: Only the exact word "reflect" triggers automatic reflection. Words like "reflection", "reflective", or "reflects" do not trigger it.
 
 ## Commands Overview
 
@@ -109,7 +147,6 @@ If confidence threshold isn't met, the command will iterate automatically.
 - Be specific - Provide context about what to focus on
 - Iterate when needed - Sometimes multiple reflection cycles are valuable
 - Capture learnings - Use `/reflexion:memorize` to preserve insights
-
 
 ### /reflexion:critique - Multi-Perspective Critique
 
@@ -258,4 +295,3 @@ The Reflexion plugin is based on peer-reviewed research demonstrating **8-21% im
 - **[Chain-of-Verification (CoVe)](https://arxiv.org/abs/2305.13888)** - Generate, verify, revise cycle
 - **[Tree of Thoughts (ToT)](https://arxiv.org/abs/2305.10601)** - Multiple reasoning path exploration
 - **[Process Reward Models](https://arxiv.org/abs/2211.07633)** - Step-by-step evaluation
-

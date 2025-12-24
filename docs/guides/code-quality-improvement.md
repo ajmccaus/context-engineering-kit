@@ -183,3 +183,21 @@ Use `/kaizen:cause-and-effect` (Fishbone analysis) when exploring causes across 
 - **Iterate PDCA cycles**: Multiple cycles are normal; each cycle builds on previous learnings
 - **Involve the right perspective**: Use `/reflexion:critique` for important decisions
 - **Preserve knowledge**: Always memorize significant insights to improve future work
+- **Use automatic reflection**: Add "reflect" to prompts for automatic quality verification (e.g., `"implement optimization, reflect"`)
+
+## Automatic Reflection with Hooks
+
+For streamlined workflows, use the Reflexion plugin's automatic hooks. Include "reflect" in your prompt and Claude will automatically review its work:
+
+```bash
+# Automatic reflection during improvement work
+> claude "Apply the performance optimizations from the PDCA plan, then reflect"
+# Claude applies changes and automatically verifies quality
+```
+
+This is especially useful for:
+- Quick verification after small changes
+- Integrating reflection into natural workflow
+- Ensuring quality without manual command steps
+
+See [Reflexion Plugin](../plugins/reflexion/README.md) for more details.

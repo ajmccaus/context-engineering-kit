@@ -2,7 +2,36 @@
 
 Real-world scenarios demonstrating effective use of the Reflexion plugin.
 
-## Examples
+## Automatic Reflection with Hooks
+
+The simplest way to use reflection is with the automatic hooks. Include the word "reflect" in your prompt and Claude will automatically reflect on its work.
+
+### Basic Automatic Reflection
+
+```bash
+# Automatic reflection - no manual command needed
+> claude "implement user authentication, then reflect"
+
+# Claude implements the feature, then automatically:
+# 1. Runs /reflexion:reflect
+# 2. Reviews its own work
+# 3. Fixes any issues found or suggests improvements
+```
+
+### Automatic Reflection in Workflows
+
+```bash
+# Feature implementation with automatic reflection
+> claude "add payment processing with Stripe, reflect on security"
+# Claude implements payment processing
+# Hook triggers automatic reflection focused on security
+
+# Bug fix with automatic verification
+> claude "fix the null pointer exception in user service, reflect"
+# Claude fixes the bug and automatically verifies the fix
+```
+
+## Manual Reflection Examples
 
 ### Quick Quality Check
 

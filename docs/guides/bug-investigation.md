@@ -111,6 +111,14 @@ Fix the rate limiting bug by adding proper Redis locking based on root cause ana
 
 After LLM completes, verify the fix addresses the actual root cause identified in steps 2-3, not just the surface symptoms. A proper fix should prevent the entire class of similar bugs, not just this specific instance.
 
+**Tip**: Add "reflect" to your prompt for automatic verification of the fix:
+
+```bash
+Fix the rate limiting bug by adding proper Redis locking based on root cause analysis, then reflect
+```
+
+Claude will implement the fix and automatically review it for correctness.
+
 ### 5. Review fix
 
 Use the `/code-review:review-local-changes` command to ensure the fix is correct and doesn't introduce new issues.
