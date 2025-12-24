@@ -81,3 +81,69 @@ Paper Search MCP is available via Docker MCP for searching and downloading acade
 - Downloaded papers are saved to `./downloads` by default
 - For Semantic Scholar, supports multiple ID formats: DOI, ARXIV, PMID, etc.
 
+## Use Minibeads for Task Tracking
+
+Minibeads is a task tracking tool that allow to create tasks as markdown files.
+
+You MUST: Use `"md create"` for issues, TodoWrite for simple single-session execution
+
+### Essential Commands
+
+#### Finding Work
+
+- `mb ready` - Show issues ready to work (no blockers)
+- `mb list --status=open` - All open issues
+- `mb list --status=in_progress` - Your active work
+- `mb show <id>` - Detailed issue view with dependencies
+
+#### Creating & Updating
+
+- `mb create "title" -t task|bug|feature -p 2 -d "description"` - New issue
+  - Priority: 0-4 or P0-P4 (0=critical, 2=medium, 4=backlog). NOT "high"/"medium"/"low"
+- `mb update <id> --status=in_progress` - Claim work
+- `mb update <id> --assignee=username` - Assign to someone
+- `mb close <id>` - Mark complete
+- `mb close <id1> <id2> ...` - Close multiple issues at once (more efficient)
+- `mb close <id> --reason=\"explanation\"` - Close with reason
+- **Tip**: When creating multiple issues/tasks/epics, use parallel subagents for efficiency
+
+#### Dependencies & Blocking
+
+- `mb dep add <issue> <depends-on>` - Add dependency (issue depends on depends-on)
+- `mb blocked` - Show all blocked issues
+- `mb show <id>` - See what's blocking/blocked by this issue
+
+### Common Workflows
+
+**Starting work:**
+
+```bash
+mb ready           # Find available work
+mb show <id>       # Review issue details
+mb update <id> --status=in_progress  # Claim it
+mb close <id1> <id2> ...    # Close all completed issues at once
+```
+
+**Creating dependent work:**
+
+```bash
+# Run mb create commands in parallel (use subagents for many items)
+mb create "Implement feature X" -t feature
+mb create "Write tests for X" -t task
+mb dep add cek-yyy cek-xxx  # Tests depend on Feature (Feature blocks tests)
+```
+
+### Examples
+
+**CREATING ISSUES**
+
+- mb create "Fix login bug"
+- mb create "Add auth" -p 0 -t feature
+- mb create "Write tests" -d "Unit tests for auth" --assignee alice
+
+**VIEWING ISSUES**
+
+- mb list       List all issues
+- mb list --status open  List by status
+- mb list --priority 0  List by priority (0-4, 0=highest)
+- mb show cek-1       Show issue details

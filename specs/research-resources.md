@@ -41,3 +41,9 @@ claude --agents '{
 [][Building the 14 Key Pillars of Agentic AI](https://levelup.gitconnected.com/building-the-14-key-pillars-of-agentic-ai-229e50f65986)
 [] Three of Thought and etc - Expand papers that used in reflect plugin as separate comamnds/skills/hooks
 [][Building Reliable RAG Pipelines Is Still Hard In 2025](https://medium.com/aiguys/building-reliable-rag-pipelines-is-still-hard-in-2025-9ba5fd92601c)
+[] LSP server integration with Claude Code
+[][Conductor: Google spec driven development kit](https://github.com/gemini-cli-extensions/conductor)
+[] Task tracking: https://github.com/hmans/beans https://github.com/rrnewton/minibeads https://github.com/steveyegge/beads
+[][Agent Skills for Context Engineering](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering)
+[][Agent search MCP](https://github.com/exa-labs/exa-mcp-server)
+[][First Principles Framework](https://github.com/m0n0x41d/quint-code)
