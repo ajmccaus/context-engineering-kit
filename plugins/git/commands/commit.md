@@ -1,6 +1,7 @@
 ---
 description: Create well-formatted commits with conventional commit messages and emoji
 argument-hint: Optional flags like --no-verify to skip pre-commit checks
+model: haiku
 ---
 
 # Claude Command: Commit
@@ -21,13 +22,14 @@ Or with options:
 
 ## What This Command Does
 
-1. Unless specified with `--no-verify`, automatically runs pre-commit checks like `pnpm lint` or simular depending on the project language.
-2. Checks which files are staged with `git status`
-3. If 0 files are staged, automatically adds all modified and new files with `git add`
-4. Performs a `git diff` to understand what changes are being committed
-5. Analyzes the diff to determine if multiple distinct logical changes are present
-6. If multiple distinct changes are detected, suggests breaking the commit into multiple smaller commits
-7. For each commit (or the single commit if not split), creates a commit message using emoji conventional commit format
+1. **Branch check**: Checks if current branch is `master` or `main`. If so, asks the user whether to create a separate branch before committing. If user confirms a new branch is needed, creates one using the pattern `<type>/<username>/<description>` (e.g., `feature/leovs09/add-new-command`)
+2. Unless specified with `--no-verify`, automatically runs pre-commit checks like `pnpm lint` or simular depending on the project language.
+3. Checks which files are staged with `git status`
+4. If 0 files are staged, automatically adds all modified and new files with `git add`
+5. Performs a `git diff` to understand what changes are being committed
+6. Analyzes the diff to determine if multiple distinct logical changes are present
+7. If multiple distinct changes are detected, suggests breaking the commit into multiple smaller commits
+8. For each commit (or the single commit if not split), creates a commit message using emoji conventional commit format
 
 ## Best Practices for Commits
 
@@ -153,6 +155,32 @@ Example of splitting commits:
 ## Command Options
 
 - `--no-verify`: Skip running the pre-commit checks (lint, build, generate:docs)
+
+## Branch Naming Convention
+
+When committing on `master` or `main`, the command will ask if you want to create a new branch. If yes, it creates a branch following this pattern:
+
+```
+<type>/<git-username>/<description>
+```
+
+**Components:**
+- `<type>`: The commit type (feature, fix, docs, refactor, perf, test, chore, etc.)
+- `<git-username>`: Your git username (obtained from `git config user.name` or the system username)
+- `<description>`: A kebab-case description of the change (e.g., `add-user-auth`, `fix-login-bug`)
+
+**Examples:**
+- `feature/leovs09/add-new-command`
+- `fix/johndoe/resolve-memory-leak`
+- `docs/alice/update-api-docs`
+- `refactor/bob/simplify-error-handling`
+- `chore/charlie/update-dependencies`
+
+**Workflow:**
+1. Command detects you're on `master` or `main`
+2. Asks: "You're on the main branch. Do you want to create a separate branch?"
+3. If "No": Proceeds with commit on current branch
+4. If "Yes": Analyzes your changes to determine the type, asks for a brief description, creates the branch, and proceeds with commit
 
 ## Important Notes
 
