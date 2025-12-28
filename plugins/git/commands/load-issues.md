@@ -1,6 +1,7 @@
 ---
 description: Load all open issues from GitHub and save them as markdown files
 argument-hint: None required - loads all open issues automatically
+allowed-tools: Bash(gh issue:*), Bash(mkdir:*), Write
 ---
 
 Load all open issues from the current GitHub repository and save them as markdown files in the `./specs/issues/` directory.
