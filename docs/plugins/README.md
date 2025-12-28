@@ -92,8 +92,9 @@ Task delegation pattern that dispatches fresh subagents with quality gates betwe
 * Fresh context for each task
 * Code review between tasks
 * Fast iteration with quality control
+* Multi-agent architecture patterns (supervisor, peer-to-peer, hierarchical)
 
-**When to use:** For complex features requiring multiple independent tasks.
+**When to use:** For complex features requiring multiple independent tasks or when single-agent context limits are exceeded.
 
 [Full Documentation](sadd/)
 
@@ -170,8 +171,10 @@ Tools for creating and refining Claude Code commands, skills, and hooks.
 * Skill development guide
 * Prompt testing framework
 * Anthropic best practices
+* Context engineering fundamentals (attention budget, progressive disclosure)
+* Agent evaluation frameworks (LLM-as-Judge, rubrics, bias mitigation)
 
-**When to use:** Creating custom plugins or extending Claude Code.
+**When to use:** Creating custom plugins, extending Claude Code, or optimizing agent performance.
 
 [Full Documentation](customaize-agent/)
 

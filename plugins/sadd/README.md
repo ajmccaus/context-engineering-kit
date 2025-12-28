@@ -199,3 +199,41 @@ Quality gates are enforced at key checkpoints:
 - **Important**: Fix before next task or batch
 - **Minor**: Note for later, do not block progress
 
+### multi-agent-patterns
+
+Use when single-agent context limits are exceeded, when tasks decompose naturally into subtasks, or when specializing agents improves quality.
+
+**Why Multi-Agent Architectures:**
+
+| Problem | Solution |
+|---------|----------|
+| **Context Bottleneck** | Partition work across multiple context windows |
+| **Sequential Bottleneck** | Parallelize independent subtasks across agents |
+| **Generalist Overhead** | Specialize agents with lean, focused context |
+
+**Architecture Patterns:**
+
+| Pattern | When to Use | Trade-offs |
+|---------|-------------|------------|
+| **Supervisor/Orchestrator** | Clear task decomposition, need human oversight | Central bottleneck, "telephone game" risk |
+| **Peer-to-Peer/Swarm** | Flexible exploration, emergent requirements | Coordination complexity, divergence risk |
+| **Hierarchical** | Large projects with layered abstraction | Overhead between layers, alignment challenges |
+
+**Example of Implementation:**
+
+```
+Supervisor Pattern:
+User Request → Supervisor → [Specialist A, B, C] → Aggregation → Output
+
+Key Insight: Sub-agents exist to isolate context, not to anthropomorphize roles
+```
+
+
+## Foundation
+
+The SADD plugin is based on the following foundation:
+
+### Agent Skills for Context Engineering
+
+- [Agent Skills for Context Engineering project](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering) by Murat Can Koylan.
+

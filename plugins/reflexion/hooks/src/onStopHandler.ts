@@ -36,6 +36,7 @@ export const stop: StopHandler = async (payload, sessionData) => {
     return { decision: "block", reason: DEFAULT_REFLECT_PROMPT }
 }
 
+// TODO: add exception for slash commands, like /reflexion:reflect. Should not trigger if `:` or `/` is present before `reflect`
 /**
  * Check if prompt contains word as a standalone word (not part of another word).
  * Uses word boundary regex to avoid matching "reflective" or "reflection" when looking for "reflect".

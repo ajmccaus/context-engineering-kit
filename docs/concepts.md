@@ -2,6 +2,13 @@
 
 Reference of terms and concepts used throughout Context Engineering Kit documentation.
 
+## What is Context Engineering?
+
+Context engineering is the discipline of managing the language model's context window. Unlike prompt engineering, which focuses on crafting effective instructions, context engineering addresses the holistic curation of all information that enters the model's limited attention budget: system prompts, tool definitions, retrieved documents, message history, and tool outputs.
+
+The fundamental challenge is that context windows are constrained not by raw token capacity but by attention mechanics. As context length increases, models exhibit predictable degradation patterns: the "lost-in-the-middle" phenomenon, U-shaped attention curves, and attention scarcity. Effective context engineering means finding the smallest possible set of high-signal tokens that maximize the likelihood of desired outcomes.
+
+
 ## Commands
 
 Commands are explicit actions you invoke manually to perform specific tasks. They follow the pattern `/plugin-name:command-name`. They include a prompt that will be loaded to the LLM and trigger it to perform a specific task.

@@ -44,6 +44,6 @@ claude --agents '{
 [] LSP server integration with Claude Code
 [][Conductor: Google spec driven development kit](https://github.com/gemini-cli-extensions/conductor)
 [] Task tracking: https://github.com/hmans/beans https://github.com/rrnewton/minibeads https://github.com/steveyegge/beads
-[][Agent Skills for Context Engineering](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering)
+[x][Agent Skills for Context Engineering](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering)
 [][Agent search MCP](https://github.com/exa-labs/exa-mcp-server)
 [][First Principles Framework](https://github.com/m0n0x41d/quint-code)

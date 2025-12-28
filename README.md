@@ -7,7 +7,7 @@
 
 # [Context Engineering Kit](https://cek.neolab.finance)
 
-Hand-crafted collection of advanced context engineering techniques and patterns with minimal token footprint, focused on improving agent result quality.
+Hand-crafted collection of advanced context engineering techniques and patterns with minimal token footprint, focused on improving agent result quality and predictability.
 
 The Claude Code plugin marketplace is based on prompts used daily by our company developers for a long time, while adding plugins from benchmarked papers and high-quality projects.
 
@@ -292,6 +292,7 @@ Skills for subagent-driven development with quality gates between tasks.
 **Skills**
 
 - **subagent-driven-development** - Dispatches fresh subagent for each task with code review between tasks, enabling fast iteration with quality gates
+- **multi-agent-patterns** - Design multi-agent architectures (supervisor, peer-to-peer, hierarchical) for complex tasks exceeding single-agent context limits
 
 ### Domain-Driven Development
 
@@ -421,6 +422,8 @@ Commands and skills for creating and refining Claude Code extensions.
 **Skills**
 
 - **prompt-engineering** - Well known prompt engineering techniques and patterns, includes Anthropic Best Practices and Agent Persuasion Principles
+- **context-engineering** - Deep understanding of context mechanics: attention budget, progressive disclosure, lost-in-middle effect, and practical optimization patterns
+- **agent-evaluation** - Evaluation frameworks for agent systems: LLM-as-Judge, multi-dimensional rubrics, bias mitigation, and the 95% performance finding
 
 ### Docs
 

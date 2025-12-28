@@ -15,6 +15,7 @@ Testing-first development methodology with Red-Green-Refactor cycle. [More info]
 Multi-agent task orchestration with quality gates between tasks. [More info](../plugins/sadd/README.md).
 
 - `subagent-driven-development` - Dispatches fresh subagent for each task with code review between tasks, enabling fast iteration with quality gates.
+- `multi-agent-patterns` - Design multi-agent architectures (supervisor/orchestrator, peer-to-peer/swarm, hierarchical) for complex tasks exceeding single-agent context limits.
 
 ### Domain-Driven Development (DDD)
 
@@ -33,3 +34,5 @@ Continuous improvement methodology with multiple analysis techniques. [More info
 Prompt engineering techniques and patterns for creating effective extensions. [More info](../plugins/customaize-agent/README.md).
 
 - `prompt-engineering` - Well-known prompt engineering techniques and patterns, includes Anthropic Best Practices and Agent Persuasion Principles.
+- `context-engineering` - Deep understanding of context mechanics in agent systems: attention budget, progressive disclosure, lost-in-middle effect, and practical optimization patterns.
+- `agent-evaluation` - Evaluation frameworks for agent systems including LLM-as-Judge techniques, multi-dimensional rubrics, bias mitigation, and the 95% performance finding.

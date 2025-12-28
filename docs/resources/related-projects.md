@@ -18,6 +18,14 @@ CEK builds upon and integrates ideas from these open-source projects:
 
 ---
 
+## Context Engineering & Agent Evaluation
+
+CEK's context engineering and agent evaluation skills integrate research from:
+
+- **[muratcankoylan/Agent-Skills-for-Context-Engineering](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering)** - Comprehensive skills for context engineering fundamentals, multi-agent architectures, and agent evaluation frameworks. Source for `context-engineering`, `agent-evaluation`, and `multi-agent-patterns` skills.
+
+---
+
 ## Spec-Driven Development Projects
 
 CEK's Spec-Driven Development (SDD) plugin integrates best practices from these established frameworks:

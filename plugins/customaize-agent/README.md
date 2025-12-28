@@ -508,6 +508,55 @@ Advanced prompt engineering techniques including Anthropic's official best pract
 - **Degrees of Freedom** - Match specificity to task fragility
 - **Progressive Disclosure** - Start simple, add complexity when needed
 
+### context-engineering
+
+Use when writing, editing, or optimizing commands, skills, or sub-agent prompts. Provides deep understanding of context mechanics in agent systems.
+
+**The Anatomy of Context:**
+
+| Component | Role | Key Insight |
+|-----------|------|-------------|
+| **System Prompts** | Core identity and constraints | Balance specificity vs flexibility ("right altitude") |
+| **Tool Definitions** | Available actions | Poor descriptions force guessing; optimize with examples |
+| **Retrieved Documents** | Domain knowledge | Use just-in-time loading, not pre-loading |
+| **Message History** | Conversation state | Can dominate context in long tasks |
+| **Tool Outputs** | Action results | Up to 83.9% of total context usage |
+
+**Key Principles:**
+
+- **Attention Budget** - Context is finite; every token depletes the budget
+- **Progressive Disclosure** - Load information only when needed
+- **Quality over Quantity** - Smallest high-signal token set wins
+- **Lost-in-Middle Effect** - Critical info at start/end, not middle
+
+**Practical Patterns:**
+
+- File-system based access for progressive disclosure
+- Hybrid strategies (pre-load some, load rest on-demand)
+- Explicit context budgeting with compaction triggers
+
+### agent-evaluation
+
+Use when testing prompt effectiveness, validating context engineering choices, or measuring agent improvement quality.
+
+**Evaluation Approaches:**
+
+- **LLM-as-Judge** - Direct scoring, pairwise comparison, rubric-based
+- **Outcome-Focused** - Judge results, not exact paths (agents may take valid alternative routes)
+- **Multi-Level Testing** - Simple to complex queries, isolated to extended interactions
+- **Bias Mitigation** - Position bias, verbosity bias, self-enhancement bias
+
+**Multi-Dimensional Evaluation Rubric:**
+
+| Dimension | Weight | What It Measures |
+|-----------|--------|------------------|
+| Instruction Following | 0.30 | Task adherence |
+| Output Completeness | 0.25 | Coverage of requirements |
+| Tool Efficiency | 0.20 | Optimal tool selection |
+| Reasoning Quality | 0.15 | Logical soundness |
+| Response Coherence | 0.10 | Structure and clarity |
+
+
 ## Foundation
 
 The Customaize Agent plugin is based on:
@@ -515,4 +564,8 @@ The Customaize Agent plugin is based on:
 ### Persuasion Research
 
 - **Meincke et al. (2025)** - Tested 7 persuasion principles with N=28,000 AI conversations. Persuasion techniques more than doubled compliance rates (33% to 72%, p < .001).
+
+### Agent Skills for Context Engineering
+
+- [Agent Skills for Context Engineering project](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering) by Murat Can Koylan.
 
