@@ -70,11 +70,13 @@ make set-marketplace-version VERSION=x.y.z     # Update marketplace version
 9. Bump marketplace version: `make set-marketplace-version VERSION=<x.y.z>`
 
 **Finding All References**: Before declaring documentation complete, search for all files referencing the plugin:
+
 ```bash
 grep -r "<plugin-name>" docs/ README.md --include="*.md" -l
 ```
 
 **Skill Documentation Pattern**:
+
 - Start with "Use when..." trigger phrase
 - Use tables for structured information (not prose)
 - Include key concepts with one-line explanations
@@ -131,6 +133,28 @@ You MUST: Use `"md create"` for issues, TodoWrite for simple single-session exec
 - `mb close <id1> <id2> ...` - Close multiple issues at once (more efficient)
 - `mb close <id> --reason=\"explanation\"` - Close with reason
 - **Tip**: When creating multiple issues/tasks/epics, use parallel subagents for efficiency
+
+#### Modifying Task Descriptions
+
+**Use Write tool instead of `mb update -d` for description changes:**
+
+Tasks are stored as markdown files in `.beads/issues/<id>.md` with this format:
+
+```yaml
+---
+[task frontmatter]
+---
+
+# Description
+
+[Task description content here]
+```
+
+**Why Write tool for descriptions?**
+
+- `mb update -d` replaces entire description (easy to lose content)
+- Write tool allows precise edits while preserving existing content
+- Better for large descriptions with multiple sections
 
 #### Dependencies & Blocking
 

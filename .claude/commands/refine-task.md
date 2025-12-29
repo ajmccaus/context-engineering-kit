@@ -23,6 +23,7 @@ This command transforms vague or incomplete tasks into actionable specifications
 ## Phase 1: Load and Understand Task
 
 1. **Get task details**:
+
    ```bash
    mb show $TASK_ID
    ```
@@ -73,21 +74,85 @@ Collect files useful for building context:
    - API references
    - Related specifications
 
-## Phase 4: Update Task
+## Phase 4: Update Task Description
 
-Use `mb update` to add comprehensive details:
+**Use Write tool to modify the task file directly** (NOT `mb update -d`):
 
-```bash
-mb update $TASK_ID -d "DETAILED_DESCRIPTION"
+1. **Locate the task file**: `.beads/issues/$TASK_ID.md`
+
+2. **Read the current file** to get frontmatter and existing content
+
+3. **Preserve the frontmatter** (title, status, priority, issue_type, created_at, updated_at)
+
+4. **Write the updated file** with new description content:
+
+```markdown
+---
+title: [KEEP EXISTING]
+status: [KEEP EXISTING]
+priority: [KEEP EXISTING]
+issue_type: [KEEP EXISTING]
+created_at: [KEEP EXISTING]
+updated_at: [UPDATE TO CURRENT TIME]
+---
+
+# Description
+
+**Initial User Prompt:**
+> [PRESERVE ORIGINAL USER REQUEST]
+
+---
+
+[YOUR REFINED SPECIFICATION HERE]
 ```
 
+**Why Write tool instead of `mb update -d`?**
+
+- `mb update -d` replaces entire description (risk of losing content)
+- Write tool allows precise edits while preserving existing content
+- Easier to maintain complex multi-section descriptions
+- No escaping issues with special characters
+
 </workflow>
+
+<critical_rule>
+
+## CRITICAL: Preserve Initial User Prompt
+
+**NEVER delete the initial user prompt from the task description.**
+
+When updating a task with `mb update`, you MUST:
+
+1. First extract the original user prompt from the existing description (look for "initial user prompt:" or similar)
+2. Include it at the TOP of the new description in this format:
+
+   ```
+   **Initial User Prompt:**
+   > [exact original user request]
+
+   ---
+   ```
+
+3. Then add your refined specification below
+
+The initial prompt is essential context that:
+
+- Preserves the original user intent
+- Allows future reviewers to understand what was actually requested
+- Provides context for acceptance criteria validation
+
+</critical_rule>
 
 <description_template>
 
 Structure the task description with these sections:
 
 ```markdown
+**Initial User Prompt:**
+> [EXACT original user request - NEVER omit this]
+
+---
+
 [Brief summary of what needs to be implemented]
 
 **Acceptance Criteria:**
@@ -104,31 +169,95 @@ Structure the task description with these sections:
 
 ## Files to be Modified/Created
 
-### Primary Changes:
-- `path/to/file.ext` - Description of changes
-- `path/to/new-file.ext` - NEW: Description
+Use tree-like file structure format for better readability:
 
-### Configuration Changes:
-- `path/to/config.json` - What to add/modify
+### Primary Changes
 
-### Documentation Updates:
-- `path/to/README.md` - Document the feature
-- `docs/path/to/guide.md` - Update guide
+` ` `
+path/to/plugin/
+├── agents/
+│   └── agent-name.md              # NEW: Agent description
+├── commands/
+│   ├── new-command.md             # NEW: Command description
+│   ├── existing-command.md        # UPDATE: What to change
+│   └── old-command.md             # DELETE: Merged into new-command
+└── tasks/
+    ├── task-one.md                # NEW: Task description
+    └── task-two.md                # NEW: Task description
+` ` `
+
+### Documentation Updates
+
+` ` `
+docs/
+├── plugins/
+│   └── plugin-name/
+│       └── README.md              # UPDATE: Document the feature
+└── guides/
+    └── relevant-guide.md          # UPDATE: Update guide
+` ` `
 
 ---
 
 ## Useful Resources for Implementation
 
-### Pattern References:
-- `path/to/similar/implementation.md` - Why useful
-- `path/to/example/code.ts` - Pattern to follow
+Use tree-like file structure format for better readability:
 
-### Documentation:
-- `docs/guides/relevant-guide.md` - Key concepts
-- Official docs: https://example.com/docs
+### Pattern References
 
-### Related Code:
-- `path/to/related/module/` - Context for integration
+` ` `
+plugins/
+├── similar-plugin/
+│   └── commands/
+│       └── similar-command.md     # Similar pattern to follow
+└── other-plugin/
+    └── agents/
+        └── example-agent.md       # Agent definition pattern
+` ` `
+
+### Documentation
+
+` ` `
+docs/
+├── guides/
+│   └── relevant-guide.md          # Key concepts
+└── reference/
+    └── relevant-ref.md            # Reference documentation
+` ` `
+
+### Related Code
+
+` ` `
+plugins/
+├── related-plugin/
+│   └── agents/                    # Multiple agent examples
+└── another-plugin/
+    └── commands/                  # Command examples
+` ` `
+
+--- 
+
+## Implementation process
+
+[Think in steps as detailed as possible how you would implement the task.]
+
+### Step 1: [Step title]
+[Step description]
+
+#### Expected output
+[List of expected output]
+#### Success criteria
+[List of success criteria]
+
+#### Subtasks
+[List of subtasks]
+
+#### Blockers
+[List of blockers]
+
+#### Risks
+[List of risks]
+
 ```
 
 </description_template>
@@ -136,6 +265,7 @@ Structure the task description with these sections:
 <checklist>
 Before completing refinement:
 
+- [ ] **Initial user prompt is preserved** at the top of the description
 - [ ] Task has clear, actionable description
 - [ ] Implementation requirements are specific
 - [ ] All affected files are identified with descriptions
@@ -149,21 +279,26 @@ Before completing refinement:
 User: /refine-task cek-673b
 
 **Phase 1: Loading task...**
+
 ```bash
 mb show cek-673b
 ```
+
 Task: "Add hooks to reflect plugin"
 
 **Phase 2: Analyzing codebase impact...**
 
 *Searching for reflexion plugin structure...*
+
 - Found: `plugins/reflexion/` with commands, plugin.json
 
 *Searching for hook implementation examples...*
+
 - Found: `plugins/customaize-agent/commands/create-hook.md`
 - Found: `plugins/mcp/commands/setup-codemap-cli.md` with hooks config
 
 *Identifying affected files...*
+
 - Primary: Plugin manifest, new hook script
 - Config: Settings.json for hook registration
 - Docs: README updates
@@ -171,23 +306,34 @@ Task: "Add hooks to reflect plugin"
 **Phase 3: Gathering resources...**
 
 *Pattern references:*
+
 - Hook creation guide in customaize-agent
 - Real hook example in MCP plugin
 
 *Documentation:*
+
 - Custom extensions guide
 - Official Claude Code hooks docs
 
-**Phase 4: Updating task...**
+**Phase 4: Updating task file...**
 
 ```bash
-mb update cek-673b -d "[comprehensive description with all sections]"
+# Read current task file
+Read .beads/issues/cek-673b.md
+
+# Write updated file with refined description
+Write .beads/issues/cek-673b.md with:
+- Preserved frontmatter
+- Initial user prompt at top
+- Comprehensive refined specification
 ```
 
 Task refined with:
+
 - Detailed specification
 - 5 files identified (3 to create, 2 to update)
 - 8 useful resources listed
+- Initial user prompt preserved
 </example_session>
 
 <output>
