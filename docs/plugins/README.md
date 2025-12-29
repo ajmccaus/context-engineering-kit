@@ -4,7 +4,7 @@ icon: grid-4
 
 # Plugins
 
-This directory contains comprehensive documentation for all 12 plugins in the Context Engineering Kit. Each plugin is designed to enhance Claude Code with specific capabilities focused on code quality, development workflows, and continuous improvement.
+This directory contains comprehensive documentation for all 13 plugins in the Context Engineering Kit. Each plugin is designed to enhance Claude Code with specific capabilities focused on code quality, development workflows, and continuous improvement.
 
 ## Quick Navigation
 
@@ -15,6 +15,7 @@ This directory contains comprehensive documentation for all 12 plugins in the Co
 * [Subagent-Driven Development](sadd/) - Task delegation with quality gates
 * [Domain-Driven Development](ddd/) - Code quality and architecture patterns
 * [Spec-Driven Development](sdd/) - Spec-Driven workflow
+* [First Principles Framework](fpf/) - Structured reasoning with ADI cycle
 * [Kaizen](kaizen/) - Continuous improvement and root cause analysis
 * [Customaize Agent](customaize-agent/) - Create and refine Claude Code extensions
 * [Docs](docs/) - Documentation management
@@ -111,6 +112,23 @@ Comprehensive Spec-Driven Development workflow using specialized agents for each
 **When to use:** For complex features requiring detailed specifications and planning.
 
 [Full Documentation](sdd/)
+
+#### First Principles Framework
+
+Structured reasoning methodology implementing the ADI (Abduction-Deduction-Induction) cycle for auditable decision-making.
+
+**Key Features:**
+
+* Hypothesis generation with competing alternatives
+* Logical verification and constraint checking
+* Empirical validation with evidence tracking
+* Trust calculus with Weakest Link principle
+* Design Rationale Records (DRRs)
+* Evidence freshness management
+
+**When to use:** For architectural decisions with long-term consequences requiring auditable reasoning trails.
+
+[Full Documentation](fpf/)
 
 ### Code Quality & Architecture
 

@@ -77,7 +77,7 @@ Search the FPF knowledge base and display hypothesis details with assurance info
 Search file contents for matching text:
 
 ```
-/q-query caching
+/fpf:query caching
 -> Finds all hypotheses with "caching" in title or content
 ```
 
@@ -86,7 +86,7 @@ Search file contents for matching text:
 Look up a specific hypothesis:
 
 ```
-/q-query redis-caching
+/fpf:query redis-caching
 -> Shows full details for redis-caching
 -> Displays dependency tree
 -> Shows R_eff breakdown
@@ -97,7 +97,7 @@ Look up a specific hypothesis:
 Filter by knowledge layer:
 
 ```
-/q-query L2
+/fpf:query L2
 -> Lists all L2 hypotheses with R_eff scores
 ```
 
@@ -106,7 +106,7 @@ Filter by knowledge layer:
 Search decision records:
 
 ```
-/q-query DRR
+/fpf:query DRR
 -> Lists all Design Rationale Records
 -> Shows what each DRR selected/rejected
 ```
@@ -141,7 +141,7 @@ Legend:
 
 **Search by keyword:**
 ```
-User: /q-query caching
+User: /fpf:query caching
 
 Results:
 | Hypothesis | Layer | R_eff |
@@ -153,7 +153,7 @@ Results:
 
 **Query specific hypothesis:**
 ```
-User: /q-query redis-caching
+User: /fpf:query redis-caching
 
 # redis-caching (L2)
 
@@ -166,7 +166,7 @@ Evidence: 2 files
 
 **Query decisions:**
 ```
-User: /q-query DRR
+User: /fpf:query DRR
 
 # Design Rationale Records
 

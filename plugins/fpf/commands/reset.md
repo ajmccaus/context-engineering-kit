@@ -73,7 +73,7 @@ Current state:
 - L1: 0 hypotheses
 - L2: 0 hypotheses
 
-Ready for new reasoning cycle. Run `/q1-hypothesize` to start.
+Ready for new reasoning cycle. Run `/fpf:propose-hypotheses` to start.
 ```
 
 ### Option 2: Hard Reset (Delete All)
@@ -119,7 +119,7 @@ mv .fpf/knowledge/L1/*.md .fpf/knowledge/L0/
 ## Example
 
 ```
-User: /q-reset
+User: /fpf:reset
 
 Agent: What type of reset would you like?
 
@@ -135,5 +135,5 @@ Agent: Creating session archive...
        Session archived. Knowledge directories cleared.
 
        Ready for new reasoning cycle.
-       Next step: Run `/q1-hypothesize` to start.
+       Next step: Run `/fpf:propose-hypotheses` to start.
 ```

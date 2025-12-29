@@ -59,7 +59,7 @@ Each installed plugin loads only its specific agents, commands, and skills into 
 # If they are minor, it will suggest improvements that you can respond to
 > fix the issues
 
-# If you would like it to avoid issues that were found during reflection to appear again, 
+# If you would like it to avoid issues that were found during reflection to appear again,
 # ask claude to extract resolution strategies and save the insights to project memory
 > /reflexion:memorize
 ```
@@ -68,7 +68,7 @@ Alternatively, you can use the `reflect` word in intial prompt:
 
 ```bash
 > claude "implement user authentication, then reflect"
-# Claude implements user authentication, 
+# Claude implements user authentication,
 # then hook automatically runs /reflexion:reflect
 ```
 
@@ -101,6 +101,7 @@ To view all available plugins:
 - [Subagent-Driven Development](https://cek.neolab.finance/plugins/sadd) - Introduces skills for subagent-driven development, dispatches fresh subagent for each task with code review between tasks, enabling fast iteration with quality gates.
 - [Domain-Driven Development](https://cek.neolab.finance/plugins/ddd) - Introduces commands to update CLAUDE.md with best practices for domain-driven development, focused on code quality, and includes Clean Architecture, SOLID principles, and other design patterns.
 - [Spec-Driven Development](https://cek.neolab.finance/plugins/sdd) - Introduces commands for specification-driven development, based on Github Spec Kit, OpenSpec and BMad Method. Uses specialized agents for effective context management and quality review.
+- [FPF - First Principles Framework](https://cek.neolab.finance/plugins/fpf) - Introduces structured reasoning using ADI cycle (Abduction-Deduction-Induction) with knowledge layer progression. Uses workflow command pattern with fpf-agent for hypothesis generation, verification, and auditable decision-making.
 - [Kaizen](https://cek.neolab.finance/plugins/kaizen) - Inspired by Japanese continuous improvement philosophy, Agile and Lean development practices. Introduces commands for analysis of root causes of issues and problems, including 5 Whys, Cause and Effect Analysis, and other techniques.
 - [Customaize Agent](https://cek.neolab.finance/plugins/customaize-agent) - Commands and skills for writing and refining commands, hooks, and skills for Claude Code. Includes Anthropic Best Practices and [Agent Persuasion Principles](https://arxiv.org/abs/2508.00614) that can be useful for sub-agent workflows.
 - [Docs](https://cek.neolab.finance/plugins/docs) - Commands for analyzing projects, writing and refining documentation.
@@ -188,7 +189,7 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: 
+    types:
     - opened
     - synchronize # remove if want to run only, when PR is opened
     # Uncomment to limit which files can trigger the workflow
@@ -218,7 +219,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      
+
       - name: Run Claude Code Review
         id: claude-review
         uses: anthropics/claude-code-action@v1
@@ -229,7 +230,7 @@ jobs:
 
           plugin_marketplaces: https://github.com/NeoLabHQ/context-engineering-kit.git
           plugins: "code-review@context-engineering-kit\ngit@context-engineering-kit\ntdd@context-engineering-kit\nsadd@context-engineering-kit\nddd@context-engineering-kit\nsdd@context-engineering-kit\nkaizen@context-engineering-kit"
-          
+
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
@@ -238,7 +239,7 @@ jobs:
             Do not analyze or read PR, code or anything else UNTIL you have read the command!
 
             Note: The PR branch is already checked out in the current working directory.
-          
+
           # SlashCommand and Bash(gh pr comment:*) is required for review, the rest is optional, but recommended for better context and quality of the review.
           claude_args: '--allowed-tools "SlashCommand,Bash,Glob,Grep,Read,Task,mcp__github_inline_comment__create_inline_comment,Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr edit:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*),Bash(gh api:*)"'
 ```
@@ -376,6 +377,59 @@ Supporting research and techniques:
 
 - [Specification-Driven Development](https://en.wikipedia.org/wiki/Design_by_contract) - Design by contract and formal specification approaches
 - [Verbalized Sampling](https://arxiv.org/abs/2510.01171) - Training-free prompting for diverse idea generation. Achieves **2-3x diversity improvement** while maintaining quality. Used for `create-ideas`, `brainstorm` and `plan` commands.
+
+### FPF - First Principles Framework
+
+Structured reasoning using the First Principles Framework (FPF) methodology. Uses workflow command pattern with specialized fpf-agent for hypothesis generation, verification, and auditable decision-making.
+
+**How to install**
+
+```bash
+/plugin install fpf@NeoLabHQ/context-engineering-kit
+```
+
+#### Usage workflow
+
+```bash
+# Execute complete FPF cycle from hypothesis to decision
+/fpf:propose-hypotheses What caching strategy should we use?
+
+# The workflow will:
+# 1. Initialize context and .fpf/ directory
+# 2. Generate competing hypotheses
+# 3. Allow you to add your own alternatives
+# 4. Verify each against project constraints (parallel)
+# 5. Validate with evidence (parallel)
+# 6. Compute trust scores (parallel)
+# 7. Present comparison for your decision
+```
+
+**Commands**
+
+- `/fpf:propose-hypotheses` - Execute complete FPF cycle from hypothesis to decision (main workflow)
+- `/fpf:status` - Show current FPF phase and hypothesis counts
+- `/fpf:query` - Search knowledge base with assurance info
+- `/fpf:decay` - Manage evidence freshness (refresh/deprecate/waive)
+- `/fpf:actualize` - Reconcile knowledge with codebase changes
+- `/fpf:reset` - Archive session and return to IDLE
+
+**Agent**
+
+- **fpf-agent** - FPF reasoning specialist for hypothesis generation, verification, validation, and trust calculus using ADI cycle and knowledge layer progression
+
+#### Key Concepts
+
+| Concept | Description |
+|---------|-------------|
+| **ADI Cycle** | Abduction-Deduction-Induction reasoning loop |
+| **Knowledge Layers** | L0 (Conjecture) -> L1 (Substantiated) -> L2 (Corroborated) |
+| **WLNK** | Weakest Link principle: R_eff = min(evidence_scores) |
+| **Transformer Mandate** | AI generates options; humans decide |
+
+#### Based on
+
+- [FPF Repository](https://github.com/ailev/FPF) - Original methodology by Anatoly Levenchuk
+- [quint-code](https://github.com/m0n0x41d/quint-code) - Implementation this plugin is based on
 
 ### Kaizen
 

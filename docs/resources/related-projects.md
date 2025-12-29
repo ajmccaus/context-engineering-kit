@@ -26,6 +26,19 @@ CEK's context engineering and agent evaluation skills integrate research from:
 
 ---
 
+## First Principles Framework
+
+CEK's FPF plugin implements structured reasoning methodology from:
+
+- **[m0n0x41d/quint-code](https://github.com/m0n0x41d/quint-code)** - CLI tool implementing the First Principles Framework (FPF) for AI-assisted development with structured reasoning, hypothesis generation, and auditable decisions. Source for the `fpf` plugin's ADI cycle workflow and utility commands.
+- **[ailev/FPF](https://github.com/ailev/FPF)** - Original First Principles Framework methodology by Anatoly Levenchuk, providing the theoretical foundation for structured reasoning and trust calculus.
+
+The FPF plugin adapts the quint-code approach into a workflow-based architecture:
+- **Workflow command** (`/fpf:propose-hypotheses`) - Orchestrates the complete ADI cycle using sub-agents
+- **Utility commands** (`/fpf:status`, `/fpf:query`, `/fpf:decay`, `/fpf:actualize`, `/fpf:reset`) - Manage knowledge base state and maintenance
+
+---
+
 ## Spec-Driven Development Projects
 
 CEK's Spec-Driven Development (SDD) plugin integrates best practices from these established frameworks:

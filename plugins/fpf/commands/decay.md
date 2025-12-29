@@ -2,9 +2,7 @@
 description: "Manage evidence freshness"
 ---
 
-# q-decay: Evidence Freshness Management
-
-## Intent
+# Evidence Freshness Management
 
 Manages **evidence freshness** by identifying stale decisions and providing governance actions. Implements FPF B.3.4 (Evidence Decay).
 
@@ -18,7 +16,7 @@ Manages **evidence freshness** by identifying stale decisions and providing gove
 
 Every piece of evidence has a `valid_until` date. A benchmark from 6 months ago may no longer reflect current system performance. A security audit from before a major dependency update doesn't account for new vulnerabilities.
 
-When evidence expires, the decision it supports becomes **questionable** — not necessarily wrong, just unverified.
+When evidence expires, the decision it supports becomes **questionable** - not necessarily wrong, just unverified.
 
 ### What is "waiving"?
 
@@ -29,7 +27,7 @@ Use it when:
 - The evidence is only slightly expired and probably still valid
 - You have a scheduled date to refresh it properly
 
-A waiver is NOT ignoring the problem — it's **explicitly documenting** that you know about the risk and accept it until a specific date.
+A waiver is NOT ignoring the problem - it's **explicitly documenting** that you know about the risk and accept it until a specific date.
 
 ### The Three Actions
 
@@ -86,12 +84,12 @@ A waiver is NOT ignoring the problem — it's **explicitly documenting** that yo
 
 Based on user response, perform one of:
 
-#### Refresh (via /q3-validate)
+#### Refresh
 
 User: "Refresh the redis caching evidence"
 
 1. Navigate to the hypothesis in `.fpf/knowledge/L2/`
-2. Run `/q3-validate redis-caching` to create fresh evidence
+2. Re-run validation to create fresh evidence
 
 #### Deprecate
 
@@ -115,7 +113,7 @@ created: 2025-01-15T10:00:00Z
 
 **Reason**: Evidence expired, technology landscape changed
 
-**Next Steps**: Run `/q1-hypothesize` to explore alternatives
+**Next Steps**: Run `/fpf:propose-hypotheses` to explore alternatives
 ```
 
 3. Move the hypothesis file:
@@ -160,7 +158,7 @@ created: 2025-01-15T10:00:00Z
 ### Example Workflow
 
 ```
-User: /q-decay
+User: /fpf:decay
 
 Agent shows report with stale evidence
 
@@ -176,7 +174,7 @@ User: The vendor API is being discontinued. Deprecate that decision.
 Agent: Deprecating hypothesis-vendor-api from L2 to L1.
        [Moves file, creates deprecation record]
 
-       Next step: Run /q1-hypothesize to explore alternatives.
+       Next step: Run /fpf:propose-hypotheses to explore alternatives.
 ```
 
 ---
@@ -208,13 +206,13 @@ Files created in `.fpf/evidence/`:
 
 ### Weekly Maintenance
 ```
-/q-decay                    # See what's stale
+/fpf:decay                    # See what's stale
 # For each stale item: refresh, deprecate, or waive
 ```
 
 ### Pre-Release
 ```
-/q-decay                    # Check for stale decisions
+/fpf:decay                    # Check for stale decisions
 # Either refresh evidence or explicitly waive with documented rationale
 # Waiver rationales become part of release documentation
 ```
@@ -222,7 +220,7 @@ Files created in `.fpf/evidence/`:
 ### After Major Change
 ```
 # Dependency update, API change, security advisory...
-/q-decay                    # See what's affected
+/fpf:decay                    # See what's affected
 # Deprecate obsolete decisions
 # Start new hypothesis cycle for replacements
 ```

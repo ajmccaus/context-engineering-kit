@@ -1,14 +1,12 @@
 ---
-description: "Reconcile the project's FPF state with recent repository changes."
+description: "Reconcile the project's FPF state with recent repository changes"
 ---
 
 # Actualize Knowledge Base
 
-This command is a core part of maintaining a living assurance case. It helps you keep your FPF knowledge base (`.fpf/`) in sync with the evolving reality of your project's codebase.
+This command is a core part of maintaining a living assurance case. It keeps your FPF knowledge base (`.fpf/`) in sync with the evolving reality of your project's codebase.
 
 The command performs a three-part audit against recent git changes to surface potential context drift, stale evidence, and outdated decisions. This aligns with the **Observe** phase of the FPF Canonical Evolution Loop (B.4) and helps manage **Epistemic Debt** (B.3.4).
-
-The LLM persona for this command is the **Actualizer**.
 
 ## Action (Run-Time)
 
@@ -95,7 +93,7 @@ The following configuration files have changed:
 | ev-test-auth | auth-module | src/auth/login.ts |
 | ev-perf-db | db-indexing | migrations/002.sql |
 
-**Action Required**: Run `/q3-validate` to refresh evidence for affected hypotheses.
+**Action Required**: Re-validate to refresh evidence for affected hypotheses.
 
 ### Decisions to Review (1 item)
 
@@ -103,7 +101,7 @@ The following configuration files have changed:
 |-----|-------------|
 | DRR-2025-01-10-api-design | src/api/handler.ts changed |
 
-**Action Required**: Consider re-evaluating decision via `/q1-hypothesize`.
+**Action Required**: Consider re-evaluating decision via `/fpf:propose-hypotheses`.
 
 ### Summary
 
@@ -111,7 +109,7 @@ The following configuration files have changed:
 - Stale evidence: 3 items
 - Decisions to review: 1 item
 
-Run `/q-decay` for detailed freshness management.
+Run `/fpf:decay` for detailed freshness management.
 ```
 
 ## File: .fpf/.baseline

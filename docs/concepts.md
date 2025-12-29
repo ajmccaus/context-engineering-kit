@@ -136,6 +136,133 @@ Launch code explorer agent to trace authentication flow
 Launch software architect Opus agent to design caching strategy
 ```
 
+---
+
+## Workflow Commands
+
+Workflow commands orchestrate multi-step processes using sub-agents, automating complex reasoning cycles that would otherwise require manual invocation of multiple commands.
+
+### What Are Workflow Commands?
+
+Workflow commands combine multiple sub-tasks into a single invocation:
+
+- **Orchestrate sub-agents** - Launch specialized agents for each step
+- **Handle transitions** - Manage state between phases automatically
+- **Preserve audit trails** - Document intermediate results
+- **Support iteration** - Allow user intervention at key decision points
+
+### Example: FPF Propose-Hypotheses Workflow
+
+The FPF plugin's `/fpf:propose-hypotheses` command demonstrates this pattern:
+
+```
+/fpf:propose-hypotheses How should we implement caching?
+       │
+       ├── Step 1: Initialize Context (FPF Agent)
+       │   └── Creates .fpf/context.md
+       │
+       ├── Step 2: Generate Hypotheses (FPF Agent)
+       │   └── Creates L0 hypothesis files
+       │
+       ├── Step 3: Present Summary (Main Agent)
+       │   └── User can add own hypotheses
+       │
+       ├── Step 4: Verify Logic (Parallel FPF Agents)
+       │   └── Promotes valid hypotheses L0 -> L1
+       │
+       ├── Step 5: Validate Evidence (Parallel FPF Agents)
+       │   └── Promotes corroborated hypotheses L1 -> L2
+       │
+       ├── Step 6: Audit Trust (Parallel FPF Agents)
+       │   └── Computes R_eff scores
+       │
+       └── Step 7: Make Decision (FPF Agent)
+           └── Creates Design Rationale Record
+```
+
+### Benefits of Workflow Commands
+
+| Benefit | Description |
+|---------|-------------|
+| **Reduced cognitive load** | User doesn't need to remember command sequence |
+| **Consistent execution** | Same process every time, reducing errors |
+| **Parallel processing** | Multiple agents work simultaneously where possible |
+| **Auditable results** | Intermediate artifacts preserved for review |
+| **User control** | Decision points allow course correction |
+
+### When to Use Workflow vs Individual Commands
+
+| Use Case | Approach |
+|----------|----------|
+| Complete end-to-end process | Workflow command |
+| Check current state | Utility command (`/fpf:status`) |
+| Manage specific aspect | Utility command (`/fpf:decay`) |
+| Iterate on single phase | Individual task prompts |
+
+---
+
+## First-Principles Reasoning (FPF)
+
+The First Principles Framework (FPF) provides structured reasoning for complex decisions. Rather than jumping to solutions, FPF enforces systematic hypothesis generation, logical verification, and evidence-based validation.
+
+### ADI Cycle
+
+FPF follows the Abduction-Deduction-Induction reasoning cycle:
+
+| Phase | Action | Output |
+|-------|--------|--------|
+| **Abduction** | Generate candidate explanations | L0 hypotheses (conjectures) |
+| **Deduction** | Verify logical consistency | L1 hypotheses (substantiated) |
+| **Induction** | Validate against evidence | L2 hypotheses (corroborated) |
+
+This cycle ensures that hypotheses progress through increasing levels of confidence before informing decisions.
+
+### Knowledge Layers (L0/L1/L2)
+
+FPF tracks epistemic status through knowledge layers:
+
+| Layer | Status | Meaning |
+|-------|--------|---------|
+| **L0** | Conjecture | Hypothesis generated but unverified |
+| **L1** | Substantiated | Passed logical consistency checks |
+| **L2** | Corroborated | Validated by empirical evidence |
+| **Invalid** | Falsified | Failed verification or validation |
+
+Hypotheses progress through layers as they accumulate verification:
+- L0 -> L1: Logical deduction passes
+- L1 -> L2: Evidence gathering confirms
+- Any layer -> Invalid: Verification or validation fails
+
+### Trust Calculus and R_eff
+
+FPF computes effective reliability (R_eff) using the **Weakest Link principle**:
+
+```
+R_eff = min(evidence_scores)
+```
+
+This means a hypothesis is only as reliable as its weakest supporting evidence. Key factors:
+
+| Factor | Description |
+|--------|-------------|
+| **Evidence Score** | Reliability rating of each evidence source |
+| **Congruence Level** | How closely evidence context matches current context (CL3=same, CL1=different) |
+| **Evidence Freshness** | Age of evidence affects reliability (decay over time) |
+
+The trust calculus ensures decisions are based on computed reliability, not estimated confidence.
+
+### Transformer Mandate
+
+A core FPF principle: **A system cannot transform itself.**
+
+- AI generates options with computed evidence scores
+- Human makes the final decision
+- Autonomous architectural choices are a protocol violation
+
+This separation ensures accountability and prevents unsupervised AI decisions on consequential matters.
+
+---
+
 ## Working with CLAUDE.md
 
 The `CLAUDE.md` file is your project's living memory - a central repository of project-specific knowledge, patterns, and insights that persists across sessions.
@@ -227,4 +354,3 @@ Several plugins read from and write to `CLAUDE.md`:
 - Core architectural principles
 - Technology stack decisions
 - Development standards
-

@@ -52,7 +52,7 @@ Based on hypothesis distribution: ABDUCTION | DEDUCTION | INDUCTION | DECISION |
 ### Warnings
 
 - 1 evidence file is EXPIRED: ev-benchmark-old-2024-06-15
-- Consider running `/q-decay` to review stale evidence
+- Consider running `/fpf:decay` to review stale evidence
 
 ### Recent Decisions
 
@@ -65,14 +65,14 @@ Based on hypothesis distribution: ABDUCTION | DEDUCTION | INDUCTION | DECISION |
 
 Determine current phase by examining the knowledge base state:
 
-| Condition | Phase |
-|-----------|-------|
-| No `.fpf/` directory | NOT INITIALIZED (run `/q0-init`) |
-| L0 > 0, L1 = 0, L2 = 0 | ABDUCTION (run `/q2-verify`) |
-| L1 > 0, L2 = 0 | DEDUCTION (run `/q3-validate`) |
-| L2 > 0, no recent DRR | INDUCTION (run `/q4-audit` then `/q5-decide`) |
-| Recent DRR exists | DECISION COMPLETE |
-| All empty | IDLE (run `/q1-hypothesize`) |
+| Condition | Phase | Next Step |
+|-----------|-------|-----------|
+| No `.fpf/` directory | NOT INITIALIZED | Run `/fpf:propose-hypotheses` |
+| L0 > 0, L1 = 0, L2 = 0 | ABDUCTION | Continue with verification |
+| L1 > 0, L2 = 0 | DEDUCTION | Continue with validation |
+| L2 > 0, no recent DRR | INDUCTION | Continue with audit and decision |
+| Recent DRR exists | DECISION COMPLETE | Review decision |
+| All empty | IDLE | Run `/fpf:propose-hypotheses` |
 
 ## Evidence Freshness Check
 
@@ -84,7 +84,7 @@ For each evidence file in `.fpf/evidence/`:
    - **Stale**: `valid_until` > today but < today + 30 days
    - **Expired**: `valid_until` < today
 
-If any evidence is stale or expired, warn the user and suggest `/q-decay`.
+If any evidence is stale or expired, warn the user and suggest `/fpf:decay`.
 
 ## Example Output
 
@@ -94,7 +94,7 @@ If any evidence is stale or expired, warn the user and suggest `/q-decay`.
 ### Current Phase: DEDUCTION
 
 You have 3 hypotheses in L0 awaiting verification.
-Next step: Run `/q2-verify` to process L0 hypotheses.
+Next step: Continue the FPF workflow to process L0 hypotheses.
 
 ### Hypothesis Counts
 
