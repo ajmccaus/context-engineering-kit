@@ -128,12 +128,12 @@ Techniques that were used to enhance the quality of the competitive execution pa
 The competitive execution pattern combines insights from:
 
 **Academic Research:**
-- Multi-Agent Debate (Du et al., 2023) - Diverse perspectives improve reasoning
-- Self-Consistency with CoT (Wang et al., 2022) - Multiple reasoning paths improve reliability
-- Tree of Thoughts (Yao et al., 2023) - Exploration of solution branches before commitment
-- Constitutional AI (Bai et al., 2022) - Self-critique loops catch 40-60% of issues before review
-- Chain-of-Verification (Dhuliawala et al., 2023) - Structured verification reduces bias
-- LLM-as-a-Judge (Zheng et al., 2023) - Structured evaluation rubrics
+- [Multi-Agent Debate](https://arxiv.org/abs/2305.14325) (Du et al., 2023) - Diverse perspectives improve reasoning
+- [Self-Consistency](https://arxiv.org/abs/2203.11171) (Wang et al., 2022) - Multiple reasoning paths improve reliability
+- [Tree of Thoughts](https://arxiv.org/abs/2305.10601) (Yao et al., 2023) - Exploration of solution branches before commitment
+- [Constitutional AI](https://arxiv.org/abs/2212.08073) (Bai et al., 2022) - Self-critique loops catch 40-60% of issues before review
+- [Chain-of-Verification](https://arxiv.org/abs/2309.11495) (Dhuliawala et al., 2023) - Structured verification reduces bias
+- [LLM-as-a-Judge](https://arxiv.org/abs/2306.05685) (Zheng et al., 2023) - Structured evaluation rubrics
 
 **Engineering Practices:**
 - Design Studio Method - Parallel design, critique, synthesis
@@ -230,11 +230,11 @@ Phase 5: Synthesis (Only if FULL_SYNTHESIS)           │
 #### Theoretical Foundation
 
 Based on:
-- **Tree of Thoughts** (Yao et al., 2023) - Systematic exploration and pruning
-- **Self-Consistency** (Wang et al., 2023) - Multiple reasoning paths
-- **Constitutional AI** (Bai et al., 2022) - Critique and refinement
-- **LLM-as-Judge** (Zheng et al., 2023) - Multi-perspective evaluation
-- **Chain-of-Verification** (Dhuliawala et al., 2023) - Structured verification reduces bias
+- **[Tree of Thoughts](https://arxiv.org/abs/2305.10601)** (Yao et al., 2023) - Systematic exploration and pruning
+- **[Self-Consistency](https://arxiv.org/abs/2203.11171)** (Wang et al., 2023) - Multiple reasoning paths
+- **[Constitutional AI](https://arxiv.org/abs/2212.08073)** (Bai et al., 2022) - Critique and refinement
+- **[LLM-as-Judge](https://arxiv.org/abs/2306.05685)** (Zheng et al., 2023) - Multi-perspective evaluation
+- **[Chain-of-Verification](https://arxiv.org/abs/2309.11495)** (Dhuliawala et al., 2023) - Structured verification reduces bias
 
 ### judge-with-debate - Multi-Agent Debate Evaluation
 
@@ -347,9 +347,9 @@ Phase 2: Debate Round (iterative)   │
 #### Theoretical Foundation
 
 Based on:
-- **Multi-Agent Debate** (Du et al., 2023) - Adversarial critique improves reasoning accuracy
-- **LLM-as-a-Judge** (Zheng et al., 2023) - Pairwise comparison and structured evaluation
-- **Chain-of-Verification** (Dhuliawala et al., 2023) - Self-verification reduces bias
+- **[Multi-Agent Debate](https://arxiv.org/abs/2305.14325)** (Du et al., 2023) - Adversarial critique improves reasoning accuracy
+- **[LLM-as-a-Judge](https://arxiv.org/abs/2306.05685)** (Zheng et al., 2023) - Pairwise comparison and structured evaluation
+- **[Chain-of-Verification](https://arxiv.org/abs/2309.11495)** (Dhuliawala et al., 2023) - Self-verification reduces bias
 - **Deliberative Democracy** - Argumentation and evidence-based consensus building
 
 **Key Insight**: Debate forces judges to explicitly defend positions with evidence and consider counter-arguments, reducing individual bias and improving calibration.
@@ -463,9 +463,9 @@ Phase 3: Validation & Report
 #### Theoretical Foundation
 
 Based on:
-- **LLM-as-a-Judge** (Zheng et al., 2023) - Structured evaluation rubrics with calibrated scoring
-- **Chain-of-Thought** (Wei et al., 2022) - Reasoning before conclusion improves accuracy
-- **Constitutional AI** (Bai et al., 2022) - Self-critique and verification loops
+- **[LLM-as-a-Judge](https://arxiv.org/abs/2306.05685)** (Zheng et al., 2023) - Structured evaluation rubrics with calibrated scoring
+- **[Chain of Thought Prompting](https://arxiv.org/abs/2201.11903)** (Wei et al., 2022) - Reasoning before conclusion improves accuracy
+- **[Constitutional AI](https://arxiv.org/abs/2212.08073)** (Bai et al., 2022) - Self-critique and verification loops
 
 ## Skills Overview
 
@@ -680,14 +680,14 @@ The SADD plugin is based on the following foundations:
 ### Research Papers
 
 **Multi-Agent Patterns:**
-- Du, Y., et al. (2023). "Improving Factuality and Reasoning in Language Models through Multiagent Debate"
-- Wang, X., et al. (2022). "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
-- Yao, S., et al. (2023). "Tree of Thoughts: Deliberate Problem Solving with Large Language Models"
+- [Multi-Agent Debate](https://arxiv.org/abs/2305.14325) - Du, Y., et al. (2023)
+- [Self-Consistency](https://arxiv.org/abs/2203.11171) - Wang, X., et al. (2022)
+- [Tree of Thoughts](https://arxiv.org/abs/2305.10601) - Yao, S., et al. (2023)
 
 **Evaluation and Critique:**
-- Bai, Y., et al. (2022). "Constitutional AI: Harmlessness from AI Feedback" - Self-critique loops
-- Zheng, L., et al. (2023). "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" - Structured evaluation
-- Dhuliawala, S., et al. (2023). "Chain-of-Verification Reduces Hallucination in Large Language Models" - Verification loops
+- [Constitutional AI](https://arxiv.org/abs/2212.08073) - Bai, Y., et al. (2022). Self-critique loops
+- [LLM-as-a-Judge](https://arxiv.org/abs/2306.05685) - Zheng, L., et al. (2023). Structured evaluation
+- [Chain-of-Verification](https://arxiv.org/abs/2309.11495) - Dhuliawala, S., et al. (2023). Verification loops
 
 ### Engineering Methodologies
 

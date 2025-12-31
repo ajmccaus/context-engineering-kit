@@ -45,6 +45,27 @@ Comprehensive documentation of all academic papers that inform the Context Engin
 
 **Primary Papers**:
 - [Process Reward Models](https://arxiv.org/abs/2305.20050) - Step verification
+- [Chain of Thought Prompting](https://arxiv.org/abs/2201.11903) - Step-by-step reasoning
+
+### SADD Plugin
+
+**Primary Papers**:
+- [Multi-Agent Debate](https://arxiv.org/abs/2305.14325) - Multi-agent collaboration
+- [Self-Consistency](https://arxiv.org/abs/2203.11171) - Multiple reasoning paths
+- [Tree of Thoughts](https://arxiv.org/abs/2305.10601) - Systematic exploration
+- [Chain of Thought Prompting](https://arxiv.org/abs/2201.11903) - Explicit reasoning steps
+
+**Supporting Papers**:
+- [Constitutional AI](https://arxiv.org/abs/2212.08073) - Self-critique loops
+- [Chain-of-Verification](https://arxiv.org/abs/2309.11495) - Verification loops
+- [LLM-as-a-Judge](https://arxiv.org/abs/2306.05685) - Structured evaluation
+
+### Customaize Agent Plugin
+
+**Primary Papers**:
+- [Prompting Science Report 3](https://arxiv.org/abs/2508.00614) - Evidence-based prompt engineering
+
+**Note**: The plugin also references Meincke et al.'s persuasion principles research (2025a, published on SSRN), which demonstrates that classic persuasion principles (authority, commitment, unity, etc.) can increase AI compliance rates from 33% to 72%.
 
 ---
 
@@ -323,6 +344,39 @@ Directly informs the `/reflexion:memorize` command design. This paper validates 
 
 ## Reasoning Enhancement
 
+### [Chain of Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903)
+
+**Citation**: Wei et al. (2022). "Chain of Thought Prompting Elicits Reasoning in Large Language Models."
+
+Chain-of-thought (CoT) prompting is a simple method that significantly improves the ability of large language models to perform complex reasoning. By providing a few demonstrations that include intermediate reasoning steps (chains of thought) as exemplars in prompting, models naturally develop the ability to generate their own reasoning steps before producing final answers.
+
+The key insight is that explicitly generating reasoning steps helps models break down complex problems into manageable sub-problems, mimicking human problem-solving approaches.
+
+**Key Results**:
+- Dramatic improvements on arithmetic, commonsense, and symbolic reasoning tasks
+- 540B-parameter model with 8 CoT exemplars achieves state-of-the-art on GSM8K math word problems
+- Surpasses fine-tuned GPT-3 with verifier
+- Reasoning abilities emerge naturally in sufficiently large models via this simple prompting method
+- Performance scales with model size - larger models benefit more from CoT
+
+**Relevance to CEK**:
+Foundational technique underlying many reasoning patterns across plugins. CoT prompting informs the structured reasoning approaches in SADD, TDD, and code review workflows. The principle of explicit intermediate steps guides implementation of multi-step processes.
+
+**Used By Plugins**:
+- SADD (multi-judge evaluation with explicit reasoning)
+- TDD (step-by-step test development)
+- Code Review (detailed analysis with reasoning chains)
+- Kaizen (systematic problem analysis)
+
+**Technical Notes**:
+- Requires few-shot examples with reasoning chains
+- Most effective for problems requiring multi-step reasoning
+- Performance improves with model scale
+- Can be combined with self-consistency for further gains
+- Zero-shot variants ("Let's think step by step") also effective
+
+---
+
 ### [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/abs/2305.10601)
 
 **Citation**: Yao et al. (2023). "Tree of Thoughts: Deliberate Problem Solving with Large Language Models."
@@ -387,6 +441,36 @@ Informs the step-by-step verification patterns in review commands and the detail
 - Inference can use LLM-as-PRM without training
 - Most effective for problems with verifiable intermediate steps
 - Enables more interpretable feedback than outcome-only evaluation
+
+---
+
+## Prompt Engineering Research
+
+### [Prompting Science Report 3: I'll pay you or I'll kill you -- but will you care?](https://arxiv.org/abs/2508.00614)
+
+**Citation**: Meincke et al. (2025). "Prompting Science Report 3: I'll pay you or I'll kill you -- but will you care?"
+
+This is the third in a series of short reports investigating commonly held prompting beliefs through rigorous testing. This report specifically examines whether tipping or threatening AI models improves performance. The authors evaluated model performance on GPQA and MMLU-Pro benchmarks.
+
+**Key Findings**:
+- Threatening or tipping models generally has **no significant effect** on benchmark performance
+- Prompt variations can significantly affect performance on a per-question level
+- However, it's hard to know in advance whether a particular prompting approach will help or harm performance on any specific question
+- Simple prompting variations might not be as effective as previously assumed, especially for difficult problems
+
+**Relevance to CEK**:
+Part of the "Prompting Science" research series that informs evidence-based prompt engineering practices. This research validates the approach of testing prompting techniques empirically rather than relying on folk wisdom or anecdotal evidence. The findings suggest focusing on structured, repeatable prompting patterns rather than ad-hoc variations.
+
+**Used By Plugins**:
+- Customaize Agent (prompt-engineering skill) - Emphasizes evidence-based prompt optimization
+
+**Technical Notes**:
+- Part of a larger research series (references Meincke et al. 2025a for related work on per-question prompt sensitivity)
+- Tested on challenging benchmarks (GPQA, MMLU-Pro)
+- Findings suggest that benchmark performance may not capture all aspects of prompt effectiveness
+- Individual question-level variation remains an open research question
+
+**Note**: This paper references related work by the same authors on persuasion principles and AI compliance (Meincke et al. 2025a), which found that classic persuasion principles (authority, commitment, unity, etc.) can increase AI compliance rates from 33% to 72%. That work is published separately and informed the prompt engineering techniques discussed in the Customaize Agent plugin.
 
 ---
 

@@ -128,7 +128,7 @@ Collection of commands that force the LLM to reflect on previous response and ou
 
 - **Automatic Reflection Hook** - Triggers `/reflexion:reflect` automatically when "reflect" appears in your prompt
 
-#### Based on papers
+#### Theoretical Foundation
 
 Based on papers like [Self-Refine](https://arxiv.org/abs/2303.17651) and [Reflexion](https://arxiv.org/abs/2303.11366). These techniques improve the output of large language models by introducing feedback and refinement loops.
 
@@ -372,7 +372,7 @@ claude
 - **code-explorer** - Navigates and understands existing codebase structure
 - **code-reviewer** - Reviews implementations against specifications and quality standards
 
-#### Based on
+#### Theoretical Foundation
 
 The SDD plugin implements a structured software development methodology combining proven frameworks:
 
@@ -433,7 +433,7 @@ Structured reasoning using the First Principles Framework (FPF) methodology. Use
 | **WLNK** | Weakest Link principle: R_eff = min(evidence_scores) |
 | **Transformer Mandate** | AI generates options; humans decide |
 
-#### Based on
+#### Theoretical Foundation
 
 - [FPF Repository](https://github.com/ailev/FPF) - Original methodology by Anatoly Levenchuk
 - [quint-code](https://github.com/m0n0x41d/quint-code) - Implementation this plugin is based on

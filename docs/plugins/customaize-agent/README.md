@@ -19,7 +19,7 @@ Focused on:
 
 The Customaize Agent plugin provides a complete toolkit for extending Claude Code's capabilities. It applies Test-Driven Development principles to prompt engineering: you write test scenarios first, watch agents fail, create prompts that address those failures, and iterate until bulletproof.
 
-The plugin is built on Anthropic's official skill authoring best practices and research-backed persuasion principles (Meincke et al., 2025 - persuasion techniques more than doubled compliance rates from 33% to 72%).
+The plugin is built on Anthropic's official skill authoring best practices and research-backed persuasion principles ([Prompting Science Report 3](https://arxiv.org/abs/2508.00614) - persuasion techniques more than doubled compliance rates from 33% to 72%).
 
 ## Quick Start
 
@@ -563,7 +563,7 @@ Advanced prompt engineering techniques including Anthropic's official best pract
 - **Template Systems** - Reusable prompt structures
 - **System Prompt Design** - Global behavior and constraints
 
-**Persuasion Principles (from Meincke et al., 2025):**
+**Persuasion Principles (from [Prompting Science Report 3](https://arxiv.org/abs/2508.00614)):**
 
 | Principle | Use For | Example |
 |-----------|---------|---------|
@@ -633,7 +633,7 @@ The Customaize Agent plugin is based on:
 
 ### Persuasion Research
 
-- **Meincke et al. (2025)** - Tested 7 persuasion principles with N=28,000 AI conversations. Persuasion techniques more than doubled compliance rates (33% to 72%, p < .001).
+- **[Prompting Science Report 3](https://arxiv.org/abs/2508.00614)** - Tested 7 persuasion principles with N=28,000 AI conversations. Persuasion techniques more than doubled compliance rates (33% to 72%, p < .001), based on related SSRN work on persuasion principles.
 
 ### Agent Skills for Context Engineering
 

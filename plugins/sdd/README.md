@@ -695,7 +695,7 @@ The SDD plugin uses specialized agents for different phases of development:
 | `developer` | Code implementation, TDD execution, quality review | `/sdd:04-implement` |
 | `tech-writer` | Documentation creation, API guides, architecture docs | `/sdd:05-document` |
 
-## Foundation
+## Theoretical Foundation
 
 The SDD plugin is based on established software engineering methodologies and research:
 

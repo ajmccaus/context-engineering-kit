@@ -279,13 +279,13 @@ Optional source specification (last, selection, chat:<id>) or --dry-run for prev
 - Curate carefully - Only memorize significant, reusable insights
 - Organize by topic - Keep CLAUDE.md well-structured
 
-## Scientific Foundation
+## Theoretical Foundation
 
 The Reflexion plugin is based on peer-reviewed research demonstrating **8-21% improvement in output quality** across diverse tasks:
 
 ### Core Papers
 
-- **[Self-Refine](https://arxiv.org/abs/2305.12966)** - Iterative refinement where the model reviews and improves its own output
+- **[Self-Refine](https://arxiv.org/abs/2303.17651)** - Iterative refinement where the model reviews and improves its own output
 - **[Reflexion](https://arxiv.org/abs/2303.11366)** - Self-reflection for autonomous agents with memory
 - **[Constitutional AI (CAI)](https://arxiv.org/abs/2212.08073)** - Critique based on principles and guidelines
 - **[LLM-as-a-Judge](https://arxiv.org/abs/2306.05685)** - Using LLMs to evaluate other LLM outputs
@@ -294,6 +294,6 @@ The Reflexion plugin is based on peer-reviewed research demonstrating **8-21% im
 
 ### Additional Techniques
 
-- **[Chain-of-Verification (CoVe)](https://arxiv.org/abs/2305.13888)** - Generate, verify, revise cycle
+- **[Chain-of-Verification (CoVe)](https://arxiv.org/abs/2309.11495)** - Generate, verify, revise cycle
 - **[Tree of Thoughts (ToT)](https://arxiv.org/abs/2305.10601)** - Multiple reasoning path exploration
-- **[Process Reward Models](https://arxiv.org/abs/2211.07633)** - Step-by-step evaluation
+- **[Process Reward Models](https://arxiv.org/abs/2305.20050)** - Step-by-step evaluation
