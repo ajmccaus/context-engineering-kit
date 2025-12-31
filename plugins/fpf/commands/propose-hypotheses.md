@@ -38,9 +38,9 @@ Launch fpf-agent:
   Read ${CLAUDE_PLUGIN_ROOT}/tasks/init-context.md and execute.
 
   Problem Statement: $ARGUMENTS
-  ```
 
-**Capture**: Context summary from `.fpf/context.md`
+  **Write**: Context summary to `.fpf/context.md`**
+  ```
 
 ---
 
@@ -54,21 +54,22 @@ Launch fpf-agent:
 
   Problem Statement: $ARGUMENTS
   Context: <summary from Step 1b>
-  ```
 
-**Capture**: List of hypothesis IDs and titles from `.fpf/knowledge/L0/`
+  **Write**: List of hypothesis IDs and titles to `.fpf/knowledge/L0/`
+
+  Reply with summary table in markdown format:
+
+    | ID | Title | Kind | Scope |
+    |----|-------|------|-------|
+    | ... | ... | ... | ... |
+  ```
 
 ---
 
 ### Step 3: Present Summary (Main Agent)
 
 1. Read all L0 hypothesis files from `.fpf/knowledge/L0/`
-2. Present summary table:
-
-| ID | Title | Kind | Scope |
-|----|-------|------|-------|
-| ... | ... | ... | ... |
-
+2. Present summary table from agent response.
 3. Ask user: "Would you like to add any hypotheses of your own? (yes/no)"
 
 ---
@@ -84,6 +85,8 @@ Launch fpf-agent:
   Read ${CLAUDE_PLUGIN_ROOT}/tasks/add-user-hypothesis.md and execute.
 
   User Hypothesis Description: <get from user>
+
+  **Write**: User hypothesis to `.fpf/knowledge/L0/`
   ```
 
 **Loop**: Return to Step 3 after hypothesis is added.
@@ -104,11 +107,11 @@ For EACH L0 hypothesis file in `.fpf/knowledge/L0/`, launch parallel agent:
 
   Hypothesis ID: <hypothesis-id>
   Hypothesis File: .fpf/knowledge/L0/<hypothesis-id>.md
+
+  **Move**: After you complete verification, move the file to `.fpf/knowledge/L1/` or `.fpf/knowledge/invalid/`.
   ```
 
-**Wait for all agents**, then collect results.
-
-**Capture**: For each hypothesis: PASS (promoted to L1) or FAIL (moved to invalid)
+**Wait for all agents**, then check that files are moved to `.fpf/knowledge/L1/` or `.fpf/knowledge/invalid/`.
 
 ---
 
@@ -122,11 +125,11 @@ For EACH L1 hypothesis file in `.fpf/knowledge/L1/`, launch parallel agent:
 
   Hypothesis ID: <hypothesis-id>
   Hypothesis File: .fpf/knowledge/L1/<hypothesis-id>.md
+
+  **Move**: After you complete validation, move the file to `.fpf/knowledge/L2/` or `.fpf/knowledge/invalid/`.
   ```
 
-**Wait for all agents**, then collect results.
-
-**Capture**: For each hypothesis: validation result with confidence score
+**Wait for all agents**, then check that files are moved to `.fpf/knowledge/L2/` or `.fpf/knowledge/invalid/`.
 
 ---
 
@@ -140,11 +143,13 @@ For EACH L2 hypothesis file in `.fpf/knowledge/L2/`, launch parallel agent:
 
   Hypothesis ID: <hypothesis-id>
   Hypothesis File: .fpf/knowledge/L2/<hypothesis-id>.md
+
+  **Write**: Audit report to `.fpf/evidence/audit-{hypothesis-id}-{YYYY-MM-DD}.md`
+
+  **Reply**: with R_eff score and weakest link
   ```
 
-**Wait for all agents**, then collect results.
-
-**Capture**: For each hypothesis: R_eff score and weakest link
+**Wait for all agents**, then check that audit reports are created in `.fpf/evidence/`.
 
 ---
 
@@ -158,27 +163,28 @@ Launch fpf-agent:
 
   Problem Statement: $ARGUMENTS
   L2 Hypotheses Directory: .fpf/knowledge/L2/
+  Audit Reports: .fpf/evidence/
+
+  **Write**: Decision record to `.fpf/decisions/`
+
+  **Reply**: with decision record summary in markdown format:
+
+  | Hypothesis | R_eff | Weakest Link | Status |
+  |------------|-------|--------------|--------|
+  | ... | ... | ... | ... |
+
+  **Recommended Decision**: <hypothesis title>
+
+  **Rationale**: <brief explanation>
   ```
 
-**Capture**: DRR file path and recommended hypothesis
-
+**Wait for agent**, then check that decision record is created in `.fpf/decisions/`.
 ---
 
 ### Step 9: Present Final Summary (Main Agent)
 
 1. Read the DRR from `.fpf/decisions/`
-2. Present results:
-
-**Decision Summary**
-
-| Hypothesis | R_eff | Weakest Link | Status |
-|------------|-------|--------------|--------|
-| ... | ... | ... | ... |
-
-**Recommended Decision**: <hypothesis title>
-
-**Rationale**: <brief explanation>
-
+2. Present results from agent response.
 3. Present next steps:
    - Implement the selected hypothesis
    - Use `/fpf:status` to check FPF state
