@@ -13,31 +13,6 @@ FPF addresses a fundamental challenge in AI-assisted development: making decisio
 - **Trust Calculus** - Computed reliability scores, not estimates
 - **Transformer Mandate** - AI generates options; humans decide
 
-## Plugin Structure
-
-```
-plugins/fpf/
-├── .claude-plugin/
-│   └── plugin.json
-├── README.md
-├── agents/
-│   └── fpf-agent.md           # FPF reasoning specialist
-├── commands/
-│   ├── propose-hypotheses.md  # Workflow: Complete FPF cycle
-│   ├── status.md              # Show FPF status (utility)
-│   ├── query.md               # Search knowledge base (utility)
-│   ├── decay.md               # Evidence freshness (utility)
-│   ├── actualize.md           # Sync with codebase (utility)
-│   └── reset.md               # Reset session (utility)
-└── tasks/
-    ├── init-context.md          # Task: Initialize context
-    ├── generate-hypotheses.md   # Task: Generate L0 hypotheses
-    ├── add-user-hypothesis.md   # Task: Add user's hypothesis
-    ├── verify-logic.md          # Task: Verify L0 -> L1
-    ├── validate-evidence.md     # Task: Validate L1 -> L2
-    ├── audit-trust.md           # Task: Compute R_eff
-    └── decide.md                # Task: Create DRR
-```
 
 ## Commands
 
@@ -49,6 +24,111 @@ plugins/fpf/
 | `/fpf:decay` | Manage evidence freshness (refresh/deprecate/waive) |
 | `/fpf:actualize` | Reconcile knowledge with codebase changes |
 | `/fpf:reset` | Archive session and return to IDLE |
+
+### /fpf:query
+
+#### Examples
+
+**Search by keyword:**
+```markdown
+User: /fpf:query caching
+
+Results:
+| Hypothesis | Layer | R_eff |
+|------------|-------|-------|
+| redis-caching | L2 | 0.85 |
+| cdn-edge-cache | L2 | 0.72 |
+| lru-cache | invalid | N/A |
+```
+
+**Query specific hypothesis:**
+```markdown
+User: /fpf:query redis-caching
+
+# redis-caching (L2)
+
+Title: Use Redis for Caching
+Kind: system
+Scope: High-load systems
+R_eff: 0.85
+Evidence: 2 files
+```
+
+**Query decisions:**
+```markdown
+User: /fpf:query DRR
+
+# Design Rationale Records
+
+| DRR | Date | Winner | Rejected |
+|-----|------|--------|----------|
+| DRR-2025-01-15-caching | 2025-01-15 | redis-caching | cdn-edge |
+```
+
+### /fpf:status
+
+#### Example Output
+
+```markdown
+## FPF Status
+
+### Current Phase: DEDUCTION
+
+You have 3 hypotheses in L0 awaiting verification.
+Next step: Continue the FPF workflow to process L0 hypotheses.
+
+### Hypothesis Counts
+
+| Layer | Count |
+|-------|-------|
+| L0 | 3 |
+| L1 | 0 |
+| L2 | 0 |
+| Invalid | 0 |
+
+### Evidence Status
+
+No evidence files yet (hypotheses not validated).
+
+### No Warnings
+
+All systems nominal.
+```
+
+
+### /fpf:reset
+
+#### Example
+
+```markdown
+User: /fpf:reset
+
+Agent: What type of reset would you like?
+
+1. **Soft Reset** - Archive current session, start fresh
+2. **Hard Reset** - Delete all FPF data (cannot be undone)
+3. **Decision Reset** - Keep hypotheses, re-evaluate from earlier phase
+
+User: Soft reset please
+
+Agent: Creating session archive...
+       [Creates .fpf/sessions/session-2025-01-15-reset.md]
+
+       Session archived. Knowledge directories cleared.
+
+       Ready for new reasoning cycle.
+       Next step: Run `/fpf:propose-hypotheses` to start.
+```
+
+#### When to Reset
+
+| Scenario | Recommended Action |
+|----------|-------------------|
+| Starting a new problem | Soft reset (archive) |
+| Wrong direction, start over | Soft reset |
+| Testing/learning FPF | Hard reset |
+| Re-evaluate with new info | Decision reset |
+| Context changed significantly | Soft reset + update context |
 
 ## Agent
 

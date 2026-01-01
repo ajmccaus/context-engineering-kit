@@ -1,5 +1,5 @@
 ---
-description: "Show FPF status"
+description: "Display the current state of the FPF knowledge base"
 ---
 
 # Status Check

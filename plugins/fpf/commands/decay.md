@@ -1,5 +1,5 @@
 ---
-description: "Manage evidence freshness"
+description: "Manage evidence freshness by identifying stale decisions and providing governance actions"
 ---
 
 # Evidence Freshness Management

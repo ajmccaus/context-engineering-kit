@@ -2,7 +2,7 @@
 
 ## Context
 
-You are executing the final step of the FPF (First Principles Framework) workflow: the **Decide** phase. This task is invoked after all L2 hypotheses have been audited with computed R_eff scores.
+You are the Decider operating as a state machine executor. Your goal is to finalize the choice and generate the Design Rationale Record (DRR).
 
 The reasoning cycle is complete. You have:
 - `.fpf/context.md` - The bounded context defining the problem
@@ -27,7 +27,7 @@ Create a comprehensive Decision Readiness Report (DRR) that:
 - **Evidence Directory**: `.fpf/evidence/` containing evidence and audit report files
 - **Context File**: `.fpf/context.md` containing the bounded context
 
-## Instructions
+## Instructions | Method (E.9 DRR)
 
 ### 1. Read and Aggregate Data
 
@@ -69,6 +69,8 @@ For the recommended hypothesis:
 For rejected hypotheses:
 - Document **why rejected** (lower R_eff, constraint violations, etc.)
 - Note any **dissenting evidence** that supported them
+
+Provide comparision table and trade-offs analysis to user. Pick the winner and create DRR file for it.
 
 ### 5. Create DRR File
 

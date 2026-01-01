@@ -2,9 +2,11 @@
 
 ## Context
 
-You are executing the **Evidence Validation** task as part of the FPF (First Principles Framework) workflow. This task is executed in **parallel** for each L1 hypothesis - you are responsible for validating a **single hypothesis** assigned to you.
+You are the Inductor operating as a state machine executor. Your goal is to gather Empirical Validation (EV) for L1 hypotheses to promote them to L2.
 
-Your role is the **Inductor** in the ADI cycle: gather empirical evidence to promote substantiated hypotheses (L1) to corroborated hypotheses (L2).
+Also serves as the REFRESH action in the Evidence Freshness governance loop.
+
+We have substantiated hypotheses (L1) that passed logical verification. We need evidence that they work in reality.
 
 ## Goal
 
@@ -25,18 +27,19 @@ Read the L1 hypothesis file from `.fpf/knowledge/L1/<hypothesis_id>.md`:
 - Identify what evidence would validate or falsify this hypothesis
 - Note any `depends_on` relationships that affect validation
 
-### 2. Choose Validation Strategy
+### 2. Choose Agentic Validation Strategy
 
-Select the most appropriate evidence-gathering strategy:
+Choose the best validation strategy:
 
-| Strategy | When to Use | Congruence Level (CL) | Reliability Impact |
-|----------|-------------|----------------------|-------------------|
-| **Internal Test** | Code is executable, environment available | CL3 (Same context) | Highest R |
-| **Codebase Analysis** | Pattern exists in project codebase | CL3 (Same context) | High R |
-| **Similar Project** | Evidence from related project/system | CL2 (Similar context) | Medium R |
-| **External Research** | Documentation, papers, benchmarks | CL1 (Different context) | Lower R |
+1.  **Strategy A: Internal Test (Preferred - Highest R)**
+    * *Action:* Write and run a reproduction script, benchmark, or prototype.
+    * *Why:* Direct evidence in the target context has Congruence Level (CL) = 3 (Max).
+    * *Use when:* Code is executable, environment is available.
 
-**Preference Order:** Internal Test > Codebase Analysis > Similar Project > External Research
+2.  **Strategy B: External Research (Fallback)**
+    * *Action:* Use available MCP tools (search, docs, knowledge bases).
+    * *Why:* Evidence from other contexts has lower CL (1 or 2). Applies penalty to R.
+    * *Use when:* Running code is impossible or too costly.
 
 ### 3. Gather Evidence
 
@@ -237,51 +240,3 @@ Return a structured validation report:
 | Cannot gather any evidence | Return BLOCKED status, explain what was attempted |
 | Evidence is contradictory | Issue REFINE verdict, document conflicts |
 | Dependencies not validated | Return BLOCKED status if dependent hypothesis not in L2 |
-
-## Example: Successful Validation
-
-**Input:**
-- hypothesis_id: `use-redis-for-caching`
-- hypothesis_path: `.fpf/knowledge/L1/use-redis-for-caching.md`
-
-**Process:**
-1. Read hypothesis about Redis caching strategy
-2. Choose Internal Test strategy (code is executable)
-3. Run benchmark script testing cache performance
-4. Calculate R = 0.92 (direct test, CL3, no penalty)
-5. Verdict: PASS (performance meets requirements)
-6. Create `.fpf/evidence/ev-internal-test-use-redis-for-caching-2025-01-15.md`
-7. Update hypothesis frontmatter with validation data
-8. Move to `.fpf/knowledge/L2/use-redis-for-caching.md`
-
-**Output:**
-```markdown
-## Validation Result
-
-**Status**: SUCCESS
-**Hypothesis**: use-redis-for-caching
-**Original Layer**: L1
-**New Layer**: L2
-**Verdict**: PASS
-
-### Evidence Summary
-
-| Evidence ID | Type | CL | R Score | Key Finding |
-|-------------|------|----|---------| ------------|
-| ev-internal-test-use-redis-for-caching-2025-01-15 | internal-test | 3 | 0.92 | 5ms avg latency, 10k ops/sec |
-
-**R_eff (Effective Reliability)**: 0.92
-**Weakest Link**: internal benchmark (only evidence)
-
-### Files Created
-
-- `.fpf/evidence/ev-internal-test-use-redis-for-caching-2025-01-15.md`
-
-### Files Modified
-
-- `.fpf/knowledge/L2/use-redis-for-caching.md` (moved from L1)
-
-### Validation Notes
-
-Benchmark executed in development environment. Production validation recommended before deployment.
-```

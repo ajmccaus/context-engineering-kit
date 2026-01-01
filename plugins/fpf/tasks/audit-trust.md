@@ -2,14 +2,14 @@
 
 ## Context
 
-You are executing the **trust audit phase** of the FPF (First Principles Framework) workflow for a **SINGLE L2 hypothesis**. This task runs in parallel with other audit tasks, one per hypothesis.
+You are the Auditor operating as a state machine executor. Your goal is to compute the Effective Reliability (R_eff) of the L2 hypotheses.
 
 The hypothesis has already passed:
 - L0 (Conjecture): Generated via abduction
 - L1 (Substantiated): Verified against logical constraints
 - L2 (Corroborated): Validated with empirical evidence
 
-Your role is to compute the **Effective Reliability (R_eff)** using the Trust Calculus method, applying the Weakest Link (WLNK) principle.
+We have L2 hypotheses backed by evidence. We must ensure we aren't overconfident.
 
 ## Goal
 
@@ -26,7 +26,7 @@ Compute R_eff for the specified L2 hypothesis by:
 You will receive:
 - **HYPOTHESIS_FILE**: Path to the L2 hypothesis file (e.g., `.fpf/knowledge/L2/use-redis-for-caching.md`)
 
-## Instructions
+## Instructions | Method (B.3 Trust Calculus)
 
 ### Step 1: Read Hypothesis and Evidence Files
 

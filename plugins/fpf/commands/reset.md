@@ -1,5 +1,5 @@
 ---
-description: "Reset the FPF cycle"
+description: "Reset the FPF reasoning cycle to start fresh"
 ---
 
 # Reset Cycle
@@ -106,34 +106,3 @@ mv .fpf/knowledge/L2/*.md .fpf/knowledge/L1/
 mv .fpf/knowledge/L1/*.md .fpf/knowledge/L0/
 ```
 
-## When to Reset
-
-| Scenario | Recommended Action |
-|----------|-------------------|
-| Starting a new problem | Soft reset (archive) |
-| Wrong direction, start over | Soft reset |
-| Testing/learning FPF | Hard reset |
-| Re-evaluate with new info | Decision reset |
-| Context changed significantly | Soft reset + update context |
-
-## Example
-
-```
-User: /fpf:reset
-
-Agent: What type of reset would you like?
-
-1. **Soft Reset** - Archive current session, start fresh
-2. **Hard Reset** - Delete all FPF data (cannot be undone)
-3. **Decision Reset** - Keep hypotheses, re-evaluate from earlier phase
-
-User: Soft reset please
-
-Agent: Creating session archive...
-       [Creates .fpf/sessions/session-2025-01-15-reset.md]
-
-       Session archived. Knowledge directories cleared.
-
-       Ready for new reasoning cycle.
-       Next step: Run `/fpf:propose-hypotheses` to start.
-```

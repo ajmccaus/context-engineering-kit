@@ -31,7 +31,7 @@ touch .fpf/{evidence,decisions,sessions,knowledge/{L0,L1,L2,invalid}}/.gitkeep
 
 ### Step 1b: Initialize Context (FPF Agent)
 
-Launch fpf-agent:
+Launch fpf-agent with sonnet[1m] model:
 - **Description**: "Initialize FPF context"
 - **Prompt**:
   ```
@@ -46,7 +46,7 @@ Launch fpf-agent:
 
 ### Step 2: Generate Hypotheses (FPF Agent)
 
-Launch fpf-agent:
+Launch fpf-agent with sonnet[1m] model:
 - **Description**: "Generate L0 hypotheses"
 - **Prompt**:
   ```
@@ -78,7 +78,7 @@ Launch fpf-agent:
 
 **Condition**: User says yes to adding hypotheses.
 
-Launch fpf-agent:
+Launch fpf-agent with sonnet[1m] model:
 - **Description**: "Add user hypothesis"
 - **Prompt**:
   ```
@@ -99,7 +99,7 @@ Launch fpf-agent:
 
 **Condition**: User finished adding hypotheses.
 
-For EACH L0 hypothesis file in `.fpf/knowledge/L0/`, launch parallel agent:
+For EACH L0 hypothesis file in `.fpf/knowledge/L0/`, launch parallel fpf-agent with sonnet[1m] model:
 - **Description**: "Verify hypothesis: <hypothesis-id>"
 - **Prompt**:
   ```
@@ -117,7 +117,7 @@ For EACH L0 hypothesis file in `.fpf/knowledge/L0/`, launch parallel agent:
 
 ### Step 6: Validate Evidence (Parallel Sub-Agents)
 
-For EACH L1 hypothesis file in `.fpf/knowledge/L1/`, launch parallel agent:
+For EACH L1 hypothesis file in `.fpf/knowledge/L1/`, launch parallel fpf-agent with sonnet[1m] model:
 - **Description**: "Validate hypothesis: <hypothesis-id>"
 - **Prompt**:
   ```
@@ -135,7 +135,7 @@ For EACH L1 hypothesis file in `.fpf/knowledge/L1/`, launch parallel agent:
 
 ### Step 7: Audit Trust (Parallel Sub-Agents)
 
-For EACH L2 hypothesis file in `.fpf/knowledge/L2/`, launch parallel agent:
+For EACH L2 hypothesis file in `.fpf/knowledge/L2/`, launch parallel fpf-agent with sonnet[1m] model:
 - **Description**: "Audit trust: <hypothesis-id>"
 - **Prompt**:
   ```
@@ -155,7 +155,7 @@ For EACH L2 hypothesis file in `.fpf/knowledge/L2/`, launch parallel agent:
 
 ### Step 8: Make Decision (FPF Agent)
 
-Launch fpf-agent:
+Launch fpf-agent with sonnet[1m] model:
 - **Description**: "Create decision record"
 - **Prompt**:
   ```

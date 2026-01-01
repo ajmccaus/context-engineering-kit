@@ -19,6 +19,8 @@ This command implements the Generate-Critique-Synthesize (GCS) pattern with adap
 - Average 15-20% cost savings through intelligent strategy selection
 </context>
 
+CRITICAL: You are not implementation agent or judge, you shoudn't read files that provided as context for sub-agent or task. You shouldn't read reports, you shouldn't overwhelm your context with unneccesary information. You MUST follow process step by step. Any diviations will be considered as failure and you will be killed!
+
 ## Pattern: Generate-Critique-Synthesize (GCS)
 
 This command implements a four-phase adaptive competitive orchestration pattern:
@@ -71,9 +73,17 @@ Launch **3 independent agents in parallel** (recommended: Opus for quality):
 1. Each agent receives **identical task description and context**
 2. Agents work **independently without seeing each other's work**
 3. Each produces a **complete solution** to the same problem
-4. Solutions are saved to distinct files (e.g., `solution.a.md`, `solution.b.md`, `solution.c.md`)
+4. Solutions are saved to distinct files (e.g., `{solution-file}.[a|b|c].[ext]`)
+
+**Solution naming convention:** `{solution-file}.[a|b|c].[ext]`
+Where:
+- `{solution-file}` - Derived from task (e.g., `create users.ts` result in `users` as solution file)
+- `[a|b|c]` - Unique identifier per sub-agent
+- `[ext]` - File extension (e.g., `md`, `ts` and etc.)
 
 **Key principle:** Diversity through independence - agents explore different approaches.
+
+CRITICAL: You MUST provide filename with [a|b|c] identifier to agents and judges!!! Missing it, will result in your TERMINATION imidiatly!
 
 **Prompt template for generators:**
 
@@ -91,7 +101,7 @@ Launch **3 independent agents in parallel** (recommended: Opus for quality):
 </context>
 
 <output>
-{define expected output following such pattern: solution.[*].md based on the task description and context. Each [*] is a unique identifier per sub-agent}
+{define expected output following such pattern: {solution-file}.[a|b|c].[ext] based on the task description and context. Each [a|b|c] is a unique identifier per sub-agent. You MUST provide filename with it!!!}
 </output>
 
 Instructions:
@@ -431,7 +441,7 @@ The command produces different outputs depending on the adaptive strategy select
 
 ### Outputs (All Strategies)
 
-1. **Candidate solutions:** `{output_prefix}.a`, `{output_prefix}.b`, `{output_prefix}.c` (in specified output location)
+1. **Candidate solutions:** `{solution-file}.[a|b|c].[ext]` (in specified output location)
 2. **Evaluation reports:** `.specs/reports/{solution-name}-{date}.[1|2|3].md`
 3. **Resulting solution:** `{output_path}` 
 
@@ -440,6 +450,43 @@ The command produces different outputs depending on the adaptive strategy select
 - SELECT_AND_POLISH: Polished solution based on winning solution
 - REDESIGN: Do not stop, return to phase 1 and eventiualy should result in finish at SELECT_AND_POLISH or FULL_SYNTHESIS strategies
 - FULL_SYNTHESIS: Synthesized solution combined best from all
+
+### Orcestrator Reply
+
+Once command execution is complete, reply to user with following structure:
+
+```markdown
+## Execution Summary
+
+Original Task: {task_description}
+
+Strategy Used: {strategy} ({reason})
+
+### Results
+
+| Phase                   | Agents | Models   | Status      |
+|-------------------------|--------|----------|-------------|
+| Phase [N]: [phase name] | [N]    | [model] × 3 | [✅ Complete / ❌ Failed] |
+
+Files Created
+
+Final Solution:
+- {output_path} - Synthesized production-ready command
+
+Candidate Solutions:
+- {solution-file}.[a|b|c].[ext] (Score: [X.X]/5.0)
+
+Evaluation Reports:
+- .specs/reports/{solution-file}-{date}.[1|2|3].md (Vote: [Solution A/B/C])
+
+Synthesis Decisions
+
+| Element              | Source           | Rationale   |
+|----------------------|------------------|-------------|
+| [element]            | Solution [B/A/C] | [rationale] |
+
+```
+
 </output>
 
 ## Best Practices

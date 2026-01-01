@@ -1,5 +1,5 @@
 ---
-description: "Search knowledge base"
+description: "Search the FPF knowledge base and display hypothesis details with assurance information"
 ---
 
 # Query Knowledge

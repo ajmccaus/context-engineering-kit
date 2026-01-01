@@ -17,6 +17,8 @@ Generate 3-5 diverse L0 hypotheses that address the user's problem or question. 
 
 ## Instructions
 
+Method (B.5.2 Abductive Loop)
+
 ### 1. Read the Bounded Context
 
 ```bash
@@ -25,6 +27,7 @@ cat .fpf/context.md
 ```
 
 Extract:
+
 - Problem statement and scope
 - Domain vocabulary and terminology
 - Invariants and constraints
@@ -33,6 +36,7 @@ Extract:
 ### 2. Frame the Anomaly
 
 Identify the core anomaly or question that needs explanation:
+
 - What is the unexpected observation or challenge?
 - What assumptions does it challenge?
 - What gap in knowledge does it reveal?
@@ -48,13 +52,18 @@ Create 3-5 hypotheses following this diversity spectrum:
 | **Radical** | Challenges assumptions, high novelty | High | Transformative |
 
 **MUST generate at least:**
+
 - 1 conservative hypothesis
 - 1-2 moderate hypotheses
 - 1 radical hypothesis
 
-### 4. Create Hypothesis Files
+### 4. Plausability filter
 
-For EACH hypothesis, create a file in `.fpf/knowledge/L0/` with kebab-case naming:
+Briefly assess each against constraints. Discard obviously unworkable ones.
+
+### 5. Formalize: Create Hypothesis Files
+
+For EACH surviving hypothesis, create a file in `.fpf/knowledge/L0/` with kebab-case naming:
 
 **File naming**: `<hypothesis-id>.md` (e.g., `use-redis-for-caching.md`)
 
@@ -116,12 +125,26 @@ Why this approach was generated:
 
 ### 6. Quality Checklist for Each Hypothesis
 
-Before creating each file, verify:
-- [ ] Hypothesis is falsifiable (can be proven wrong)
-- [ ] Scope is clearly bounded (not too vague or too narrow)
-- [ ] Method is actionable (clear steps to implement)
-- [ ] Rationale explains why this fits the context
-- [ ] Risk level is explicitly stated
+Before creating each file, explicitly answer these questions:
+
+| Question | If YES | If NO |
+|----------|--------|-------|
+| Are there multiple alternatives for the same problem? | Create parent decision first, then use `decision_context` for all alternatives | Skip `decision_context` |
+| Does this hypothesis REQUIRE another holon to work? | Add to `depends_on` (affects R_eff via WLNK!) | Leave `depends_on` empty |
+| Would failure of another holon invalidate this one? | Add that holon to `depends_on` | Leave empty |
+
+**Examples of when to use `depends_on`:**
+
+- "Health Check Endpoint" depends on "Background Task Fix" (can't check what doesn't work)
+- "API Gateway" depends on "Auth Module" (gateway needs auth to function)
+- "Performance Optimization" depends on "Baseline Metrics" (can't optimize without baseline)
+
+**Examples of when to use `decision_context`:**
+
+- "Redis Caching" and "CDN Edge Cache" are alternatives → group under "Caching Decision"
+- "JWT Auth" and "Session Auth" are alternatives → group under "Auth Strategy Decision"
+
+**CRITICAL:** If you skip linking, the audit tree will show isolated nodes and R_eff won't reflect true dependencies!
 
 ## Constraints
 
@@ -179,47 +202,7 @@ The orchestrator should:
 - [ ] All hypotheses share the same `decision_context` value
 - [ ] Each hypothesis has Method, Expected Outcome, and Rationale sections
 - [ ] Returned structured summary suitable for orchestrator consumption
-
-## Example Hypothesis File
-
-For reference, here is a complete example:
-
-```markdown
----
-id: use-redis-for-caching
-title: Use Redis for Distributed Caching
-kind: system
-scope: High-load API endpoints, requires Redis infrastructure, Linux environments
-decision_context: caching-strategy-decision
-depends_on: []
-created: 2025-01-15T10:30:00Z
-layer: L0
----
-
-# Use Redis for Distributed Caching
-
-## Method (The Recipe)
-
-1. Deploy Redis cluster with 3 nodes for high availability
-2. Implement cache-aside pattern in API service layer
-3. Configure TTL-based expiration for each data type:
-   - User sessions: 30 minutes
-   - API responses: 5 minutes
-   - Static data: 1 hour
-4. Add cache invalidation hooks to write operations
-5. Implement circuit breaker for Redis connection failures
-
-## Expected Outcome
-
-- API response times reduced by 60-80% for cached endpoints
-- Database load reduced by 40% during peak traffic
-- Horizontal scalability achieved through shared cache state
-- Graceful degradation when cache unavailable
-
-## Rationale
-
-- **Anomaly**: API latency spikes during peak hours due to repeated database queries
-- **Approach**: Redis provides proven, battle-tested distributed caching with sub-millisecond latency
-- **Assumptions**: Infrastructure team can provision Redis; data is cacheable (eventually consistent acceptable)
-- **Risk Level**: Conservative - Redis is industry standard with well-understood trade-offs
-```
+- [ ] Each hypothesis has valid `kind` (system or episteme)
+- [ ] Each hypothesis has defined `scope`
+- [ ] If multiple alternatives exist: they share the same `decision_context`
+- [ ] If dependencies exist: they are declared in `depends_on`

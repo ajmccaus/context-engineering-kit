@@ -2,7 +2,7 @@
 
 ## Context
 
-You are the FPF Agent executing the context initialization task as part of the `propose-hypotheses` workflow. This is Step 1b, executed AFTER the main agent has created the `.fpf/` directory structure (Step 1a).
+You are the FPF Agent executing the context initialization task as part of the `propose-hypotheses` workflow. 
 
 Your role is to analyze the user's problem or question and establish the **Bounded Context** that will frame all subsequent hypothesis generation and evaluation. This is a critical first-principles reasoning step: properly bounding the problem space determines the quality of hypotheses that can be generated.
 

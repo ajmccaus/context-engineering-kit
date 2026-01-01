@@ -2,11 +2,7 @@
 
 ## Context
 
-You are executing the **logical verification** step of the FPF workflow. This task operates on a **SINGLE L0 hypothesis** and determines whether it passes to L1 (Substantiated) or is rejected (Invalid).
-
-This task is part of Step 5 in the `propose-hypotheses` workflow. Multiple instances of this task run **in parallel** - one per L0 hypothesis file. Each sub-agent verifies exactly one hypothesis independently.
-
-**Your Role**: Deductor - verify logical consistency using first-principles reasoning.
+You are the Deductor operating as a state machine executor. Your goal is to logically verify the L0 hypothesis and promote it to L1 (Substantiated) or move it to Invalid if it violates invariants.
 
 ## Input
 
@@ -25,7 +21,6 @@ Perform logical verification on the given L0 hypothesis and produce one of three
 |---------|---------|----------------|
 | **PASS** | Logically sound, internally consistent | Move to `.fpf/knowledge/L1/` |
 | **FAIL** | Contains logical errors or violates invariants | Move to `.fpf/knowledge/invalid/` |
-| **REFINE** | Needs clarification but not fundamentally flawed | Keep in `.fpf/knowledge/L0/` with feedback |
 
 ## Instructions
 
@@ -43,33 +38,17 @@ Perform logical verification on the given L0 hypothesis and produce one of three
 2. Parse the frontmatter (id, title, kind, scope, layer, decision_context, depends_on)
 3. Parse the body sections (Method, Expected Outcome, Rationale)
 
-### Step 3: Perform Verification Checks
+### Step 3: Perform Verification Checks | Method: Verification Assurance (VA)
 
-Execute these checks in order. Stop on first FAIL if critical:
+We have a set of L0 hypotheses stored in the database. We need to check if they are logically sound before we invest in testing them.
 
-#### Check 1: Internal Consistency
-
-- Does the **Method** logically lead to the **Expected Outcome**?
-- Are there logical gaps or missing steps in the reasoning?
-- Are cause-effect relationships valid?
-
-#### Check 2: Constraint Compliance
-
-- Does the hypothesis violate any **invariants** from context.md?
-- Are all stated **constraints** in the hypothesis feasible together?
-- Does the **scope** stay within project boundaries?
-
-#### Check 3: Type Compatibility (for `kind: system` only)
-
-- Are input/output types compatible with existing system?
-- Does it respect the project's type system and interfaces?
-- Are dependencies properly declared?
-
-#### Check 4: First-Principles Soundness
-
-- Can the hypothesis be decomposed into fundamental truths?
-- Are assumptions explicit and justified?
-- Would an expert in the domain find the reasoning valid?
+1. **Type Check (C.3 Kind-CAL):**
+    - Does the hypothesis respect the project's Types?
+    - Are inputs/outputs compatible?
+2. **Constraint Check:**
+    - Does it violate any invariants defined in the `U.BoundedContext`?
+3. **Logical Consistency:**
+    - Does the proposed Method actually lead to the Expected Outcome?
 
 ### Step 4: Record Verification Results
 
@@ -99,7 +78,7 @@ Add a verification section to the hypothesis file:
 
 Based on verdict, update the hypothesis file:
 
-#### If PASS:
+#### If PASS
 
 Update frontmatter:
 
@@ -120,7 +99,7 @@ verification:
 
 Move file: `.fpf/knowledge/L0/<filename>.md` -> `.fpf/knowledge/L1/<filename>.md`
 
-#### If FAIL:
+#### If FAIL
 
 Update frontmatter:
 
@@ -136,22 +115,6 @@ verification:
 ```
 
 Move file: `.fpf/knowledge/L0/<filename>.md` -> `.fpf/knowledge/invalid/<filename>.md`
-
-#### If REFINE:
-
-Update frontmatter (keep layer as L0):
-
-```yaml
----
-layer: L0
-verification:
-  verdict: REFINE
-  feedback: "<what needs clarification or improvement>"
-  suggested_changes:
-    - "<specific suggestion 1>"
-    - "<specific suggestion 2>"
----
-```
 
 Keep file in: `.fpf/knowledge/L0/<filename>.md` (do not move)
 
@@ -258,3 +221,13 @@ Output:
   Reason: Violates memory constraint invariant
   Moved: L0 -> invalid
 ```
+
+## Checkpoint
+
+Before proceeding to Phase 3, verify:
+
+- [ ] Saved verification results to the file
+- [ ] Hypothesis file is moved to correct directory (L1, invalid)
+- [ ] Used valid verdict values only
+
+**If any checkbox is unchecked, you MUST complete it before proceeding.**
