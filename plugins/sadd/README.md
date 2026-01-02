@@ -102,6 +102,7 @@ Specify where results should be written:
 ```
 
 #### Core design principles:
+
 - **Context isolation**: Sub-agents operate with fresh context, preventing confirmation bias and attention scarcity
 - **Intelligent model selection**: Match model capability to task complexity for optimal quality/cost tradeoff
 - **Specialized agent routing**: Domain experts handle domain-specific tasks
@@ -109,12 +110,14 @@ Specify where results should be written:
 - **Self-critique**: Verification loop catches 40-60% of issues before delivery
 
 #### When to use this command:
+
 - Tasks that benefit from fresh, focused context
 - Tasks where model selection matters (quality vs. cost tradeoffs)
 - Delegating work while maintaining quality gates
 - Single, well-defined tasks with clear deliverables
 
 #### When NOT to use:
+
 - Simple tasks you can complete directly (overhead not justified)
 - Tasks requiring conversation history or accumulated session context
 - Exploratory work where scope is undefined
@@ -122,21 +125,22 @@ Specify where results should be written:
 #### Theoretical Foundation
 
 **Zero-shot Chain-of-Thought** (Kojima et al., 2022)
+
 - Adding "Let's think step by step" improves reasoning by 20-60%
 - Explicit reasoning steps reduce errors and catch edge cases
 - Reference: [Large Language Models are Zero-Shot Reasoners](https://arxiv.org/abs/2205.11916)
 
 **Constitutional AI / Self-Critique** (Bai et al., 2022)
+
 - Self-critique loops catch 40-60% of issues before delivery
 - Verification questions force explicit quality checking
 - Reference: [Constitutional AI](https://arxiv.org/abs/2212.08073)
 
 **Multi-Agent Context Isolation** (Multi-agent architecture patterns)
+
 - Fresh context prevents accumulated confusion and attention scarcity
 - Focused tasks produce better results than context-polluted sessions
 - Supervisor pattern enables quality gates between delegated work
-
-
 
 ### do-competitively - Competitive Multi-Agent Synthesis
 
@@ -208,19 +212,20 @@ Do NOT use when:
 
 Techniques that were used to enhance the quality of the competitive execution pattern.
 
-| Phase | Technique | Benefit |
-|-------|-----------|---------|
-| **Phase 1** | Constitutional AI Self-Critique | Generators review and fix their own solutions before submission, catching 40-60% of issues |
-| **Phase 2** | Chain of Verification | Judges verify their evaluations with structured questions, improving calibration and reducing bias |
-| **Phase 2.5** | Adaptive Strategy Selection | Orchestrator parses structured judge outputs (VOTE+SCORES) to select optimal strategy, saving 15-20% cost on average |
-| **Phase 3** | Evidence-Based Synthesis | Combines proven best elements rather than creating new solutions (only when needed) |
 
+| Phase         | Technique                       | Benefit                                                                                                              |
+| --------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Phase 1**   | Constitutional AI Self-Critique | Generators review and fix their own solutions before submission, catching 40-60% of issues                           |
+| **Phase 2**   | Chain of Verification           | Judges verify their evaluations with structured questions, improving calibration and reducing bias                   |
+| **Phase 2.5** | Adaptive Strategy Selection     | Orchestrator parses structured judge outputs (VOTE+SCORES) to select optimal strategy, saving 15-20% cost on average |
+| **Phase 3**   | Evidence-Based Synthesis        | Combines proven best elements rather than creating new solutions (only when needed)                                  |
 
 #### Theoretical Foundation
 
 The competitive execution pattern combines insights from:
 
 **Academic Research:**
+
 - [Multi-Agent Debate](https://arxiv.org/abs/2305.14325) (Du et al., 2023) - Diverse perspectives improve reasoning
 - [Self-Consistency](https://arxiv.org/abs/2203.11171) (Wang et al., 2022) - Multiple reasoning paths improve reliability
 - [Tree of Thoughts](https://arxiv.org/abs/2305.10601) (Yao et al., 2023) - Exploration of solution branches before commitment
@@ -229,6 +234,7 @@ The competitive execution pattern combines insights from:
 - [LLM-as-a-Judge](https://arxiv.org/abs/2306.05685) (Zheng et al., 2023) - Structured evaluation rubrics
 
 **Engineering Practices:**
+
 - Design Studio Method - Parallel design, critique, synthesis
 - Spike Solutions (XP/Agile) - Explore approaches, combine best
 - A/B Testing - Compare alternatives with clear metrics
@@ -297,6 +303,7 @@ Phase 5: Synthesis (Only if FULL_SYNTHESIS)           │
 #### When to Use
 
 ✅ **Use ToT when:**
+
 - Solution space is large and poorly understood
 - Wrong approach chosen early would waste significant effort
 - Task has multiple valid approaches with different trade-offs
@@ -304,6 +311,7 @@ Phase 5: Synthesis (Only if FULL_SYNTHESIS)           │
 - You need to explore before committing
 
 ❌ **Don't use ToT when:**
+
 - Solution approach is obvious
 - Task is simple or well-defined
 - Speed matters more than exploration
@@ -311,18 +319,20 @@ Phase 5: Synthesis (Only if FULL_SYNTHESIS)           │
 
 #### Quality Enhancement Techniques
 
-| Phase | Technique | Benefit |
-|-------|-----------|---------|
-| **Phase 1** | Probabilistic Sampling | Explorers generate approaches with probability estimates, encouraging diversity |
-| **Phase 2** | Multi-Judge Pruning | Independent judges vote on top 3 proposals, reducing groupthink |
-| **Phase 3** | Feedback-Aware Expansion | Expanders address concerns raised during pruning |
-| **Phase 4** | Chain of Verification | Judges verify evaluations with structured questions, reducing bias |
-| **Phase 4.5** | Adaptive Strategy Selection | Orchestrator parses structured outputs to select optimal strategy |
-| **Phase 5** | Evidence-Based Synthesis | Combines proven best elements rather than creating new solutions |
+
+| Phase         | Technique                   | Benefit                                                                         |
+| --------------- | ----------------------------- | --------------------------------------------------------------------------------- |
+| **Phase 1**   | Probabilistic Sampling      | Explorers generate approaches with probability estimates, encouraging diversity |
+| **Phase 2**   | Multi-Judge Pruning         | Independent judges vote on top 3 proposals, reducing groupthink                 |
+| **Phase 3**   | Feedback-Aware Expansion    | Expanders address concerns raised during pruning                                |
+| **Phase 4**   | Chain of Verification       | Judges verify evaluations with structured questions, reducing bias              |
+| **Phase 4.5** | Adaptive Strategy Selection | Orchestrator parses structured outputs to select optimal strategy               |
+| **Phase 5**   | Evidence-Based Synthesis    | Combines proven best elements rather than creating new solutions                |
 
 #### Theoretical Foundation
 
 Based on:
+
 - **[Tree of Thoughts](https://arxiv.org/abs/2305.10601)** (Yao et al., 2023) - Systematic exploration and pruning
 - **[Self-Consistency](https://arxiv.org/abs/2203.11171)** (Wang et al., 2023) - Multiple reasoning paths
 - **[Constitutional AI](https://arxiv.org/abs/2212.08073)** (Bai et al., 2022) - Critique and refinement
@@ -386,6 +396,7 @@ Phase 2: Debate Round (iterative)   │
 #### When to Use
 
 ✅ **Use debate when:**
+
 - High-stakes decisions requiring rigorous evaluation
 - Subjective criteria where perspectives differ legitimately
 - Complex solutions with many evaluation dimensions
@@ -394,6 +405,7 @@ Phase 2: Debate Round (iterative)   │
 - You need defensible, evidence-based evaluation
 
 ❌ **Skip debate when:**
+
 - Objective pass/fail criteria (use simple validation)
 - Trivial solutions (single judge sufficient)
 - Time/cost constraints prohibit multiple rounds
@@ -402,28 +414,32 @@ Phase 2: Debate Round (iterative)   │
 
 #### Quality Enhancement Techniques
 
-| Phase | Technique | Benefit |
-|-------|-----------|---------|
-| **Phase 1** | Chain of Verification | Judges generate verification questions and self-critique before submitting initial assessment |
-| **Phase 1** | Evidence Requirement | All scores must be supported by specific quotes from solution |
-| **Phase 2** | Filesystem Communication | Judges read each other's reports directly, orchestrator never mediates (prevents context overflow) |
-| **Phase 2** | Structured Argumentation | Judges must defend positions AND challenge others with counter-evidence |
-| **Phase 2** | Explicit Revision | Judges must document what changed their mind or why they maintained their position |
-| **Consensus** | Adaptive Termination | Stops early if consensus reached, max rounds hit, or judges stop converging |
+
+| Phase         | Technique                | Benefit                                                                                            |
+| --------------- | -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Phase 1**   | Chain of Verification    | Judges generate verification questions and self-critique before submitting initial assessment      |
+| **Phase 1**   | Evidence Requirement     | All scores must be supported by specific quotes from solution                                      |
+| **Phase 2**   | Filesystem Communication | Judges read each other's reports directly, orchestrator never mediates (prevents context overflow) |
+| **Phase 2**   | Structured Argumentation | Judges must defend positions AND challenge others with counter-evidence                            |
+| **Phase 2**   | Explicit Revision        | Judges must document what changed their mind or why they maintained their position                 |
+| **Consensus** | Adaptive Termination     | Stops early if consensus reached, max rounds hit, or judges stop converging                        |
 
 #### Process Flow
 
 **Step 1: Independent Analysis**
+
 - 3 judges analyze solution in parallel
 - Each writes comprehensive report to `report.[1|2|3].md`
 - Includes per-criterion scores, evidence, overall assessment
 
 **Step 2: Check Consensus**
+
 - Extract all scores from reports
 - Consensus if: overall scores within 0.5 AND all criterion scores within 1.0
 - If achieved → generate consensus report and complete
 
 **Step 3: Debate Round** (if no consensus, max 3 rounds)
+
 - Each judge reads their own report + others' reports from filesystem
 - Identifies disagreements (>1 point gap on any criterion)
 - Defends their ratings with evidence
@@ -434,12 +450,14 @@ Phase 2: Debate Round (iterative)   │
 **Step 4: Repeat** until consensus, max rounds, or lack of convergence
 
 **Step 5: Final Report**
+
 - If consensus: averaged scores, strengths/weaknesses, debate summary
 - If no consensus: disagreement report with flag for human review
 
 #### Theoretical Foundation
 
 Based on:
+
 - **[Multi-Agent Debate](https://arxiv.org/abs/2305.14325)** (Du et al., 2023) - Adversarial critique improves reasoning accuracy
 - **[LLM-as-a-Judge](https://arxiv.org/abs/2306.05685)** (Zheng et al., 2023) - Pairwise comparison and structured evaluation
 - **[Chain-of-Verification](https://arxiv.org/abs/2309.11495)** (Dhuliawala et al., 2023) - Self-verification reduces bias
@@ -511,6 +529,7 @@ Phase 3: Validation & Report
 #### When to Use
 
 ✅ **Use single judge when:**
+
 - Quick quality check needed
 - Work is straightforward with clear criteria
 - Speed/cost matters more than multi-perspective analysis
@@ -518,6 +537,7 @@ Phase 3: Validation & Report
 - Low-to-medium stakes decisions
 
 ❌ **Use judge-with-debate instead when:**
+
 - High-stakes decisions requiring rigorous evaluation
 - Subjective criteria where perspectives differ legitimately
 - Complex solutions with many evaluation dimensions
@@ -525,37 +545,41 @@ Phase 3: Validation & Report
 
 #### Default Evaluation Criteria
 
-| Criterion | Weight | What It Measures |
-|-----------|--------|------------------|
-| Instruction Following | 0.30 | Does output fulfill original request? All requirements addressed? |
-| Output Completeness | 0.25 | All components covered? Appropriate depth? No gaps? |
-| Solution Quality | 0.25 | Sound approach? Best practices? No correctness issues? |
-| Reasoning Quality | 0.10 | Clear decision-making? Appropriate methods used? |
-| Response Coherence | 0.10 | Well-structured? Easy to understand? Professional? |
+
+| Criterion             | Weight | What It Measures                                                  |
+| ----------------------- | -------- | ------------------------------------------------------------------- |
+| Instruction Following | 0.30   | Does output fulfill original request? All requirements addressed? |
+| Output Completeness   | 0.25   | All components covered? Appropriate depth? No gaps?               |
+| Solution Quality      | 0.25   | Sound approach? Best practices? No correctness issues?            |
+| Reasoning Quality     | 0.10   | Clear decision-making? Appropriate methods used?                  |
+| Response Coherence    | 0.10   | Well-structured? Easy to understand? Professional?                |
 
 #### Scoring Interpretation
 
-| Score Range | Verdict | Recommendation |
-|-------------|---------|----------------|
-| 4.50 - 5.00 | EXCELLENT | Ready as-is |
-| 4.00 - 4.49 | GOOD | Minor improvements optional |
-| 3.50 - 3.99 | ACCEPTABLE | Improvements recommended |
-| 3.00 - 3.49 | NEEDS IMPROVEMENT | Address issues before use |
-| 1.00 - 2.99 | INSUFFICIENT | Significant rework needed |
+
+| Score Range | Verdict           | Recommendation              |
+| ------------- | ------------------- | ----------------------------- |
+| 4.50 - 5.00 | EXCELLENT         | Ready as-is                 |
+| 4.00 - 4.49 | GOOD              | Minor improvements optional |
+| 3.50 - 3.99 | ACCEPTABLE        | Improvements recommended    |
+| 3.00 - 3.49 | NEEDS IMPROVEMENT | Address issues before use   |
+| 1.00 - 2.99 | INSUFFICIENT      | Significant rework needed   |
 
 #### Quality Enhancement Techniques
 
-| Technique | Benefit |
-|-----------|---------|
-| Context Isolation | Judge receives only extracted context, preventing confirmation bias from session state |
-| Chain-of-Thought Scoring | Justification BEFORE score improves reliability by 15-25% |
-| Evidence Requirement | Every score requires specific citations (file paths, line numbers, quotes) |
-| Self-Verification | Judge generates verification questions and documents adjustments |
-| Bias Mitigation | Explicit warnings against length bias, verbosity bias, and authority bias |
+
+| Technique                | Benefit                                                                                |
+| -------------------------- | ---------------------------------------------------------------------------------------- |
+| Context Isolation        | Judge receives only extracted context, preventing confirmation bias from session state |
+| Chain-of-Thought Scoring | Justification BEFORE score improves reliability by 15-25%                              |
+| Evidence Requirement     | Every score requires specific citations (file paths, line numbers, quotes)             |
+| Self-Verification        | Judge generates verification questions and documents adjustments                       |
+| Bias Mitigation          | Explicit warnings against length bias, verbosity bias, and authority bias              |
 
 #### Theoretical Foundation
 
 Based on:
+
 - **[LLM-as-a-Judge](https://arxiv.org/abs/2306.05685)** (Zheng et al., 2023) - Structured evaluation rubrics with calibrated scoring
 - **[Chain of Thought Prompting](https://arxiv.org/abs/2201.11903)** (Wei et al., 2022) - Reasoning before conclusion improves accuracy
 - **[Constitutional AI](https://arxiv.org/abs/2212.08073)** (Bai et al., 2022) - Self-critique and verification loops
@@ -597,7 +621,6 @@ Use when executing implementation plans with independent tasks or facing multipl
 # Or when facing multiple independent issues
 > We have 4 failing test files in different areas. Use subagent-driven development to fix them in parallel.
 ```
-
 
 ## How It Works
 
@@ -665,45 +688,39 @@ Command → Agent 1 ─┐
 ### Sequential Execution Process
 
 1. **Load Plan**: Read plan file and create TodoWrite with all tasks
-
 2. **Execute Task with Subagent**: For each task, dispatch a fresh subagent:
+
    - Subagent reads the specific task from the plan
    - Implements exactly what the task specifies
    - Writes tests following project conventions
    - Verifies implementation works
    - Commits the work
    - Reports back with summary
-
 3. **Review Subagent's Work**: Dispatch a code-reviewer subagent:
+
    - Reviews what was implemented against the plan
    - Returns: Strengths, Issues (Critical/Important/Minor), Assessment
    - Quality gate: Must pass before proceeding
-
 4. **Apply Review Feedback**:
+
    - Fix Critical issues immediately (dispatch fix subagent)
    - Fix Important issues before next task
    - Note Minor issues for later
-
 5. **Mark Complete, Next Task**: Update TodoWrite and proceed to next task
-
 6. **Final Review**: After all tasks, dispatch final reviewer for overall assessment
-
 7. **Complete Development**: Use finishing-a-development-branch skill to verify and close
 
 ### Parallel Execution Process
 
 1. **Load and Review Plan**: Read plan, identify concerns, create TodoWrite
-
 2. **Execute Batch**: Execute first 3 tasks (default batch size):
+
    - Mark each as in_progress
    - Follow each step exactly
    - Run verifications as specified
    - Mark as completed
-
 3. **Report**: Show what was implemented and verification output
-
 4. **Continue**: Apply feedback if needed, execute next batch
-
 5. **Complete Development**: Final verification and close
 
 ### Parallel Investigation Process
@@ -719,12 +736,13 @@ For multiple unrelated failures (different files, subsystems, bugs):
 
 Quality gates are enforced at key checkpoints:
 
-| Checkpoint | Gate Type | Action on Failure |
-|------------|-----------|-------------------|
-| After each task (sequential) | Code review | Fix issues before next task |
-| After batch (parallel) | Human review | Apply feedback, continue |
-| Final review | Comprehensive review | Address all findings |
-| Before merge | Full test suite | All tests must pass |
+
+| Checkpoint                   | Gate Type            | Action on Failure           |
+| ------------------------------ | ---------------------- | ----------------------------- |
+| After each task (sequential) | Code review          | Fix issues before next task |
+| After batch (parallel)       | Human review         | Apply feedback, continue    |
+| Final review                 | Comprehensive review | Address all findings        |
+| Before merge                 | Full test suite      | All tests must pass         |
 
 **Issue Severity Handling:**
 
@@ -738,19 +756,21 @@ Use when single-agent context limits are exceeded, when tasks decompose naturall
 
 **Why Multi-Agent Architectures:**
 
-| Problem | Solution |
-|---------|----------|
-| **Context Bottleneck** | Partition work across multiple context windows |
+
+| Problem                   | Solution                                       |
+| --------------------------- | ------------------------------------------------ |
+| **Context Bottleneck**    | Partition work across multiple context windows |
 | **Sequential Bottleneck** | Parallelize independent subtasks across agents |
-| **Generalist Overhead** | Specialize agents with lean, focused context |
+| **Generalist Overhead**   | Specialize agents with lean, focused context   |
 
 **Architecture Patterns:**
 
-| Pattern | When to Use | Trade-offs |
-|---------|-------------|------------|
-| **Supervisor/Orchestrator** | Clear task decomposition, need human oversight | Central bottleneck, "telephone game" risk |
-| **Peer-to-Peer/Swarm** | Flexible exploration, emergent requirements | Coordination complexity, divergence risk |
-| **Hierarchical** | Large projects with layered abstraction | Overhead between layers, alignment challenges |
+
+| Pattern                     | When to Use                                    | Trade-offs                                    |
+| ----------------------------- | ------------------------------------------------ | ----------------------------------------------- |
+| **Supervisor/Orchestrator** | Clear task decomposition, need human oversight | Central bottleneck, "telephone game" risk     |
+| **Peer-to-Peer/Swarm**      | Flexible exploration, emergent requirements    | Coordination complexity, divergence risk      |
+| **Hierarchical**            | Large projects with layered abstraction        | Overhead between layers, alignment challenges |
 
 **Example of Implementation:**
 
@@ -760,7 +780,6 @@ User Request → Supervisor → [Specialist A, B, C] → Aggregation → Output
 
 Key Insight: Sub-agents exist to isolate context, not to anthropomorphize roles
 ```
-
 
 ## Foundation
 
@@ -773,11 +792,13 @@ The SADD plugin is based on the following foundations:
 ### Research Papers
 
 **Multi-Agent Patterns:**
+
 - [Multi-Agent Debate](https://arxiv.org/abs/2305.14325) - Du, Y., et al. (2023)
 - [Self-Consistency](https://arxiv.org/abs/2203.11171) - Wang, X., et al. (2022)
 - [Tree of Thoughts](https://arxiv.org/abs/2305.10601) - Yao, S., et al. (2023)
 
 **Evaluation and Critique:**
+
 - [Constitutional AI](https://arxiv.org/abs/2212.08073) - Bai, Y., et al. (2022). Self-critique loops
 - [LLM-as-a-Judge](https://arxiv.org/abs/2306.05685) - Zheng, L., et al. (2023). Structured evaluation
 - [Chain-of-Verification](https://arxiv.org/abs/2309.11495) - Dhuliawala, S., et al. (2023). Verification loops
@@ -787,4 +808,3 @@ The SADD plugin is based on the following foundations:
 - **Design Studio Method** - Parallel design exploration with critique and synthesis
 - **Spike Solutions** (Extreme Programming) - Time-boxed exploration of multiple approaches
 - **Ensemble Methods** (Machine Learning) - Combining multiple models for improved performance
-

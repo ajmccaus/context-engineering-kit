@@ -2,6 +2,8 @@
 
 Implementation of structured reasoning using the First Principles Framework (FPF) methodology developed by Anatoly Levenchuk. Based on [quint-code](https://github.com/m0n0x41d/quint-code) by m0n0x41d.
 
+> **Warning:** This plugin loads core part of [FPF specification](https://github.com/ailev/FPF) into context, which is huge. Total size of this part is more than 600k tokens. As a result it will be loaded into context of subagent with Sonnet[1m] model. This can eat up your token limit very quickly.
+
 ## Overview
 
 FPF addresses a fundamental challenge in AI-assisted development: making decision-making processes transparent and auditable. Rather than having AI jump to solutions, FPF enforces generating competing hypotheses, checking them logically, testing against evidence, then letting developers choose the path forward.
