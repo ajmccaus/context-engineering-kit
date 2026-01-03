@@ -82,6 +82,26 @@ grep -r "<plugin-name>" docs/ README.md --include="*.md" -l
 - Include key concepts with one-line explanations
 - Keep YAML `name:` field matching folder name for consistency
 
+## Use Context7 MCP for Loading Documentation
+
+Context7 MCP is available to fetch up-to-date documentation with code examples.
+
+**Recommended library IDs**:
+
+- `/anthropics/claude-code` - Claude Code CLI tool documentation (1954 snippets)
+- `/websites/platform_claude` - Claude Developer Platform comprehensive docs (5916 snippets)
+- `/anthropics/anthropic-cookbook` - Code examples and guides for building with Claude (1226 snippets)
+- `/anthropics/courses` - Anthropic educational courses on SDK and prompt engineering (1173 snippets)
+- `/websites/platform_claude_en_agent-sdk` - Claude Agent SDK for Python/TypeScript (605 snippets)
+- `/anthropics/claude-agent-sdk-python` - Python SDK for Claude Agent (57 snippets)
+- `/anthropics/claude-code-sdk-python` - Python SDK for Claude Code (31 snippets)
+
+**Usage**:
+
+```
+mcp__context7__query-docs libraryId: "/anthropics/claude-code" query: "how to configure hooks"
+```
+
 ## Use Paper Search MCP for Academic Research
 
 Paper Search MCP is available via Docker MCP for searching and downloading academic papers.

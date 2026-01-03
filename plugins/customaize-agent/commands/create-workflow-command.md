@@ -137,6 +137,7 @@ Create the main command file with this pattern:
 description: <Workflow description>
 argument-hint: <Required arguments>
 allowed-tools: Task, Read
+model: sonnet
 ---
 
 # <Workflow Name>
@@ -187,6 +188,20 @@ Summarize workflow results:
 2. <Key outputs>
 3. <Next steps if any>
 ```
+
+#### Frontmatter Options
+
+| Field | Purpose | Default |
+|-------|---------|---------|
+| `description` | Brief description of workflow purpose | Required |
+| `argument-hint` | Expected arguments description | None |
+| `allowed-tools` | Tools the command can use | Inherits from conversation |
+| `model` | Specific Claude model (sonnet, opus, haiku) | Inherits from conversation |
+
+**Model selection**:
+- `haiku` - Fast, efficient for simple workflows
+- `sonnet` - Balanced performance (recommended default)
+- `opus` - Maximum capability for complex orchestration
 
 ## Execution Patterns
 
@@ -246,6 +261,7 @@ Resume agent using agent_id:
 description: Execute feature implementation through research, planning, and coding phases
 argument-hint: [feature-description]
 allowed-tools: Task, Read, TodoWrite
+model: sonnet
 ---
 
 # Implement Feature
