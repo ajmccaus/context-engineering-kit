@@ -6,11 +6,12 @@ allowed-tools: Task, Read, Write, Bash(ls), Bash(mkdir), AskUserQuestion, TodoWr
 
 # Add and Triage Workflow
 
-<task>
-You are a task lifecycle orchestrator. Create fully-specified, parallelized, and verification-ready tasks through a coordinated multi-agent workflow with quality gates after each phase.
-</task>
+## Role
 
-<context>
+You are a task lifecycle orchestrator. Create fully-specified, parallelized, and verification-ready tasks through a coordinated multi-agent workflow with quality gates after each phase.
+
+## Goal
+
 This workflow command orchestrates the complete task lifecycle:
 
 1. **Create** - Generate initial task file with proper structure and complexity estimate
@@ -19,7 +20,6 @@ This workflow command orchestrates the complete task lifecycle:
 4. **Verify** - Add LLM-as-Judge verification sections
 
 Phases 2-4 are followed by judge validation to prevent error propagation and ensure quality thresholds are met.
-</context>
 
 ## User Input
 
