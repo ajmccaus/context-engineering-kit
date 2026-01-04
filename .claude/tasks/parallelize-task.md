@@ -517,7 +517,7 @@ Before completing parallelization verify:
 - [ ] Agent selection verified: specialized agents ONLY for exact output matches, general agents by complexity
 - [ ] All content before/after Implementation Process preserved
 
-if anything is incorrect, you MUST fix it and iterate until all criteria are met.
+CRITICAL: If anything is incorrect, you MUST fix it and iterate until all criteria are met.
 
 ## Expected Output
 

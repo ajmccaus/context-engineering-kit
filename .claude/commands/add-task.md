@@ -15,11 +15,13 @@ You are a task lifecycle orchestrator. Create fully-specified, parallelized, and
 This workflow command orchestrates the complete task lifecycle:
 
 1. **Create** - Generate initial task file with proper structure and complexity estimate
-2. **Refine** - Add detailed specification, affected files, resources (can update complexity)
-3. **Parallelize** - Reorganize steps for maximum parallel execution
-4. **Verify** - Add LLM-as-Judge verification sections
+2. **Parallel Analysis** - Research, codebase analysis, and business analysis in parallel
+3. **Architecture Synthesis** - Combine findings into architectural overview
+4. **Decomposition** - Break into implementation steps with risks
+5. **Parallelize** - Reorganize steps for maximum parallel execution
+6. **Verify** - Add LLM-as-Judge verification sections
 
-Phases 2-4 are followed by judge validation to prevent error propagation and ensure quality thresholds are met.
+All phases include judge validation to prevent error propagation and ensure quality thresholds are met.
 
 ## User Input
 
@@ -31,20 +33,31 @@ $ARGUMENTS
 
 Before starting workflow:
 
+1. **Initialize workflow progress tracking** using TodoWrite:
+
+   ```json
+   {
+     "todos": [
+       {"content": "Ensure directories exist", "status": "pending", "activeForm": "Ensuring directories exist"},
+       {"content": "Phase 1: Create task file with complexity estimate", "status": "pending", "activeForm": "Creating task file"},
+       {"content": "Phase 2a: Research relevant resources and documentation", "status": "pending", "activeForm": "Researching resources"},
+       {"content": "Phase 2b: Analyze codebase impact and affected files", "status": "pending", "activeForm": "Analyzing codebase impact"},
+       {"content": "Phase 2c: Business analysis and acceptance criteria", "status": "pending", "activeForm": "Analyzing business requirements"},
+       {"content": "Phase 3: Architecture synthesis from research and analysis", "status": "pending", "activeForm": "Synthesizing architecture"},
+       {"content": "Phase 4: Decompose into implementation steps", "status": "pending", "activeForm": "Decomposing into steps"},
+       {"content": "Phase 5: Parallelize implementation steps", "status": "pending", "activeForm": "Parallelizing steps"},
+       {"content": "Phase 6: Define verification rubrics", "status": "pending", "activeForm": "Defining verifications"}
+     ]
+   }
+   ```
+
 1. **Ensure directories exist**:
 
    ```bash
-   mkdir -p .specs/tasks
-   mkdir -p .claude/tasks
+   mkdir -p .specs/tasks .specs/research .specs/analysis .claude/tasks
    ```
 
-2. **Verify task files exist** in `.claude/tasks/`:
-   - `create-task.md`
-   - `refine-task.md`
-   - `parallelize-task.md`
-   - `verify-task.md`
-
-   If any are missing, create them based on the task templates below.
+Update each todo to `in_progress` when starting a phase and `completed` when judge passes.
 
 ## Workflow Execution
 
@@ -52,28 +65,50 @@ You MUST launch for each step a separate agent, instead of performing all steps 
 
 **CRITICAL:** For each agent you MUST:
 
-1. Use the **Agent** type specified in the step
+1. Use the **Agent** type and **Model** specified in the step
 2. Provide the task file path and user input as context
 3. Require agent to implement exactly that step, not more, not less
-4. After phases 2-4, launch a judge agent to validate quality before proceeding
+4. After each sub-phase, launch a judge agent to validate quality before proceeding
 
-### Parallelization Overview
+### Complete Workflow Overview
 
 ```
-Phase 1: Create Task
+Phase 1: Create Task [sonnet]
     │
     ▼
-Phase 2: Refine Task ──► Judge 2 ──┐
-                                    │ (pass threshold: 4.5/5.0)
-                                    ▼
-Phase 3: Parallelize ──► Judge 3 ──┐
-                                    │ (pass threshold: 4.5/5.0)
-                                    ▼
-Phase 4: Verifications ─► Judge 4 ─► Complete
-                                    (pass threshold: 4.5/5.0)
+Phase 2: Parallel Analysis
+    │
+    ├─────────────────────┬─────────────────────┐
+    ▼                     ▼                     ▼
+Phase 2a:             Phase 2b:             Phase 2c:
+Research              Codebase Analysis     Business Analysis
+[researcher sonnet]   [code-explorer sonnet] [business-analyst opus]
+Judge 2a              Judge 2b              Judge 2c
+(pass: 4.5/5.0)       (pass: 4.5/5.0)       (pass: 4.5/5.0)
+    │                     │                     │
+    └─────────────────────┴─────────────────────┘
+                          │
+                          ▼
+                    Phase 3: Architecture Synthesis
+                    [software-architect opus]
+                    Judge 3 (pass: 4.5/5.0)
+                          │
+                          ▼
+                    Phase 4: Decomposition
+                    [tech-lead opus]
+                    Judge 4 (pass: 4.5/5.0)
+                          │
+                          ▼
+                    Phase 5: Parallelize [tech-lead opus]
+                    Judge 5 (pass: 4.5/5.0)
+                          │
+                          ▼
+                    Phase 6: Verifications [opus]
+                    Judge 6 (pass: 4.5/5.0)
+                          │
+                          ▼
+                    Complete
 ```
-
-Phases 2-4 are sequential - each depends on the previous phase's output AND judge approval.
 
 ---
 
@@ -116,126 +151,427 @@ Launch agent:
 
 ---
 
-### Phase 2: Refine Task
+## Phase 2: Parallel Analysis
 
-**Model:** `opus`
-**Agent:** `sdd:software-architect` or `sdd:tech-lead` based on type of task and complexity. If you task relates to 1-5 files, you should use `sdd:tech-lead`. If you task can affect more than 5 files, you should use `sdd:software-architect`.
+Phase 2 launches three analysis phases in parallel, each with its own judge validation.
+
+### Phase 2a/2b/2c: Parallel Sub-Phases
+
+Launch these three phases **in parallel** immediately after Phase 1 completes:
+
+---
+
+#### Phase 2a: Research
+
+**Model:** `sonnet`
+**Agent:** `sdd:researcher`
 **Depends on:** Phase 1
-**Purpose:** Add detailed specification, affected files, implementation resources
+**Purpose:** Gather relevant resources, documentation, libraries, and prior art
 
 Launch agent:
 
-- **Description**: "Refine task specification"
+- **Description**: "Research task resources"
 - **Prompt**:
 
   ```
-  Read .claude/tasks/refine-task.md and execute.
+  Read .claude/tasks/research-task.md and execute.
 
   Task File: <task file path from Phase 1>
-  Initial Complexity: <complexity from Phase 1>
-
-  Note: You may update the complexity estimate if detailed analysis reveals different scope.
+  Task Title: <title from Phase 1>
   ```
 
 **Capture:**
 
-- Number of files identified
-- Number of implementation steps created
-- List of useful resources gathered
-- Updated complexity (if changed)
+- Research file path (e.g., `.specs/research/research-{name}.md`)
+- Number of resources gathered
+- Key recommendation summary
 
 ---
 
-### Judge 2: Validate Task Refinement
+#### Phase 2b: Codebase Impact Analysis
+
+**Model:** `sonnet`
+**Agent:** `sdd:code-explorer`
+**Depends on:** Phase 1
+**Purpose:** Identify affected files, interfaces, and integration points
+
+Launch agent:
+
+- **Description**: "Analyze codebase impact"
+- **Prompt**:
+
+  ```
+  Read .claude/tasks/analyze-codebase-impact.md and execute.
+
+  Task File: <task file path from Phase 1>
+  Task Title: <title from Phase 1>
+  ```
+
+**Capture:**
+
+- Analysis file path (e.g., `.specs/analysis/analysis-{name}.md`)
+- Files affected count (modify/create/delete)
+- Risk level assessment
+- Key integration points
+
+---
+
+#### Phase 2c: Business Analysis
 
 **Model:** `opus`
-**Agent:** same like implementation agent
-**Depends on:** Phase 2 completion
-**Purpose:** Validate specification completeness and implementation readiness
+**Agent:** `sdd:business-analyst`
+**Depends on:** Phase 1
+**Purpose:** Refine description and create acceptance criteria
+
+Launch agent:
+
+- **Description**: "Business analysis"
+- **Prompt**:
+
+  ```
+  Read .claude/tasks/business-analysis-task.md and execute.
+
+  Task File: <task file path from Phase 1>
+  ```
+
+**Capture:**
+
+- Acceptance criteria count
+- Scope defined (yes/no)
+- User scenarios documented
+
+---
+
+### Judge 2a/2b/2c: Validate Parallel Phases
+
+After **each** parallel phase completes, launch its respective judge **with the same agent type and model**.
+
+#### Judge 2a: Validate Research
+
+**Model:** `sonnet`
+**Agent:** `sdd:researcher`
+**Depends on:** Phase 2a completion
+**Purpose:** Validate research completeness and relevance
 
 Launch judge:
 
-- **Description**: "Judge task refinement quality"
+- **Description**: "Judge research quality"
 - **Prompt**:
 
   ```
-  Read  ./plugins/sadd/tasks/judge.md for evaluation methodology and execute using following criteria.
+  Read ./plugins/sadd/tasks/judge.md for evaluation methodology and execute.
 
   ### Artifact Path
-  {path to refined task file from Phase 2}
+  {path to research file from Phase 2a}
 
   ### Context
-  This is the output of Phase 2: Refine Task. The artifact should contain detailed specification,
-  affected files, implementation resources, and implementation steps.
+  This is research output for task: {task title}. Evaluate comprehensiveness and relevance.
 
   ### Rubric
-  1. Specification Completeness (weight: 0.30)
-     - Are all requirements captured?
-     - Are acceptance criteria defined?
-     - 1=Missing major requirements, 2=Core covered, 4=Comprehensive, 5=Perfect
+  1. Resource Coverage (weight: 0.35)
+     - Documentation and references gathered?
+     - Libraries and tools identified?
+     - 1=Missing critical resources, 2=Basic coverage, 3=Adequate, 4=Comprehensive, 5=Excellent
 
-  2. File Identification Accuracy (weight: 0.25)
-     - Are affected files correctly identified?
-     - Is the scope realistic (not missing files, not over-scoped)?
-     - 1=Major files missing/wrong, 2=Mostly correct, 3=Acceptable, 5=Precise identification
+  2. Pattern Relevance (weight: 0.30)
+     - Are identified patterns applicable to this task?
+     - Are recommendations actionable?
+     - 1=Irrelevant, 2=Somewhat useful, 3=Adequate, 4=Well-targeted, 5=Perfect fit
 
-  3. Implementation Steps Quality (weight: 0.25)
-     - Are steps actionable and clear?
-     - Is the sequence logical?
-     - 1=Vague/missing steps, 2=Workable, 3=Acceptable, 4=Ready to execute, 5=Perfect
+  3. Issue Anticipation (weight: 0.20)
+     - Potential issues identified with mitigations?
+     - 1=None identified, 2=Few issues, 3=Adequate, 4=Good coverage, 5=Comprehensive
 
-  4. Resource Relevance (weight: 0.20)
-     - Are listed resources useful for implementation?
-     - Do patterns/references make sense?
-     - 1=Irrelevant/missing, 2=Some useful, 3=Acceptable, 5=Perfect
+  4. Format & Links (weight: 0.15)
+     - All resources have links/paths?
+     - Fits in context window?
+     - 1=Missing links, 2=Partial, 3=Adequate, 4=Good, 5=All linked
   ```
 
-**Orchestrator Decision Logic:**
+**Decision Logic:**
 
-1. **Parse judge output** - Extract scores for each criterion from judge's report
-2. **Calculate weighted total**:
-
-   ```
-   Score = (Spec Completeness × 0.30) + (File Identification × 0.25) +
-           (Implementation Steps × 0.25) + (Resource Relevance × 0.20)
-   ```
-
-3. **Apply threshold** (4.5/5.0):
-   - **PASS** (score ≥ 4.5): Proceed to Phase 3
-   - **FAIL** (score < 4.5): Re-launch Phase 2 with judge feedback
-
-**If FAIL, retry Phase 2:**
-
-Re-launch Phase 2 agent with:
-
-- **Description**: "Fix refinement issues - attempt {N}"
-- **Prompt**:
-
-  ```
-  Read .claude/tasks/refine-task.md and execute.
-
-  Task File: <task file path from Phase 1>
-
-  CRITICAL: Previous attempt failed judge evaluation. Fix these issues:
-
-  ### Judge Feedback
-  {Extract "Issues" and "Areas for Improvement" sections from judge report}
-
-  ### Previous Scores
-  {Show which criteria scored below 5}
-  ```
-
-**Retry limit**: Maximum 2 retries. After 2 failed attempts, report to user and request manual intervention.
-
-**Wait for PASS before Phase 3.**
+- **PASS** (score >= 4.5): Research complete
+- **FAIL** (score < 4.5): Re-launch Phase 2a with feedback (max 2 retries)
 
 ---
 
-### Phase 3: Parallelize Steps
+#### Judge 2b: Validate Codebase Analysis
+
+**Model:** `sonnet`
+**Agent:** `sdd:code-explorer`
+**Depends on:** Phase 2b completion
+**Purpose:** Validate file identification accuracy and integration mapping
+
+Launch judge:
+
+- **Description**: "Judge codebase analysis quality"
+- **Prompt**:
+
+  ```
+  Read ./plugins/sadd/tasks/judge.md for evaluation methodology and execute.
+
+  ### Artifact Path
+  {path to analysis file from Phase 2b}
+
+  ### Context
+  This is codebase impact analysis for task: {task title}. Evaluate accuracy and completeness.
+
+  ### Rubric
+  1. File Identification Accuracy (weight: 0.35)
+     - All affected files identified with specific paths?
+     - New files and modifications distinguished?
+     - 1=Major files missing, 2=Mostly correct, 3=Adequate, 4=Precise, 5=Complete
+
+  2. Interface Documentation (weight: 0.25)
+     - Key functions/classes documented with signatures?
+     - Change requirements clear?
+     - 1=Missing, 2=Partial, 3=Adequate, 4=Good, 5=Complete
+
+  3. Integration Point Mapping (weight: 0.25)
+     - Integration points identified with impact?
+     - Similar patterns in codebase found?
+     - 1=Missing, 2=Partial, 3=Adequate, 4=Good, 5=Comprehensive
+
+  4. Risk Assessment (weight: 0.15)
+     - High risk areas identified with mitigations?
+     - 1=No assessment, 2=Basic, 3=Adequate, 4=Good, 5=Thorough
+  ```
+
+**Decision Logic:**
+
+- **PASS** (score >= 4.5): Analysis complete
+- **FAIL** (score < 4.5): Re-launch Phase 2b with feedback (max 2 retries)
+
+---
+
+#### Judge 2c: Validate Business Analysis
 
 **Model:** `opus`
-**Agent:** `sdd:team-lead`
-**Depends on:** Phase 2 + Judge 2 PASS
+**Agent:** `sdd:business-analyst`
+**Depends on:** Phase 2c completion
+**Purpose:** Validate acceptance criteria quality and scope definition
+
+Launch judge:
+
+- **Description**: "Judge business analysis quality"
+- **Prompt**:
+
+  ```
+  Read ./plugins/sadd/tasks/judge.md for evaluation methodology and execute.
+
+  ### Artifact Path
+  {path to task file from Phase 2c}
+
+  ### Context
+  This is business analysis output. Evaluate description clarity and acceptance criteria quality.
+
+  ### Rubric
+  1. Description Clarity (weight: 0.30)
+     - What/Why clearly explained?
+     - Scope boundaries defined?
+     - 1=Vague, 2=Basic, 3=Adequate, 4=Clear, 5=Excellent
+
+  2. Acceptance Criteria Quality (weight: 0.35)
+     - Criteria specific and testable?
+     - Given/When/Then format for complex criteria?
+     - 1=Missing/vague, 2=Basic, 3=Adequate, 4=Good, 5=Excellent
+
+  3. Scenario Coverage (weight: 0.20)
+     - Primary flow documented?
+     - Error scenarios considered?
+     - 1=Missing, 2=Basic, 3=Adequate, 4=Good, 5=Comprehensive
+
+  4. Scope Definition (weight: 0.15)
+     - In-scope/out-of-scope explicit?
+     - No implementation details in description?
+     - 1=Missing, 2=Partial, 3=Adequate, 4=Good, 5=Clear
+  ```
+
+**Decision Logic:**
+
+- **PASS** (score >= 4.5): Business analysis complete
+- **FAIL** (score < 4.5): Re-launch Phase 2c with feedback (max 2 retries)
+
+---
+
+### Synchronization Point
+
+**Wait for ALL three parallel phases (2a, 2b, 2c) AND their judges to PASS before proceeding to Phase 3.**
+
+---
+
+## Phase 3: Architecture Synthesis
+
+**Model:** `opus`
+**Agent:** `sdd:software-architect`
+**Depends on:** Phase 2a + Judge 2a PASS, Phase 2b + Judge 2b PASS, Phase 2c + Judge 2c PASS
+**Purpose:** Synthesize research, analysis, and business requirements into architectural overview
+
+Launch agent:
+
+- **Description**: "Architecture synthesis"
+- **Prompt**:
+
+  ```
+  Read .claude/tasks/architecture-synthesis.md and execute.
+
+  Task File: <task file path from Phase 1>
+  Research File: <research file path from Phase 2a>
+  Analysis File: <analysis file path from Phase 2b>
+  ```
+
+**Capture:**
+
+- Sections added to task file
+- Key architectural decisions count
+- Components identified (if applicable)
+- Contracts defined (if applicable)
+
+---
+
+### Judge 3: Validate Architecture Synthesis
+
+**Model:** `opus`
+**Agent:** `sdd:software-architect`
+**Depends on:** Phase 3 completion
+**Purpose:** Validate architectural coherence and completeness
+
+Launch judge:
+
+- **Description**: "Judge architecture synthesis quality"
+- **Prompt**:
+
+  ```
+  Read ./plugins/sadd/tasks/judge.md for evaluation methodology and execute.
+
+  ### Artifact Path
+  {path to task file after Phase 3}
+
+  ### Context
+  This is architecture synthesis output. The Architecture Overview section should contain
+  solution strategy, key decisions, and only relevant architectural sections.
+
+  ### Rubric
+  1. Solution Strategy Clarity (weight: 0.30)
+     - Approach clearly explained?
+     - Key decisions documented with reasoning?
+     - Trade-offs stated?
+     - 1=Missing/unclear, 2=Basic, 3=Adequate, 4=Clear, 5=Excellent
+
+  2. Reference Integration (weight: 0.20)
+     - Links to research and analysis files?
+     - Insights from both integrated?
+     - 1=No links, 2=Partial, 3=Adequate, 4=Good, 5=Fully integrated
+
+  3. Section Relevance (weight: 0.25)
+     - Only relevant sections included (not all)?
+     - Sections appropriate for task complexity?
+     - 1=Wrong sections, 2=Mostly appropriate, 3=Adequate, 4=Good, 5=Precisely targeted
+
+  4. Expected Changes Accuracy (weight: 0.25)
+     - Files to create/modify listed?
+     - Consistent with codebase analysis?
+     - 1=Missing/inconsistent, 2=Partial, 3=Adequate, 4=Good, 5=Complete
+
+  ```
+
+**Decision Logic:**
+
+- **PASS** (score >= 4.5): Architecture synthesis complete
+- **FAIL** (score < 4.5): Re-launch Phase 3 with feedback (max 2 retries)
+
+**Wait for PASS before Phase 4.**
+
+---
+
+## Phase 4: Decomposition
+
+**Model:** `opus`
+**Agent:** `sdd:tech-lead`
+**Depends on:** Phase 3 + Judge 3 PASS
+**Purpose:** Break architecture into implementation steps with success criteria and risks
+
+Launch agent:
+
+- **Description**: "Decompose into implementation steps"
+- **Prompt**:
+
+  ```
+  Read .claude/tasks/decompose-task.md and execute.
+
+  Task File: <task file path from Phase 1>
+  ```
+
+**Capture:**
+
+- Implementation steps count
+- Total subtasks count
+- Critical path steps
+- High priority risks count
+
+---
+
+### Judge 4: Validate Decomposition
+
+**Model:** `opus`
+**Agent:** `sdd:tech-lead`
+**Depends on:** Phase 4 completion
+**Purpose:** Validate implementation steps quality and completeness
+
+Launch judge:
+
+- **Description**: "Judge decomposition quality"
+- **Prompt**:
+
+  ```
+  Read ./plugins/sadd/tasks/judge.md for evaluation methodology and execute.
+
+  ### Artifact Path
+  {path to task file after Phase 4}
+
+  ### Context
+  This is decomposition output. The Implementation Process section should contain
+  ordered steps with success criteria, subtasks, blockers, and risks.
+
+  ### Rubric
+  1. Step Quality (weight: 0.30)
+     - Each step has clear goal, output, success criteria?
+     - Steps ordered by dependency?
+     - No step too large (>Large estimate)?
+     - 1=Vague/missing, 2=Basic, 3=Adequate, 4=Good, 5=Excellent
+
+  2. Success Criteria Testability (weight: 0.25)
+     - Criteria specific and verifiable?
+     - Use actual file paths, function names?
+     - 1=Vague, 2=Partially testable, 3=Adequate, 4=Good, 5=All testable
+
+  3. Risk Coverage (weight: 0.25)
+     - Blockers identified with resolutions?
+     - Risks identified with mitigations?
+     - High priority risks flagged?
+     - 1=None, 2=Basic, 3=Adequate, 4=Good, 5=Comprehensive
+
+  4. Completeness (weight: 0.20)
+     - All architecture components have corresponding steps?
+     - Implementation summary table present?
+     - Definition of Done included?
+     - 1=Incomplete, 2=Partial, 3=Adequate, 4=Good, 5=Complete
+  ```
+
+**Decision Logic:**
+
+- **PASS** (score >= 4.5): Decomposition complete, proceed to Phase 5
+- **FAIL** (score < 4.5): Re-launch Phase 4 with feedback (max 2 retries)
+
+**Wait for PASS before Phase 5.**
+
+---
+
+## Phase 5: Parallelize Steps
+
+**Model:** `opus`
+**Agent:** `sdd:tech-lead`
+**Depends on:** Phase 4 + Judge 4 PASS
 **Purpose:** Reorganize implementation steps for maximum parallel execution
 
 Launch agent:
@@ -257,11 +593,11 @@ Launch agent:
 
 ---
 
-### Judge 3: Validate Parallelization
+### Judge 5: Validate Parallelization
 
 **Model:** `opus`
-**Agent:** `sdd:team-lead`
-**Depends on:** Phase 3 completion
+**Agent:** `sdd:tech-lead`
+**Depends on:** Phase 5 completion
 **Purpose:** Validate dependency accuracy and parallelization optimization
 
 Launch judge:
@@ -270,13 +606,13 @@ Launch judge:
 - **Prompt**:
 
   ```
-  Read ./plugins/sadd/tasks/judge.md for evaluation methodology and execute using following criteria.
+  Read ./plugins/sadd/tasks/judge.md for evaluation methodology and execute.
 
   ### Artifact Path
-  {path to parallelized task file from Phase 3}
+  {path to parallelized task file from Phase 5}
 
   ### Context
-  This is the output of Phase 3: Parallelize Steps. The artifact should contain implementation steps
+  This is the output of Phase 5: Parallelize Steps. The artifact should contain implementation steps
   reorganized for maximum parallel execution with explicit dependencies, agent assignments, and
   parallelization diagram.
 
@@ -303,52 +639,20 @@ Launch judge:
      - 1=Missing directive, 2=Partial, 3=Acceptable, 4=Complete directive, 5=Perfect directive
   ```
 
-**Orchestrator Decision Logic:**
+**Decision Logic:**
 
-1. **Parse judge output** - Extract scores for each criterion from judge's report
-2. **Calculate weighted total**:
+- **PASS** (score >= 4.5): Proceed to Phase 6
+- **FAIL** (score < 4.5): Re-launch Phase 5 with feedback (max 2 retries)
 
-   ```
-   Score = (Dependency Accuracy × 0.35) + (Parallelization Maximized × 0.30) +
-           (Agent Selection × 0.20) + (Execution Directive × 0.15)
-   ```
-
-3. **Apply threshold** (4.5/5.0):
-   - **PASS** (score ≥ 4.5): Proceed to Phase 4
-   - **FAIL** (score < 4.5): Re-launch Phase 3 with judge feedback
-
-**If FAIL, retry Phase 3:**
-
-Re-launch Phase 3 agent with:
-
-- **Description**: "Fix parallelization issues - attempt {N}"
-- **Prompt**:
-
-  ```
-  Read .claude/tasks/parallelize-task.md and execute.
-
-  Task File: <task file path from Phase 1>
-
-  CRITICAL: Previous attempt failed judge evaluation. Fix these issues:
-
-  ### Judge Feedback
-  {Extract "Issues" and "Areas for Improvement" sections from judge report}
-
-  ### Previous Scores
-  {Show which criteria scored below 5}
-  ```
-
-**Retry limit**: Maximum 2 retries. After 2 failed attempts, report to user and request manual intervention.
-
-**Wait for PASS before Phase 4.**
+**Wait for PASS before Phase 6.**
 
 ---
 
-### Phase 4: Define Verifications
+## Phase 6: Define Verifications
 
 **Model:** `opus`
 **Agent:** `opus`
-**Depends on:** Phase 3 + Judge 3 PASS
+**Depends on:** Phase 5 + Judge 5 PASS
 **Purpose:** Add LLM-as-Judge verification sections with rubrics
 
 Launch agent:
@@ -370,11 +674,11 @@ Launch agent:
 
 ---
 
-### Judge 4: Validate Verifications
+### Judge 6: Validate Verifications
 
 **Model:** `opus`
 **Agent:** `opus`
-**Depends on:** Phase 4 completion
+**Depends on:** Phase 6 completion
 **Purpose:** Validate verification rubrics and thresholds
 
 Launch judge:
@@ -383,13 +687,13 @@ Launch judge:
 - **Prompt**:
 
   ```
-  Read  ./plugins/sadd/tasks/judge.md for evaluation methodology and execute using following criteria.
+  Read ./plugins/sadd/tasks/judge.md for evaluation methodology and execute.
 
   ### Artifact Path
-  {path to task file with verifications from Phase 4}
+  {path to task file with verifications from Phase 6}
 
   ### Context
-  This is the output of Phase 4: Define Verifications. The artifact should contain LLM-as-Judge
+  This is the output of Phase 6: Define Verifications. The artifact should contain LLM-as-Judge
   verification sections for each implementation step, including verification levels, custom rubrics,
   thresholds, and a verification summary table.
 
@@ -416,49 +720,21 @@ Launch judge:
      - 1=Missing verifications, 2=Most covered, 3=Acceptable, 5=100% coverage
   ```
 
-**Orchestrator Decision Logic:**
+**Decision Logic:**
 
-1. **Parse judge output** - Extract scores for each criterion from judge's report
-2. **Calculate weighted total**:
-
-   ```
-   Score = (Verification Level × 0.30) + (Rubric Quality × 0.30) +
-           (Threshold Appropriateness × 0.20) + (Coverage Completeness × 0.20)
-   ```
-
-3. **Apply threshold** (4.5/5.0):
-   - **PASS** (score ≥ 4.5): Workflow complete, task ready
-   - **FAIL** (score < 4.5): Re-launch Phase 4 with judge feedback
-
-**If FAIL, retry Phase 4:**
-
-Re-launch Phase 4 agent with:
-
-- **Description**: "Fix verification issues - attempt {N}"
-- **Prompt**:
-
-  ```
-  Read .claude/tasks/verify-task.md and execute.
-
-  Task File: <task file path from Phase 1>
-
-  CRITICAL: Previous attempt failed judge evaluation. Fix these issues:
-
-  ### Judge Feedback
-  {Extract "Areas for Improvement" section from judge report}
-
-  ### Previous Scores
-  {Show which criteria scored below 5}
-  ```
-
-**Retry limit**: Maximum 2 retries. After 2 failed attempts, report to user and request manual intervention.
+- **PASS** (score >= 4.5): Workflow complete, task ready
+- **FAIL** (score < 4.5): Re-launch Phase 6 with feedback (max 2 retries)
 
 ---
 
 ## Completion
 
-After all phases and judges complete with PASS, summarize the workflow results:
+After all phases and judges complete with PASS:
 
+1. Use git tool to stage the task file, research file, and analysis file
+2. Summarize the workflow results and output to user:
+
+```markdown
 ### Task Created
 
 | Property | Value |
@@ -467,6 +743,8 @@ After all phases and judges complete with PASS, summarize the workflow results:
 | **Title** | `<generated title>` |
 | **Type** | `<task/bug/feature>` |
 | **Complexity** | `<S/M/L/XL>` |
+| **Research** | `<research file path>` |
+| **Analysis** | `<analysis file path>` |
 | **Implementation Steps** | `<count>` |
 | **Parallelization Depth** | `<max parallel agents>` |
 | **Total Verifications** | `<count>` |
@@ -475,20 +753,36 @@ After all phases and judges complete with PASS, summarize the workflow results:
 
 | Phase | Judge Score | Verdict |
 |-------|-------------|---------|
-| Phase 2: Refine | X.X/5.0 | ✅ PASS |
-| Phase 3: Parallelize | X.X/5.0 | ✅ PASS |
-| Phase 4: Verify | X.X/5.0 | ✅ PASS |
+| Phase 2a: Research | X.X/5.0 | ✅ PASS |
+| Phase 2b: Codebase Analysis | X.X/5.0 | ✅ PASS |
+| Phase 2c: Business Analysis | X.X/5.0 | ✅ PASS |
+| Phase 3: Architecture Synthesis | X.X/5.0 | ✅ PASS |
+| Phase 4: Decomposition | X.X/5.0 | ✅ PASS |
+| Phase 5: Parallelize | X.X/5.0 | ✅ PASS |
+| Phase 6: Verify | X.X/5.0 | ✅ PASS |
 
-### Files Identified
+### Artifacts Generated
 
 ```
-<tree structure of affected files>
+
+.specs/
+├── tasks/
+│   └── task-<name>.md        # Complete task specification
+├── research/
+│   └── research-<name>.md    # Research document
+└── analysis/
+    └── analysis-<name>.md    # Codebase impact analysis
+
 ```
 
 ### Next Steps
 
-1. Review task: `Read <task file path>`
-2. Begin implementation: `/implement-task <task-file-name>`
+1. Review task: `<task file path>`
+   - Edit the task file directly to make corrections
+   - Add `//` comments to lines that need clarification or changes
+   - Run `/refine-task` to incorporate your feedback — it detects changes against git and propagates updates **top-to-bottom** (editing a section only affects sections below it, not above)
+2. If everything is fine, begin implementation: `/implement-task`
+```
 
 ---
 
@@ -496,30 +790,13 @@ After all phases and judges complete with PASS, summarize the workflow results:
 
 If any phase fails:
 
-1. **Report the failure** with agent output
-2. **Suggest manual intervention**:
-   - Phase 1 fail → Run `/add-task` manually
-   - Phase 2 fail → Run `/refine-task` manually
-   - Phase 3 fail → Run `/parallel-task-implementation` manually
-   - Phase 4 fail → Run `/define-task-verifications` manually
-
-3. **Do not continue** to dependent phases if a phase fails
+1. Report the failure with agent output
+2. Ask clarification questions from user that can help resolve the issue
+3. Launch the phase agent again with list of questions and answers to resolve the issue
 
 If any judge returns FAIL:
 
 1. **Automatic retry**: Re-launch the phase agent with judge feedback (up to 2 retries per phase)
-2. **After 2 failures**: Report to user and request manual intervention
-
----
-
-## Quick Mode
-
-For simpler tasks that don't need full parallelization and verification:
-
-**At workflow start**, ask user: "Full workflow (all 4 phases + judges) or quick mode (create + refine only)?"
-
-**Quick mode:**
-
-- Runs Phase 1 → Phase 2 → Judge 2
-- Skips Phases 3 and 4
-- Produces a refined task without parallelization analysis or verification rubrics
+2. **After 2 failures**: Report to user with agent and judge output
+3. Ask clarification questions from user that can help resolve the issue
+4. Launch the phase agent again with list of questions and answers to resolve the issue
