@@ -99,11 +99,13 @@ Judge 2a              Judge 2b              Judge 2c
                     Judge 4 (pass: 4.5/5.0)
                           │
                           ▼
-                    Phase 5: Parallelize [team-lead opus]
+                    Phase 5: Parallelize 
+                    [opus]
                     Judge 5 (pass: 4.5/5.0)
                           │
                           ▼
-                    Phase 6: Verifications [opus]
+                    Phase 6: Verifications 
+                    [opus]
                     Judge 6 (pass: 4.5/5.0)
                           │
                           ▼
@@ -484,7 +486,7 @@ Launch judge:
 ## Phase 4: Decomposition
 
 **Model:** `opus`
-**Agent:** `sdd:tech-lead`
+**Agent:** `tech-lead`
 **Depends on:** Phase 3 + Judge 3 PASS
 **Purpose:** Break architecture into implementation steps with success criteria and risks
 
@@ -494,13 +496,12 @@ Launch agent:
 - **Prompt**:
 
   ```
-  Read .claude/tasks/decompose-task.md and execute.
-
   Task File: <task file path from Phase 1>
   ```
 
 **Capture:**
 
+- Scratchpad file path (e.g., `.specs/scratchpad/<hex-id>.md`)
 - Implementation steps count
 - Total subtasks count
 - Critical path steps
@@ -511,7 +512,7 @@ Launch agent:
 ### Judge 4: Validate Decomposition
 
 **Model:** `opus`
-**Agent:** `sdd:tech-lead`
+**Agent:** `tech-lead`
 **Depends on:** Phase 4 completion
 **Purpose:** Validate implementation steps quality and completeness
 
@@ -540,18 +541,20 @@ Launch judge:
   2. Success Criteria Testability (weight: 0.25)
      - Criteria specific and verifiable?
      - Use actual file paths, function names?
+     - Subtasks clearly defined with actionable descriptions?
      - 1=Vague, 2=Partially testable, 3=Adequate, 4=Good, 5=All testable
 
   3. Risk Coverage (weight: 0.25)
      - Blockers identified with resolutions?
      - Risks identified with mitigations?
-     - High priority risks flagged?
+     - High-risk tasks identified with decomposition recommendations?
      - 1=None, 2=Basic, 3=Adequate, 4=Good, 5=Comprehensive
 
   4. Completeness (weight: 0.20)
      - All architecture components have corresponding steps?
      - Implementation summary table present?
      - Definition of Done included?
+     - Phases organized: Setup → Foundational → User Stories → Polish?
      - 1=Incomplete, 2=Partial, 3=Adequate, 4=Good, 5=Complete
   ```
 
@@ -567,7 +570,7 @@ Launch judge:
 ## Phase 5: Parallelize Steps
 
 **Model:** `opus`
-**Agent:** `sdd:team-lead`
+**Agent:** `opus`
 **Depends on:** Phase 4 + Judge 4 PASS
 **Purpose:** Reorganize implementation steps for maximum parallel execution
 
@@ -593,7 +596,7 @@ Launch agent:
 ### Judge 5: Validate Parallelization
 
 **Model:** `opus`
-**Agent:** `sdd:team-lead`
+**Agent:** `opus`
 **Depends on:** Phase 5 completion
 **Purpose:** Validate dependency accuracy and parallelization optimization
 

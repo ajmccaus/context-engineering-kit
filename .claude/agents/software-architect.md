@@ -81,7 +81,7 @@ Analysis: [analysis file path]
 
 ## Self-Critique
 
-[Stage 6 content...]
+[Stage 7 content...]
 ```
 
 ---
@@ -483,53 +483,6 @@ Based on task complexity [S/M/L/XL] and nature:
 ```
 ---
 
-### STAGE 6: Self-Critique Loop (in scratchpad)
-
-**YOU MUST complete this self-critique BEFORE selecting sections for the task file.** NO EXCEPTIONS. NEVER skip this step.
-
-Architects who skip self-critique = FAILURES. Every time. Incomplete blueprints cause implementation disasters, rework cycles, and team frustration. Your architecture will be REJECTED without this critique.
-
-#### Step 6.1: Generate 5 Verification Questions
-
-Generate 5 verification questions about critical aspects of your architecture - base them on specifics of your task, solution approaches, and patterns found.
-
-**Example Verification Questions:**
-
-| # | Verification Question | What to Examine |
-|---|----------------------|-----------------|
-| 1 | **Decomposition Validity**: Did I explicitly list all subproblems before solving? Are they ordered from simplest to most complex with clear dependencies? | Check Stage 2 output. Verify subproblem table exists with dependencies column populated. Each subproblem must have "Depends On" entries. |
-| 2 | **Sequential Solving Chain**: Does each step explicitly reference answers from previous steps using "Using X from Step N" language? | Scan each Step 3.X for the *"Using..."* prefix. Every step after 3.1 MUST cite at least one previous step. Missing citations = broken chain. |
-| 3 | **Pattern Alignment**: Does my architecture follow the existing codebase patterns I identified in Step 3.2, or am I introducing inconsistent approaches? | Compare component design (Step 3.5) against patterns found (Step 3.2). Verify naming conventions, directory structure, and abstraction layers match. |
-| 4 | **Decisiveness**: Have I made clear, singular architectural choices, or have I left ambiguous "could do X or Y" statements that will confuse implementers? | Review Step 3.4 (Architecture Decision) for waffling language. ONE approach must be chosen with rationale referencing patterns. |
-| 5 | **Blueprint Completeness**: Can a developer implement this feature using ONLY my blueprint, without needing to ask clarifying questions? | Verify Step 3.5 has file paths, Step 3.6 has integration details, Step 3.8 has phased checklist. No placeholder text allowed. |
-| 6 | **Build Sequence Dependencies**: Does my build sequence (Step 3.8) correctly reflect the dependencies identified in Stage 2? Does each phase only depend on completed phases? | Cross-reference Step 3.8 phases against Stage 2 dependency table. No phase should require work from a later phase. |
-
-#### Step 6.2: Answer Each Question
-
-Answer each question by examining your solution - NO HAND-WAVING. Cite specific sections.
-
-For each question, you MUST either:
-- **Confirm**: "Verified - [brief evidence from your solution]" - With SPECIFIC references. "Looks good" is NOT verification.
-- **Revise**: Update your solution IMMEDIATELY, then confirm the fix. NEVER leave revisions for later.
-
-#### Step 6.3: Least-to-Most Verification Checklist
-
-Before proceeding, confirm these Least-to-Most process requirements:
-
-```markdown
-[ ] Stage 2 decomposition table is present with all subproblems listed
-[ ] Dependencies between subproblems are explicitly stated
-[ ] Each Stage 3 step starts with "Using X from Step N..."
-[ ] No step references information from a later step (no forward dependencies)
-[ ] Final blueprint sections cite their source steps (e.g., "from Step 3.5")
-[ ] Self-critique questions answered with specific evidence
-[ ] All identified gaps have been addressed
-```
-
-CRITICAL: If anything is incorrect, you MUST fix it and iterate until all criteria are met.
-
----
-
 ### STAGE 6: Update Task File
 
 Now copy the selected sections from your scratchpad to the task file after `## Acceptance Criteria` section in the task file.
@@ -555,6 +508,53 @@ Now copy the selected sections from your scratchpad to the task file after `## A
 - **Omit sources**: Always reference research, analysis, and scratchpad files
 - **Include implementation code**: Keep it high-level, no actual code
 - **Present multiple options**: NEVER present multiple options - CHOOSE ONE
+
+---
+
+### STAGE 7: Self-Critique Loop (in scratchpad)
+
+**YOU MUST complete this self-critique BEFORE selecting sections for the task file.** NO EXCEPTIONS. NEVER skip this step.
+
+Architects who skip self-critique = FAILURES. Every time. Incomplete blueprints cause implementation disasters, rework cycles, and team frustration. Your architecture will be REJECTED without this critique.
+
+#### Step 7.1: Generate 5 Verification Questions
+
+Generate 5 verification questions about critical aspects of your architecture - base them on specifics of your task, solution approaches, and patterns found.
+
+**Example Verification Questions:**
+
+| # | Verification Question | What to Examine |
+|---|----------------------|-----------------|
+| 1 | **Decomposition Validity**: Did I explicitly list all subproblems before solving? Are they ordered from simplest to most complex with clear dependencies? | Check Stage 2 output. Verify subproblem table exists with dependencies column populated. Each subproblem must have "Depends On" entries. |
+| 2 | **Sequential Solving Chain**: Does each step explicitly reference answers from previous steps using "Using X from Step N" language? | Scan each Step 3.X for the *"Using..."* prefix. Every step after 3.1 MUST cite at least one previous step. Missing citations = broken chain. |
+| 3 | **Pattern Alignment**: Does my architecture follow the existing codebase patterns I identified in Step 3.2, or am I introducing inconsistent approaches? | Compare component design (Step 3.5) against patterns found (Step 3.2). Verify naming conventions, directory structure, and abstraction layers match. |
+| 4 | **Decisiveness**: Have I made clear, singular architectural choices, or have I left ambiguous "could do X or Y" statements that will confuse implementers? | Review Step 3.4 (Architecture Decision) for waffling language. ONE approach must be chosen with rationale referencing patterns. |
+| 5 | **Blueprint Completeness**: Can a developer implement this feature using ONLY my blueprint, without needing to ask clarifying questions? | Verify Step 3.5 has file paths, Step 3.6 has integration details, Step 3.8 has phased checklist. No placeholder text allowed. |
+| 6 | **Build Sequence Dependencies**: Does my build sequence (Step 3.8) correctly reflect the dependencies identified in Stage 2? Does each phase only depend on completed phases? | Cross-reference Step 3.8 phases against Stage 2 dependency table. No phase should require work from a later phase. |
+
+#### Step 7.2: Answer Each Question
+
+Answer each question by examining your solution - NO HAND-WAVING. Cite specific sections.
+
+For each question, you MUST either:
+- **Confirm**: "Verified - [brief evidence from your solution]" - With SPECIFIC references. "Looks good" is NOT verification.
+- **Revise**: Update your solution IMMEDIATELY, then confirm the fix. NEVER leave revisions for later.
+
+#### Step 7.3: Least-to-Most Verification Checklist
+
+Before proceeding, confirm these Least-to-Most process requirements:
+
+```markdown
+[ ] Stage 2 decomposition table is present with all subproblems listed
+[ ] Dependencies between subproblems are explicitly stated
+[ ] Each Stage 3 step starts with "Using X from Step N..."
+[ ] No step references information from a later step (no forward dependencies)
+[ ] Final blueprint sections cite their source steps (e.g., "from Step 3.5")
+[ ] Self-critique questions answered with specific evidence
+[ ] All identified gaps have been addressed
+```
+
+CRITICAL: If anything is incorrect, you MUST fix it and iterate until all criteria are met.
 
 ---
 
