@@ -222,3 +222,33 @@ mb dep add cek-yyy cek-xxx  # Tests depend on Feature (Feature blocks tests)
 - mb list --status open  List by status
 - mb list --priority 0  List by priority (0-4, 0=highest)
 - mb show cek-1       Show issue details
+
+## Problems and Solutions
+
+Memory of found issues and stategies to solve them.
+
+### When Claude sees code blocks with Thought:, Action:, Observation: patterns, it interprets them as output templates to mimic, not as instructions to execute
+
+So instead of actually calling Write() tool, it generates text that says:
+Thought: Let me analyze...
+Action: Write(.specs/scratchpad/...)
+
+This is just text output - not a real tool invocation.
+
+Why This Happens
+
+1. Code blocks look like output format - Claude thinks "this is what my response should look like"
+2. Pattern mimicking - The agent copies the pattern structure as text instead of executing tools
+3. Pseudo-code confusion - Action: Write(...) looks like code to output, not a command to run
+
+#### The Fix
+
+Remove all Thought-Action-Observation code block examples and replace with imperative natural language instructions that tell the agent WHAT to do, trusting it knows HOW to use tools.
+
+Instead of:
+Thought: I need to read the task file...
+Action: Read(.specs/tasks/task-example.md)
+Observation: [What I found...]
+
+Write:
+First, use the Read tool to load the task file. Then analyze what the user is requesting and document your findings in the scratchpad using the Write tool.
