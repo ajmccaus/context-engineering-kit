@@ -64,21 +64,25 @@ Each installed plugin loads only its specific agents, commands, and skills into 
 
 #### Cursor, Windsurf, Cline, OpenCode
 
-Command installation available for agents that support them.
+Command installation available for agents that support them:
 
-**Cursor**
+<details>
+<summary>Cursor</summary>
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/NeoLabHQ/context-engineering-kit/main/.bin/install-commands.sh | bash
 ```
 
-**OpenCode**
+</details>
+
+<details>
+<summary>OpenCode</summary>
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/NeoLabHQ/context-engineering-kit/main/.bin/install-commands.sh | bash -s -- --agent opencode
 ```
 
-**Install Skills**
+</details>
 
 Use [OpenSkills](https://github.com/numman-ali/openskills) to install skills for broad range of agents:
 
