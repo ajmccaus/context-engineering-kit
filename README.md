@@ -70,7 +70,7 @@ Commands installation is available for Cursor and OpenCode:
 <summary>Cursor</summary>
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/NeoLabHQ/context-engineering-kit/main/.bin/install-commands.sh | bash
+curl -fsSL https://raw.githubusercontent.com/NeoLabHQ/context-engineering-kit/master/.bin/install-commands.sh | bash
 ```
 
 </details>
@@ -79,7 +79,7 @@ curl -fsSL https://raw.githubusercontent.com/NeoLabHQ/context-engineering-kit/ma
 <summary>OpenCode</summary>
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/NeoLabHQ/context-engineering-kit/main/.bin/install-commands.sh | bash -s -- --agent opencode
+curl -fsSL https://raw.githubusercontent.com/NeoLabHQ/context-engineering-kit/master/.bin/install-commands.sh | bash -s -- --agent opencode
 ```
 
 </details>
