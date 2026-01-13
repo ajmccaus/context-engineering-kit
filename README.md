@@ -21,7 +21,7 @@ Marketplace is based on prompts used daily by our company developers for a long 
 
 ## Supported Agents
 
-Universal support based on <agentskills.io> and [openskills](https://github.com/numman-ali/openskills) standards.
+Universal support based on [agentskills.io](https://agentskills.io) and [openskills](https://github.com/numman-ali/openskills) standards.
 
 | Agent | How it works | Status |
 |:------|:-------------|:------:|
